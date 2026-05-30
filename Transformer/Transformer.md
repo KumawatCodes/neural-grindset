@@ -328,7 +328,7 @@ Output
 
 ## Transformer Architecture
 
-![Transformer Architecture](images/transformer-architecture.png)
+<img width="631" height="868" alt="Screenshot 2026-05-30 at 5 50 53 pm" src="https://github.com/user-attachments/assets/f0d16ef6-2c18-4162-964f-9947d3c69207" />
 
 ## Self Attention
 
