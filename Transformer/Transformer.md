@@ -74,8 +74,9 @@ Self-attention helps determine that **"it"** refers to **"animal"**.
 - Understands context effectively
 - Enables parallel processing
 
----
 <img width="357" height="388" alt="Screenshot 2026-05-30 at 5 52 36 pm" src="https://github.com/user-attachments/assets/545a0db4-735d-4822-85da-e7a92027ebb0" />
+
+---
 
 ## 3. Cross-Attention
 
@@ -331,11 +332,6 @@ Output
 - **Multi-Head Attention** learns multiple contextual relationships simultaneously.
 - Transformers power modern LLMs such as **GPT, BERT, Claude, Gemini, and Llama**.
 
-
-
-## Query-Key-Value Attention
-
-![QKV Attention](images/qkv.png)
 
 ## Multi-Head Attention
 
