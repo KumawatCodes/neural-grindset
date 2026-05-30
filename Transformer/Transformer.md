@@ -124,6 +124,8 @@ Imagine a student asking questions:
 
 The student matches questions with relevant notes.
 
+<img width="325" height="352" alt="Screenshot 2026-05-30 at 5 56 20 pm" src="https://github.com/user-attachments/assets/30065965-67ff-4708-abe5-61a6c45a16ff" />
+
 ---
 
 ## 5. Positional Encoding
@@ -147,6 +149,8 @@ Positional encodings are added to word embeddings.
 
 ### Use
 Helps preserve sequence order information.
+
+<img width="463" height="426" alt="Screenshot 2026-05-30 at 5 57 46 pm" src="https://github.com/user-attachments/assets/bfda545e-dcb5-417c-9e79-0560fa2ce86b" />
 
 ---
 
