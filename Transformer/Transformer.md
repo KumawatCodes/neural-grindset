@@ -322,3 +322,28 @@ Output
 - **Masked Attention** enables autoregressive text generation.
 - **Multi-Head Attention** learns multiple contextual relationships simultaneously.
 - Transformers power modern LLMs such as **GPT, BERT, Claude, Gemini, and Llama**.
+
+
+# Architecture Diagrams
+
+## Transformer Architecture
+
+![Transformer Architecture](images/transformer-architecture.png)
+
+## Self Attention
+
+![Self Attention](images/self-attention.png)
+
+## Query-Key-Value Attention
+
+![QKV Attention](images/qkv.png)
+
+## Multi-Head Attention
+
+![Multi Head Attention](images/multi-head-attention.png)
+
+## Positional Encoding
+
+![Positional Encoding](images/positional-encoding.png)
+
+
