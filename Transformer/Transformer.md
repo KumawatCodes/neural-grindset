@@ -211,6 +211,9 @@ Linear
 - Adds non-linearity
 - Enhances feature representation
 
+<img width="462" height="227" alt="Screenshot 2026-05-30 at 6 30 45 pm" src="https://github.com/user-attachments/assets/e38f6b0d-1bca-4285-85da-6722b9db4cdb" />
+
+
 ---
 
 ## 9. Masked Attention
