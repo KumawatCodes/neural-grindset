@@ -15,6 +15,9 @@ Traditional RNNs process words sequentially, making training slow and limiting l
 - Question Answering
 - Chatbots
 
+
+
+<img width="631" height="868" alt="Screenshot 2026-05-30 at 5 50 53 pm" src="https://github.com/user-attachments/assets/f0d16ef6-2c18-4162-964f-9947d3c69207" />
 ---
 
 ## 1. Encoder and Decoder
@@ -72,6 +75,7 @@ Self-attention helps determine that **"it"** refers to **"animal"**.
 - Enables parallel processing
 
 ---
+<img width="357" height="388" alt="Screenshot 2026-05-30 at 5 52 36 pm" src="https://github.com/user-attachments/assets/545a0db4-735d-4822-85da-e7a92027ebb0" />
 
 ## 3. Cross-Attention
 
@@ -324,15 +328,6 @@ Output
 - Transformers power modern LLMs such as **GPT, BERT, Claude, Gemini, and Llama**.
 
 
-# Architecture Diagrams
-
-## Transformer Architecture
-
-<img width="631" height="868" alt="Screenshot 2026-05-30 at 5 50 53 pm" src="https://github.com/user-attachments/assets/f0d16ef6-2c18-4162-964f-9947d3c69207" />
-
-## Self Attention
-
-![Self Attention](images/self-attention.png)
 
 ## Query-Key-Value Attention
 
