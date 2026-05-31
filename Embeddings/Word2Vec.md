@@ -135,6 +135,9 @@ bank (financial)
 Both get the same embedding.
 
 ---
+## Diagram
+
+<img width="1536" height="1024" alt="ChatGPT Image May 31, 2026, 01_32_32 PM" src="https://github.com/user-attachments/assets/30a40777-6765-4b45-b151-7088af8bed13" />
 
 ## Applications
 
