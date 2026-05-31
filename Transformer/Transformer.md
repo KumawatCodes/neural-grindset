@@ -335,7 +335,6 @@ Output
 - **Multi-Head Attention** learns multiple contextual relationships simultaneously.
 - Transformers power modern LLMs such as **GPT, BERT, Claude, Gemini, and Llama**.
 
-
 ## Multi-Head Attention
 
 ![Multi Head Attention](images/multi-head-attention.png)
