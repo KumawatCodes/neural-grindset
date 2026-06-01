@@ -186,4 +186,4 @@ If examiner says "show me branching" — do this exact flow:
 3. `git push origin feature/test`
 4. `git checkout main`
 5. `git merge feature/test`
-6. `git log --oneline --graph --all`
+	1. `git log --oneline --graph --all`
