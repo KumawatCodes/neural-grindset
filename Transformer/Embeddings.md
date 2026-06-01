@@ -1,54 +1,48 @@
-
-### Embeddings
+# Embeddings
 
 ## What are Embeddings?
 
-Embeddings are dense numerical vector representations of words, sentences, or documents that capture their semantic meaning.
+Embeddings are dense vector representations of words that capture semantic meaning and relationships between words.
 
-Unlike Bag of Words or TF-IDF, embeddings can understand relationships between words.
-
-### Example
+Example:
 
 ```text
-King  → [0.25, -0.12, 0.87, ...]
-Queen → [0.23, -0.10, 0.85, ...]
+King - Man + Woman ≈ Queen
 ```
-
-Similar words have similar vectors.
 
 ---
 
 # 1. Word2Vec
 
 ## Definition
-Word2Vec is a neural network-based embedding technique that learns word representations from surrounding context.
+Word2Vec is a neural network-based technique that learns word embeddings from surrounding context words.
 
 ### Types
-- CBOW (Predict target word from context)
-- Skip-Gram (Predict context from target word)
+- CBOW
+- Skip-Gram
 
-### Example
+### Small Code
 
-```text
-King - Man + Woman ≈ Queen
+```python
+from gensim.models import Word2Vec
+
+sentences = [["i","love","nlp"]]
+
+model = Word2Vec(
+    sentences,
+    vector_size=50,
+    min_count=1
+)
+
+print(model.wv["nlp"])
 ```
 
 ### Advantages
+- Fast
 - Captures semantic meaning
-- Fast and efficient
-- Dense vector representation
 
 ### Limitation
-Produces only one embedding per word.
-
-Example:
-
-```text
-bank (river)
-bank (financial)
-```
-
-Both receive the same vector.
+One embedding per word.
 
 ---
 
@@ -58,25 +52,21 @@ Both receive the same vector.
 Global Vectors for Word Representation
 
 ## Definition
-GloVe is a word embedding technique developed by Stanford that combines global word co-occurrence statistics with vector learning.
+GloVe learns embeddings using word co-occurrence statistics from the entire corpus.
 
-### Key Idea
+### Small Code
 
-Words that appear in similar contexts should have similar embeddings.
+```python
+import gensim.downloader as api
 
-### Example
+glove = api.load("glove-wiki-gigaword-50")
 
-```text
-ice ↔ cold
-steam ↔ hot
+print(glove["king"])
 ```
-
-The model learns these relationships from word co-occurrence frequencies.
 
 ### Advantages
 - Captures global context
-- Better semantic relationships
-- Pretrained embeddings widely available
+- Good semantic relationships
 
 ### Limitation
 Cannot handle unseen words.
@@ -86,46 +76,40 @@ Cannot handle unseen words.
 # 3. FastText
 
 ## Definition
-FastText is an extension of Word2Vec developed by Facebook that represents words using character n-grams.
+FastText extends Word2Vec by using character n-grams to create embeddings.
 
-### Example
+### Small Code
 
-Word:
+```python
+from gensim.models import FastText
 
-```text
-learning
+sentences = [["i","love","nlp"]]
+
+model = FastText(
+    sentences,
+    vector_size=50,
+    min_count=1
+)
+
+print(model.wv["nlp"])
 ```
-
-Character n-grams:
-
-```text
-lea
-ear
-arn
-rni
-nin
-ing
-```
-
-The final embedding is built using these subwords.
 
 ### Advantages
 - Handles rare words
 - Handles unseen words (OOV)
-- Works well for morphologically rich languages
 
 ### Example
 
-Even if the model has never seen:
-
 ```text
-learnable
+learning
+learned
+learner
 ```
 
-it can still generate an embedding using character n-grams.
+FastText understands similarities because it uses character information.
 
 ### Limitation
-Slightly larger model size compared to Word2Vec.
+Larger model size than Word2Vec.
 
 ---
 
@@ -133,18 +117,16 @@ Slightly larger model size compared to Word2Vec.
 
 | Feature | Word2Vec | GloVe | FastText |
 |----------|----------|--------|----------|
-| Uses Context | ✅ | ✅ | ✅ |
-| Uses Global Statistics | ❌ | ✅ | ❌ |
+| Context Based | ✅ | ✅ | ✅ |
+| Global Statistics | ❌ | ✅ | ❌ |
 | Handles Rare Words | ❌ | ❌ | ✅ |
 | Handles Unseen Words | ❌ | ❌ | ✅ |
-| Uses Character Information | ❌ | ❌ | ✅ |
-| Training Speed | Fast | Medium | Fast |
+| Character N-grams | ❌ | ❌ | ✅ |
 
 ---
 
-# Key Takeaways
+## Key Takeaways
 
-- **Word2Vec** learns embeddings using surrounding words.
-- **GloVe** learns embeddings using global word co-occurrence statistics.
-- **FastText** learns embeddings using character n-grams and can handle unseen words.
-- FastText is generally preferred when dealing with rare or out-of-vocabulary words.
+- **Word2Vec** → Learns from context words.
+- **GloVe** → Learns from word co-occurrence statistics.
+- **FastText** → Learns from character n-grams and handles unseen words.
