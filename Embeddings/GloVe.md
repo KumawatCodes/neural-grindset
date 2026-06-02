@@ -1,5 +1,4 @@
-
-# GloVe
+# 2. GloVe
 
 ## Full Form
 Global Vectors for Word Representation
@@ -23,3 +22,5 @@ print(glove["king"])
 
 ### Limitation
 Cannot handle unseen words.
+
+---
