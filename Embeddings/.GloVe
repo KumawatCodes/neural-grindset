@@ -1,1 +1,25 @@
 
+# GloVe
+
+## Full Form
+Global Vectors for Word Representation
+
+## Definition
+GloVe learns embeddings using word co-occurrence statistics from the entire corpus.
+
+### Small Code
+
+```python
+import gensim.downloader as api
+
+glove = api.load("glove-wiki-gigaword-50")
+
+print(glove["king"])
+```
+
+### Advantages
+- Captures global context
+- Good semantic relationships
+
+### Limitation
+Cannot handle unseen words.
