@@ -130,3 +130,169 @@ Larger model size than Word2Vec.
 - **Word2Vec** → Learns from context words.
 - **GloVe** → Learns from word co-occurrence statistics.
 - **FastText** → Learns from character n-grams and handles unseen words.
+
+# Sentence Transformers & Dense Embeddings
+
+## 1. Dense Embeddings
+
+### Definition
+Dense embeddings are low-dimensional numerical vectors that capture the semantic meaning of text.
+
+Unlike TF-IDF or Bag of Words, dense embeddings understand context and meaning.
+
+### Example
+
+```text
+"I love AI"
+      ↓
+[0.23, -0.45, 0.81, ...]
+```
+
+### Advantages
+- Captures semantic meaning
+- Compact representation
+- Useful for similarity search
+- Works well in RAG systems
+
+### Similarity Example
+
+```python
+from sentence_transformers import util
+
+score = util.cos_sim(vec1, vec2)
+print(score)
+```
+
+---
+
+## 2. Sentence Transformers
+
+### Definition
+Sentence Transformers (SBERT) are models that convert entire sentences, paragraphs, or documents into dense embeddings.
+
+Built on top of BERT, they are optimized for semantic similarity tasks.
+
+### Example
+
+```text
+Sentence:
+"I love machine learning"
+
+Embedding:
+[0.34, -0.21, 0.67, ...]
+```
+
+---
+
+## Why Sentence Transformers?
+
+Traditional BERT:
+
+```text
+Sentence A + Sentence B
+       ↓
+      BERT
+```
+
+Requires comparing sentences one pair at a time.
+
+Sentence Transformers:
+
+```text
+Sentence A → Embedding A
+Sentence B → Embedding B
+
+Cosine Similarity(A,B)
+```
+
+Much faster for retrieval and search.
+
+---
+
+## Small Code Example
+
+### Installation
+
+```bash
+pip install sentence-transformers
+```
+
+### Generate Embeddings
+
+```python
+from sentence_transformers import SentenceTransformer
+
+model = SentenceTransformer(
+    "all-MiniLM-L6-v2"
+)
+
+embedding = model.encode(
+    "I love NLP"
+)
+
+print(embedding.shape)
+```
+
+---
+
+## Semantic Similarity Example
+
+```python
+from sentence_transformers import SentenceTransformer
+from sentence_transformers import util
+
+model = SentenceTransformer(
+    "all-MiniLM-L6-v2"
+)
+
+emb1 = model.encode(
+    "I love AI"
+)
+
+emb2 = model.encode(
+    "I enjoy artificial intelligence"
+)
+
+print(
+    util.cos_sim(emb1, emb2)
+)
+```
+
+### Output
+
+```text
+0.91
+```
+
+Higher score = more similar meaning.
+
+---
+
+## Applications
+
+- Semantic Search
+- RAG Systems
+- Question Answering
+- Recommendation Systems
+- Duplicate Detection
+- Document Retrieval
+
+---
+
+## Dense vs Sparse Embeddings
+
+| Feature | Sparse (TF-IDF) | Dense Embeddings |
+|----------|----------|----------|
+| Captures Meaning | ❌ | ✅ |
+| Vector Size | Large | Small |
+| Semantic Search | ❌ | ✅ |
+| Used in RAG | Limited | ✅ |
+
+---
+
+## Key Takeaways
+
+- **Dense Embeddings** are compact vectors that capture semantic meaning.
+- **Sentence Transformers (SBERT)** generate embeddings for entire sentences and documents.
+- Similar texts have similar embeddings.
+- Widely used in **Semantic Search**, **Vector Databases**, and **RAG pipelines**.
