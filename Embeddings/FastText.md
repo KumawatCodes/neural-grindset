@@ -18,6 +18,9 @@ model = FastText(
 
 print(model.wv["nlp"])
 ```
+## Diagram
+<img width="2144" height="1046" alt="image" src="https://github.com/user-attachments/assets/7ff8f946-8439-4195-8bd8-fcad2a7e47be" />
+
 
 ### Advantages
 - Handles rare words
