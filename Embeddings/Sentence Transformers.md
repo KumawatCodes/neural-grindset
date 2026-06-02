@@ -44,6 +44,8 @@ Similar sentences produce similar embeddings.
 → High similarity score
 
 ---
+## diagram
+<img width="2000" height="697" alt="image" src="https://github.com/user-attachments/assets/920c6718-2dc2-4008-b830-4782e1b4962d" />
 
 ## Small Code Example
 
