@@ -107,12 +107,38 @@ LCA of nodes u and v is the deepest node that has both u and v as descendants (a
 - One node is ancestor of other → that ancestor is the LCA.
 - Nodes not in tree → algorithm returns null or incorrect result. You may need to verify both nodes exist first.
 
-```
+```cpp
 // Q: Find LCA in a binary tree (generic)
 
 
 // Q: Find LCA in BST (optimized)
+TreeNode* lowestCommonAncestor(TreeNode* root, TreeNode* p, TreeNode* q) {
 
+        if(!root)
+
+            return NULL;
+
+        if(root == p || root == q)
+
+            return root;
+
+        TreeNode* left = lowestCommonAncestor(root->left,p,q);
+
+        TreeNode* right = lowestCommonAncestor(root->right,p,q);
+
+  
+
+        if(left && right)
+
+            return root;
+
+        if(left)
+
+            return left;
+
+        return right;
+
+    }
 
 ```
 
@@ -148,9 +174,33 @@ Diameter = longest path between any two nodes (path doesn't need to go through r
 
 **Edge case:** Empty tree → diameter = 0. Single node → diameter = 0 (no edges).
 
-```
+``` cpp
 // Q: Find diameter of binary tree in O(n)
+int dia=0;
 
+    int height(TreeNode* root){
+
+        if(root==NULL)
+
+            return 0;
+
+        int left = height(root->left);
+
+        int right = height(root->right);
+
+        dia = max(dia,left+right);
+
+        return 1+max(left,right);
+
+    }
+
+    int diameterOfBinaryTree(TreeNode* root) {
+
+        height(root);
+
+        return dia;
+
+    }
 
 ```
 

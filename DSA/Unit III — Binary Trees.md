@@ -147,12 +147,78 @@ Node* insert(Node* root,int val){
 
 **Edge case:** Deleting root with two children — apply case 3. Deleting a node that doesn't exist — handle gracefully.
 
-```
+``` cpp
 // Q: Delete node from generic binary tree
 
 
 // Q: Delete node from BST
+  
 
+TreeNode* iop(TreeNode* root){
+
+  root = root->left;
+
+  while(root->right){
+
+    root = root->right;
+
+  }
+
+  return root;
+
+}
+
+TreeNode* deleteNode(TreeNode* root,int key){
+
+    if(root == NULL)
+
+        return NULL;
+
+    if(root->val == key){
+
+      // case 1 no child
+
+      if(!root->left && !root->right){
+
+        return NULL;
+
+      }
+
+      else if(root->left && root->right){
+
+        TreeNode* pred = iop(root);
+
+        root->val = pred->val;
+
+        root->left = deleteNode(root->left,pred->val);
+
+      }
+
+      else{
+
+        if(root->left) return root->left;
+
+        else return root->right;
+
+      }
+
+    }
+
+    else if(root->val > key){
+
+      root->left = deleteNode(root->left,key);
+
+    }
+
+    else{
+
+      root->right = deleteNode(root->right,key);
+
+    }
+
+    return root;
+
+}
 
 ```
 
@@ -166,30 +232,48 @@ All three traversals visit every node exactly once → O(n) time, O(h) space for
 
 For BST, inorder gives elements in sorted ascending order. This is the most useful property of inorder traversal.
 
-```
+```cpp
 // Q: Inorder traversal (recursive)
 
-
+void inorder(Node* root){
+  if(root == NULL)
+    return;
+  cout<<root->val<<" ";
+  inorder(root->left);
+  inorder(root->right);
+}
 ```
 
 ### Preorder (Root → Left → Right)
 
 Used to create a copy of the tree or serialize it. Root is always printed first.
 
-```
+```cpp
 // Q: Preorder traversal (recursive)
 
-
+void preorder(Node* root){
+  if(root == NULL)
+    return;
+  cout<<root->val<<" ";
+  preorder(root->left);
+  preorder(root->right);
+}
 ```
 
 ### Postorder (Left → Right → Root)
 
 Used to delete a tree (process children before parent) or evaluate expression trees. Root is always printed last.
 
-```
+```cpp
 // Q: Postorder traversal (recursive)
 
-
+void postorder(Node* root){
+  if(root == NULL)
+    return;
+  cout<<root->val<<" ";
+  postorder(root->left);
+  postorder(root->right);
+}
 ```
 
 ---
@@ -211,9 +295,49 @@ Use an explicit stack to simulate the call stack.
 
 **Edge case:** Empty tree → stack never fills, loop exits immediately.
 
-```
+```cpp
 // Q: Inorder traversal without recursion using stack
+vector<int> inorderTraversal(TreeNode* root) {
 
+        if(!root)
+
+            return {};
+
+        stack<TreeNode*> st;
+
+        // st.push(root);
+
+        vector<int> ans;
+
+        TreeNode* node =root;
+
+        while(st.size()>0 || node){
+
+            if(node){
+
+                st.push(node);
+
+                node=node->left;
+
+            }
+
+            else{
+
+                TreeNode* temp = st.top();
+
+                st.pop();
+
+                ans.push_back(temp->val);
+
+                node = temp->right;
+
+            }
+
+        }
+
+        return ans;
+
+    }
 
 ```
 
@@ -235,9 +359,90 @@ Given inorder and preorder arrays, reconstruct and print postorder.
 
 **Edge case:** Inorder and preorder must have the same elements. Duplicate values cause ambiguity.
 
-```
+```cpp
 // Q: Print postorder given inorder and preorder
+// By construcuting Tree
+TreeNode* build(vector<int>& pre,vector<int>& ino,int prelo,int prehi,int inlo,int inhi){
 
+        if(prelo>prehi)
+
+            return NULL;
+
+        TreeNode* root = new TreeNode(pre[prelo]);
+
+        if(prelo == prehi)
+
+            return root;
+
+        int i=inlo;
+
+        while(i<=inhi){    
+
+            if(ino[i] == pre[prelo])
+
+                break;
+
+            i++;
+
+        }
+
+        int leftCount = i-inlo;
+
+        int rightCount = inhi-i;
+
+        root->left = build(pre,ino,prelo+1,prelo+leftCount,inlo,i-1);
+
+        root->right = build(pre,ino,prelo+leftCount+1,prehi,i+1,inhi);
+
+        return root;
+
+    }
+
+    TreeNode* buildTree(vector<int>& pre, vector<int>& ino) {
+
+        int n = pre.size();
+
+        return build(pre,ino,0,n-1,0,n-1);
+
+    }
+
+
+//Direct way
+void getPostorder(vector<int>& pre, vector<int>& ino,  
+int prelo, int prehi,  
+int inlo, int inhi,  
+vector<int>& post){  
+  
+if(prelo > prehi)  
+return;  
+  
+int rootVal = pre[prelo];  
+  
+int i = inlo;  
+while(i <= inhi){  
+if(ino[i] == rootVal)  
+break;  
+i++;  
+}  
+  
+int leftCount = i - inlo;  
+  
+getPostorder(pre, ino,  
+prelo + 1,  
+prelo + leftCount,  
+inlo,  
+i - 1,  
+post);  
+  
+getPostorder(pre, ino,  
+prelo + leftCount + 1,  
+prehi,  
+i + 1,  
+inhi,  
+post);  
+  
+post.push_back(rootVal);  
+}
 
 ```
 
@@ -251,9 +456,51 @@ Visit nodes level by level, left to right. Use a queue.
 
 **Why not recursion?** Recursion follows a single path (depth-first). Level-order needs to process all nodes at a level before going deeper (breadth-first).
 
-```
+``` cpp
 // Q: Level order traversal using queue
+vector<vector<int>> levelOrder(TreeNode* root) {
 
+        vector<vector<int>> ans;
+
+        queue<TreeNode*> q;
+
+        if(!root)
+
+            return ans;
+
+        q.push(root);
+
+        while(!q.empty()){
+
+            int size = q.size();
+
+            vector<int> v;
+
+            for(int i=0;i<size;i++){
+
+                TreeNode* temp = q.front();
+
+                q.pop();
+
+                if(temp->left!=NULL)
+
+                    q.push(temp->left);
+
+                if(temp->right!=NULL)
+
+                    q.push(temp->right);
+
+                v.push_back(temp->val);
+
+            }
+
+            ans.push_back(v);
+
+        }
+
+        return ans;
+
+    }
 
 ```
 

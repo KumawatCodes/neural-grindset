@@ -22,10 +22,57 @@ Finds shortest path from a single source to all vertices in a **weighted graph w
 - Graph with a single node → dist[source] = 0, no edges to process.
 - Multiple edges between same pair → the relaxation handles it correctly, best edge wins.
 
-```
+```cpp
 // Q: Dijkstra's algorithm using min-heap (adjacency list)
 
+#include <bits/stdc++.h>
+using namespace std;
 
+vector<list<pair<int,int>>> graph;
+void connect(int src,int dest,int wt){
+  graph[src].push_back({wt,dest});
+  graph[dest].push_back({wt,src});
+}
+vector<int> dijkstras(int src){
+    vector<int> dist(graph.size(),INT_MAX);
+    priority_queue<pair<int,int>,vector<pair<int,int>>,greater<pair<int,int>>> pq;
+    dist[src] = 0;
+    pq.push({0,src});
+    while(pq.size()>0){
+      int currNode = pq.top().second;
+      int currDistance = pq.top().first;
+      pq.pop();
+      if(dist[currNode]<currDistance)
+        continue;
+      
+      for(auto neigh:graph[currNode]){
+        int nextNode = neigh.second;
+        int wt = neigh.first;
+        if(wt+currDistance < dist[nextNode]){
+          dist[nextNode] = wt+currDistance;
+          pq.push({dist[nextNode],nextNode});
+        }
+      }
+    }
+    return dist;
+}
+int main(){
+  int v,e;
+  cin>>v>>e;
+  
+  graph.resize(v,list<pair<int,int>>());
+  
+  for(int i=0;i<e;i++){
+    int src,dest,wt;
+    cin>>src>>dest>>wt;
+    connect(src,dest,wt);
+  }
+  
+  vector<int> dist = dijkstras(0);
+  for(int i=0;i<dist.size();i++){
+    cout<<dist[i]<<" ";
+  }
+}
 ```
 
 ---
@@ -68,10 +115,36 @@ Grows MST one vertex at a time. Always adds the cheapest edge connecting a visit
 - All edges same weight → any spanning tree is an MST.
 - Graph with one node → MST has 0 edges.
 
-```
+```cpp
 // Q: Prim's MST algorithm using min-heap
 
-
+int prims(int src,int n){
+  vector<bool>visited(n,false);
+  int totalSum = 0;
+  priority_queue<pair<int,int>,vector<pair<int,int>>,greater<pair<int,int>>> pq;
+  pq.push({0,src});
+  // visited[src] = true;
+  while(!pq.empty()){
+    int curr = pq.top().second;
+    int wt = pq.top().first;
+    pq.pop();
+    if(visited[curr])
+      continue;
+    
+    visited[curr] = true;
+    totalSum+=wt;
+    
+    for(auto neigh:graph[curr]){
+      int nextNode= neigh.second;
+      int nextwt= neigh.first;
+      
+      if(!visited[nextNode]){
+        pq.push({nextwt,nextNode});
+      }
+    }
+  }
+  return totalSum;
+}
 ```
 
 ---
@@ -88,9 +161,75 @@ Sort all edges by weight. Add edge if it doesn't form a cycle (use DSU to check)
 - Kruskal's: better for sparse graphs (sort E edges → O(E log E)).
 - Both always produce a correct MST but may produce different ones if multiple MSTs exist.
 
-```
+```cpp
 // Q: Kruskal's MST algorithm using DSU
+#include <bits/stdc++.h>
+using namespace std;
+class Edge{
+public:
+  int src;
+  int dest;
+  int wt;
+};
+bool cmp(Edge e1,Edge e2){
+  return e1.wt < e2.wt;
+}
+int findParent(int child,vector<int>& parent){
+  if(parent[child] == child){
+    return child;
+  }
+  return parent[child]= findParent(parent[child],parent);
+}
 
+void Union(vector<int>& parent,vector<int>& rank,int child1,int child2){
+  int parent1 = findParent(child1,parent);
+  int parent2 = findParent(child2,parent);
+  
+  if(rank[parent1] > rank[parent2]){
+    parent[parent2] = parent1;
+  }
+  else if(rank[parent1] < rank[parent2]){
+      parent[parent1] = parent2;
+  }
+  else{
+      parent[parent2] = parent1;
+      rank[parent1]++;
+  }
+}
+long long kruskalAlgorithm(vector<Edge>& edges,int v,int e){
+  sort(edges.begin(),edges.end(),cmp);
+  vector<int> parent(v);
+  vector<int> rank(v,1);
+  for(int i=0;i<v;i++){
+    parent[i] = i;
+  }
+  int CountEdges=0;
+  int i=0;
+  long long ans=0;
+  while(CountEdges<v-1 && i<e){
+    Edge edge = edges[i];
+    int parent1 = findParent(edge.src,parent);
+    int parent2 = findParent(edge.dest,parent);
+    
+    if(parent1 != parent2){
+      Union(parent,rank,edge.src,edge.dest);
+      CountEdges++;
+      ans+=edge.wt;
+    }
+    i++;
+  }
+  return ans;
+}
+int main(){
+  int v,e;
+  cin>>v>>e;
+  vector<Edge> graph(e);
+  for(int i=0;i<e;i++){
+    Edge edge;
+    cin>>graph[i].src>>graph[i].dest>>graph[i].wt;
+  }
+  cout<<kruskalAlgorithm(graph,v,e);
+}
 
 ```
 

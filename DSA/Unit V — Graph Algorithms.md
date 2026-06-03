@@ -40,9 +40,51 @@ Visit all nodes level by level. Uses a **queue**.
 - Self-loop → visited check prevents infinite loop.
 - Graph with no edges → each node is its own component.
 
-```
+``` cpp
 // Q: BFS of a graph (adjacency list, handle disconnected)
+#include <bits/stdc++.h>
+using namespace std;
 
+vector<list<int>> graph;
+unordered_set<int> visited;
+queue<int> helper;
+vector<int> result;
+void connect(int src,int dest){
+  graph[src].push_back(dest);
+  graph[dest].push_back(src);
+}
+void bfs(int ele){
+  helper.push(ele);
+  visited.insert(ele);
+  while(!helper.empty()){
+    int ele = helper.front();
+    helper.pop();
+    result.push_back(ele);
+    for(auto neigh:graph[ele]){
+      if(! visited.count(neigh)){
+        helper.push(neigh);
+        visited.insert(neigh);
+      }
+    }
+  }
+}
+int main(){
+  int v,e;
+  cin>>v>>e;
+  
+  graph.resize(v,list<int>());
+  
+  for(int i=0;i<e;i++){
+    int src,dest;
+    cin>>src>>dest;
+    connect(src,dest);
+  }
+  
+  bfs(0);
+  for(int i=0;i<v;i++){
+    cout<<result[i]<<" ";
+  }
+}
 
 ```
 
@@ -66,12 +108,36 @@ Explore as deep as possible before backtracking. Uses recursion (implicit stack)
 - Disconnected graph → same as BFS, call DFS from each unvisited node.
 - Deep recursion on large graphs → stack overflow risk. Use iterative DFS with explicit stack for large inputs.
 
-```
+``` cpp
 // Q: DFS of a graph (recursive, handle disconnected)
-
-
+void dfs(int ele){
+  if(visited.count(ele))
+    return ;
+  visited.insert(ele);
+  result.push_back(ele);
+  for(auto neigh:graph[ele]){
+    if(not visited.count(neigh)){
+      dfs(neigh);
+    }
+  }
+}
 // Q: DFS iterative using explicit stack
-
+void dfs(int ele){
+  visited.insert(ele);
+  stack<int> st;
+  st.push(ele);
+  while(st.size()>0){
+    int temp = st.top();
+    st.pop();
+    result.push_back(temp);
+    for(auto neigh:graph[temp]){
+      if(not visited.count(neigh)){
+        st.push(neigh);
+        visited.insert(neigh);
+      }
+    }
+  }
+}
 
 ```
 
