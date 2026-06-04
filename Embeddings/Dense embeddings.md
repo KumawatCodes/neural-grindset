@@ -1,4 +1,3 @@
-
 # Dense Embeddings
 
 Dense embeddings are vector representations where most (or all) dimensions contain **non‑zero** values. They map discrete objects (words, sentences, items) into a continuous, low‑dimensional space using learned neural networks.
@@ -21,30 +20,67 @@ Dense embeddings are vector representations where most (or all) dimensions conta
 | Semantic similarity    | Cosine / dot product              | Limited (often overlap‑based)       |
 | Training               | Neural network                    | Counting‑based (no training)        |
 
+## Popular Dense Embedding Models
+
+| Model / Family        | Output type         | Dims (typical) | Key feature                        |
+|-----------------------|---------------------|----------------|-------------------------------------|
+| Word2Vec / GloVe      | Static word vectors | 100–300        | One vector per word (no context)    |
+| FastText              | Subword‑aware       | 100–300        | Handles OOV with character n‑grams  |
+| BERT (CLS token)      | Contextual sentence | 768–1024       | Bidirectional transformer           |
+| Sentence‑BERT (SBERT) | Sentence similarity | 384–768        | Optimised for cosine similarity     |
+| Instructor            | Task‑aware          | 768            | Instruction‑tuned embeddings        |
+| OpenAI `text-embedding-3` | API‑based      | 256–3072       | Large‑scale, proprietary            |
+
 ## How They Are Created
 
-- **Word2Vec / GloVe** – From word co‑occurrence statistics.
-- **BERT / Sentence‑Transformers** – Contextual embeddings from transformers.
-- **Neural collaborative filtering** – Embed user & item IDs for recommendations.
+### Static embeddings (Word2Vec)
 
-## Why Use Dense Embeddings?
+- Train a shallow neural network to predict a word from its neighbours (CBOW) or neighbours from a word (Skip‑gram).
+- The hidden layer weights become the embedding matrix.
 
-- **Semantic meaning** – Similar objects are close in vector space.  
-  Example: `king - man + woman ≈ queen`
-- **Downstream efficiency** – Work well with linear models, nearest‑neighbour indices (FAISS, HNSW), and neural networks.
-- **Generalisation** – Models can infer relationships for unseen inputs.
+### Contextual embeddings (BERT)
 
-## Common Applications
+- Fine‑tune a transformer with masked language modelling (MLM) and next‑sentence prediction.
+- Extract hidden states from the final layer, then pool (e.g., `[CLS]` token or mean pooling).
 
-- **Semantic search** – Retrieve documents by meaning, not just keywords.
-- **Recommendation systems** – Find items similar to a user’s preferences.
-- **Clustering & anomaly detection** – Group or identify outliers in embedding space.
-- **Transfer learning** – Pre‑trained embeddings boost small‑data tasks.
+### Sentence‑Transformers
 
-## Example (Word2Vec – 3D for illustration)
+- Start from a pre‑trained BERT.
+- Fine‑tune with siamese networks on natural language inference (NLI) or sentence similarity datasets (e.g., STS‑Benchmark).
+- Result: semantically meaningful sentence embeddings where cosine similarity correlates with human judgement.
+
+## Training Details (For the Curious)
+
+- **Loss functions** – Triplet loss, contrastive loss (InfoNCE), multiple negatives ranking (MNR), cosine embedding loss.
+- **Negative sampling** – Essential for scalability (e.g., Word2Vec uses 5–20 negatives per positive).
+- **Hard negatives** – Mining difficult examples improves quality (e.g., in retrieval tasks).
+- **Normalisation** – Often embeddings are L2‑normalised so that dot product equals cosine similarity.
+
+## Evaluation Metrics for Embeddings
+
+| Task                  | Metrics                                       |
+|-----------------------|-----------------------------------------------|
+| Word similarity       | Spearman correlation (e.g., on SimLex-999)    |
+| Sentence similarity   | Pearson / Spearman (STS‑Benchmark)            |
+| Retrieval (IR)        | NDCG@k, Recall@k, MRR, MAP                    |
+| Clustering            | V‑measure, adjusted Rand index                |
+| Downstream tasks      | Accuracy, F1 (e.g., on GLUE tasks)            |
+
+## Practical Code Example (Sentence‑Transformers)
 
 ```python
-# Dense vectors
-king  = [0.25, 0.80, 0.12]
-queen = [0.22, 0.78, 0.15]   # close to king
-apple = [0.95, 0.10, 0.88]   # far from king
+from sentence_transformers import SentenceTransformer, util
+
+model = SentenceTransformer('all-MiniLM-L6-v2')   # 384-dim dense embeddings
+
+sentences = ["A man is playing guitar", "Someone is strumming a musical instrument"]
+embeddings = model.encode(sentences)  # shape: (2, 384)
+
+# Cosine similarity
+cos_sim = util.cos_sim(embeddings[0], embeddings[1])
+print(cos_sim)  # ~0.85 (semantically similar)
+
+# Search example
+query = "guitar performance"
+query_emb = model.encode(query)
+results = util.semantic_search(query_emb, embeddings, top_k=2)
