@@ -48,5 +48,30 @@ Query ──┬──────────────────┬──�
 
 
 ```
-## Implementation Examples
-# Using pyserini + sentence-transformers (simple hybrid)
+# Implementation Examples
+## Using pyserini + sentence-transformers (simple hybrid)
+
+```
+from sentence_transformers import SentenceTransformer
+from pyserini.search.lucene import LuceneSearcher
+
+dense_model = SentenceTransformer('all-MiniLM-L6-v2')
+searcher = LuceneSearcher('index_path')
+
+def hybrid_search(query, alpha=0.5, k=10):
+    # Dense
+    q_emb = dense_model.encode(query)
+    dense_hits = dense_index.search(q_emb, k=100)   # FAISS or similar
+    
+    # Sparse (BM25)
+    sparse_hits = searcher.search(query, k=100)
+    
+    # Merge scores (simplified)
+    combined = {}
+    for hit in dense_hits:
+        combined[hit.docid] = alpha * hit.score
+    for hit in sparse_hits:
+        combined[hit.docid] = combined.get(hit.docid, 0) + (1-alpha) * hit.score
+    
+    return sorted(combined.items(), key=lambda x: x[1], reverse=True)[:k]
+```
