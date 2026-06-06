@@ -45,3 +45,8 @@ Query ──┬──────────────────┬──�
                                  │
                                  ▼
                            final relevance
+
+
+```
+## Implementation Examples
+# Using pyserini + sentence-transformers (simple hybrid)
