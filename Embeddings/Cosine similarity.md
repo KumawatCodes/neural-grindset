@@ -57,3 +57,12 @@ emb1 = [0.2, 0.8, 0.5]
 emb2 = [0.3, 0.7, 0.6]
 sim = cosine_similarity(emb1, emb2)
 print(f"Cosine similarity: {sim:.4f}")   # e.g., 0.9912
+```
+Using scikit‑learn
+
+```python
+from sklearn.metrics.pairwise import cosine_similarity
+
+# Shape: (n_samples, n_features)
+sim_matrix = cosine_similarity([emb1, emb2])   # returns 2x2 matrix
+```
