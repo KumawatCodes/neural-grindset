@@ -1,0 +1,1275 @@
+{
+	"nodes":[
+		{"id":"grp_llmops","type":"group","x":20000,"y":-600,"width":2600,"height":2680,"color":"6","label":"🟣 Phase 5 — Production LLMOps, Testing, Security & Evaluation"},
+		{"id":"grp_rag","type":"group","x":5000,"y":-600,"width":2600,"height":2470,"color":"2","label":"🟡 Phase 2 — Advanced Retrieval & RAG Architectures"},
+		{"id":"grp_foundations","type":"group","x":-300,"y":-600,"width":2600,"height":2250,"color":"1","label":"⚡ Phase 1 — Core AI Foundations & Prerequisites"},
+		{"id":"grp_agents","type":"group","x":14900,"y":-600,"width":2600,"height":2140,"color":"4","label":"🔷 Phase 4 — Autonomous Agents & Cognitive State Graphs"},
+		{"id":"grp_memory","type":"group","x":9900,"y":-600,"width":2600,"height":1970,"color":"3","label":"🟢 Phase 3 — Conversational Memory & Semantic Caching"},
+		{"id":"grp_embeddings_hub","type":"group","x":2750,"y":-600,"width":1800,"height":2470,"color":"5","label":"🔵 Intersection Hub 1 — Embeddings & Vector Space"},
+		{"id":"grp_multimodal_hub","type":"group","x":17900,"y":-600,"width":1800,"height":2030,"color":"5","label":"🔵 Intersection Hub 4 — Multimodal Workflows & Coordination"},
+		{"id":"grp_vector_hub","type":"group","x":7800,"y":-600,"width":1800,"height":1970,"color":"5","label":"🔵 Intersection Hub 2 — Distributed Vector Infrastructure"},
+		{"id":"grp_state_hub","type":"group","x":12900,"y":-600,"width":1800,"height":1970,"color":"5","label":"🔵 Intersection Hub 3 — State Persistence & Context Maintenance"},
+		{
+			"id":"ag_reasoning",
+			"type":"text",
+			"text":"# 🧩 Agent Reasoning Loops & Tool Use\n\n**ReAct Prompting:** Reasoning + Acting interleaved — agent outputs `Thought:` → `Action:` → `Observation:` cycles; grounded in tool outputs before next reasoning step.\n\n**OpenAI Functions / Tools APIs:** `tools=[{type:'function', function:{name, description, parameters}}]` — structured tool schema, parallel tool call support, `tool_choice` forcing.\n\n**Plan-and-Solve:** Two-phase — explicit planning step generates subtask list, then sequential execution with plan tracking; reduces lost-in-the-middle failures.\n\n**Reflection Cycles:** Agent critiques its own output against goal criteria, identifies gaps, and triggers corrective actions — `Reflexion` paper architecture.\n\n**Self-Correction Algorithms:** LLM-as-judge scoring own outputs, rewriting below-threshold responses, escalating to human review if multiple attempts fail.\n\n**Phidata Agents:** Declarative agent definition with `Agent(model, tools, storage, memory)` — built-in web search, file, code execution tools.\n\n**smolagents:** Hugging Face's lightweight agent library — `CodeAgent` for code execution, `ToolCallingAgent` for tool use, minimal overhead design.\n\n📁 `[[AI_Engineering/Agents/ReasoningLoops.md]]`",
+			"styleAttributes":{},
+			"x":14950,
+			"y":200,
+			"width":560,
+			"height":440,
+			"color":"4"
+		},
+		{
+			"id":"rag_ingestion",
+			"type":"text",
+			"text":"# 📥 Advanced Ingestion & Chunking Strategies\n\n**Fixed-Size Chunking:** Char/token-based splits with configurable overlap — fast but semantically naive; baseline for benchmarking.\n\n**Semantic Chunking:** Embedding-based boundary detection — splits where cosine similarity drops below threshold; preserves topic coherence.\n\n**Hierarchical / Parent-Child Maps:** Small child chunks for precision retrieval, parent chunks for context window enrichment (LlamaIndex `HierarchicalNodeParser`).\n\n**Metadata Enrichment:** Attaching source URL, doc title, section headers, page numbers, author, creation timestamp as filterable metadata.\n\n**Temporal Tagging:** Stamping chunks with `created_at` / `updated_at` for time-scoped retrieval and freshness decay weighting.\n\n**Auto-Summarization:** LLM-generated per-chunk or per-doc summaries stored as alternate retrieval targets for abstract-level queries.\n\n📁 `[[AI_Engineering/RAG/IngestionChunking.md]]`",
+			"styleAttributes":{},
+			"x":5050,
+			"y":200,
+			"width":560,
+			"height":400,
+			"color":"2"
+		},
+		{
+			"id":"rag_paradigms",
+			"type":"text",
+			"text":"# 🚀 Next-Gen RAG Paradigms\n\n**Self-RAG:** LLM decides when to retrieve (retrieval tokens), critiques retrieved docs (ISREL/ISSUP tokens), and selects best generation (ISUSE tokens) — end-to-end trained on retrieval-interleaved data.\n\n**Adaptive Retrieval:** Dynamic retrieval triggering based on query uncertainty score — skips retrieval for factual/common queries, invokes for knowledge-intensive ones.\n\n**Corrective RAG (CRAG):** Confidence-scored retrieved docs trigger web-search fallback when all docs score below threshold; combines retrieved + web evidence.\n\n**Agentic RAG / PlanRAG:** LLM agent plans multi-step retrieval sequences, decomposes complex queries into sub-retrievals, iterates until sufficient evidence accumulated.\n\n📁 `[[AI_Engineering/RAG/NextGenParadigms.md]]`",
+			"styleAttributes":{},
+			"x":5700,
+			"y":200,
+			"width":560,
+			"height":380,
+			"color":"2"
+		},
+		{
+			"id":"rag_specialized",
+			"type":"text",
+			"text":"# 🔬 Specialized Retrieval Architectures\n\n**GraphRAG / Knowledge Graph RAG:** Entities and relations extracted into a graph; traversal-based retrieval captures multi-hop reasoning paths unavailable to flat vector search.\n\n**Vision-RAG:** CLIP/SigLIP embeddings for image retrieval; cross-modal query routing; image + text evidence fusion before generation.\n\n**VideoRAG:** Frame sampling, temporal embedding, segment-level retrieval with timestamp anchoring for long-form video QA.\n\n**Temporal Augmented Retrieval (TAR):** Time-decay weighting on retrieval scores; recency-biased re-ranking for news/financial domains.\n\n**RAG Fusion:** Multi-query generation + Reciprocal Rank Fusion (RRF) across parallel retrieval runs — reduces query ambiguity impact.\n\n**FLARE:** Forward-Looking Active Retrieval — predicts next sentence, retrieves if confidence low, regenerates with context.\n\n**GNN-RAG, REFRAG, InstructRAG:** Graph neural network-enhanced retrieval, reference-filtered RAG, and instruction-tuned retrieval-generation pipelines.\n\n📁 `[[AI_Engineering/RAG/SpecializedRetrievers.md]]`",
+			"styleAttributes":{},
+			"x":5050,
+			"y":750,
+			"width":560,
+			"height":440,
+			"color":"2"
+		},
+		{
+			"id":"rag_alternatives",
+			"type":"text",
+			"text":"# 🔄 RAG Alternatives & Production Frameworks\n\n**Cache-Augmented Generation (CAG):** Pre-loading entire knowledge bases into extended KV-cache instead of runtime retrieval — zero retrieval latency at high memory cost.\n\n**Retrieval-Augmented Fine-Tuning (RAFT):** Fine-tunes LLMs to reason over retrieved documents with distractor docs present — combines RAG robustness with fine-tune precision.\n\n**LlamaIndex:** Comprehensive RAG framework — `QueryEngine`, `RouterQueryEngine`, `SubQuestionQueryEngine`, `OpenAIAgent`, knowledge graph integration.\n\n**Haystack:** Production RAG pipelines with declarative `Pipeline` graphs, document stores, `PromptBuilder`, `Generator` components.\n\n**Cognita:** Modular RAG API server from Truefoundry; pluggable data sources, parsers, retrievers, and generators.\n\n**Verba:** Weaviate's open-source RAG app template — goldilocks RAG for quick deployment.\n\n**Dify:** No-code/low-code RAG workflow builder with visual pipeline designer and API export.\n\n📁 `[[AI_Engineering/RAG/AlternativesFrameworks.md]]`",
+			"styleAttributes":{},
+			"x":5700,
+			"y":750,
+			"width":560,
+			"height":440,
+			"color":"2"
+		},
+		{
+			"id":"ag_stategraphs",
+			"type":"text",
+			"text":"# 🗺 State Graphs & Graph Workflows (LangGraph)\n\n**LangGraph Core Concepts:** `StateGraph`, `TypedDict` state schema, `add_node()`, `add_edge()`, `add_conditional_edges()` — compiles to an executable runnable.\n\n**Directed Graph Orchestration:** DAG and cyclic graph support; conditional branching based on state fields; parallel node execution for independent subtasks.\n\n**Typed State Transitions:** `Annotated[list, operator.add]` for append-only state fields; custom reducers for merge semantics; type safety across node boundaries.\n\n**Stateful Multi-Actor Applications:** Each actor (node) reads shared state, performs specialized action, writes results back — clean separation of concerns.\n\n**Streaming & Subgraph Composition:** `graph.stream()` for token/step-level streaming; composing subgraphs as nodes in parent graphs for modular agent architectures.\n\n**LangGraph Studio:** Visual graph debugger, state inspector, time-travel replay of any execution step.\n\n📁 `[[AI_Engineering/Agents/LangGraphStateGraphs.md]]`",
+			"styleAttributes":{},
+			"x":15600,
+			"y":200,
+			"width":560,
+			"height":420,
+			"color":"4"
+		},
+		{
+			"id":"ag_hitl",
+			"type":"text",
+			"text":"# 🛑 Control Flow & Human-in-the-Loop (HITL)\n\n**HITL Checkpoints:** LangGraph `interrupt_before` / `interrupt_after` node execution hooks — graph pauses, surfaces state to human reviewer, resumes with approved/modified state.\n\n**Manual Interruption Hooks:** `Command(resume=value)` injection to resume paused graphs; async wait patterns for human approval workflows.\n\n**Execution State Tracing:** Full state snapshot at each graph node; replay-able execution history for debugging; `get_state_history()` for time-travel inspection.\n\n**OpenAI Agents SDK:** `Runner.run()` with `max_turns`, `hooks` for pre/post step callbacks, `InputGuardrail` / `OutputGuardrail` for safety gates.\n\n**Approval Workflows:** Integrating HITL with notification systems (Slack, email) — agent sends approval request, human responds, workflow resumes via webhook.\n\n**Audit Logging:** Immutable execution audit trail for compliance — LangSmith traces, LangGraph state snapshots, tool call logs.\n\n📁 `[[AI_Engineering/Agents/HITLControlFlow.md]]`",
+			"styleAttributes":{},
+			"x":14950,
+			"y":800,
+			"width":560,
+			"height":400,
+			"color":"4"
+		},
+		{
+			"id":"ag_multiagent",
+			"type":"text",
+			"text":"# 👥 Multi-Agent Orchestration & Teams\n\n**Role-Based Orchestration:** Specialized agents (Researcher, Writer, Critic, Executor) coordinated by an orchestrator agent that decomposes tasks and assigns subtasks by agent capability.\n\n**Chain-Based Adaptive Orchestration:** Sequential agent chains where each agent's output is next agent's input; adaptive routing based on output confidence scores.\n\n**AutoGen:** Microsoft's multi-agent conversation framework — `AssistantAgent`, `UserProxyAgent`, `GroupChat` with configurable speaker selection strategies.\n\n**CrewAI / CRAM:** Declarative crew definition — `Agent(role, goal, backstory)`, `Task(description, agent)`, `Crew(agents, tasks, process=Process.hierarchical)`.\n\n**Semantic Kernel:** Microsoft's enterprise SDK — `Kernel`, plugin system, `Planner` for goal-to-plan decomposition, native .NET/Python/Java support.\n\n**Inter-Agent Communication Pathways:** Shared message queue (Redis Streams), direct function call (in-process), REST API (distributed), shared state graph nodes.\n\n**Sub-Graph Execution Loops:** Parent graph spawning child subgraphs as parallel workers; results aggregated via map-reduce pattern over state list fields.\n\n📁 `[[AI_Engineering/Agents/MultiAgentOrchestration.md]]`",
+			"styleAttributes":{},
+			"x":15600,
+			"y":800,
+			"width":560,
+			"height":460,
+			"color":"4"
+		},
+		{
+			"id":"sp_checkpointers",
+			"type":"text",
+			"text":"# 💾 Storage Checkpointers & Backends\n\n**Redis Persistence Backend:** LangGraph `RedisSaver` — serializes graph state to Redis Hash on every node execution; `thread_id`-scoped state isolation; supports TTL for conversation expiry.\n\n**PostgreSQL Persistence Backend:** LangGraph `PostgresSaver` / `AsyncPostgresSaver` — ACID-compliant state storage; full audit trail of state transitions; recoverable after process crash.\n\n**Cross-Region State Sharing:** Redis Cluster with geo-replication; agent handoff across datacenters with sub-second state sync; active-active vs. active-passive topology tradeoffs.\n\n**Event Sourcing with Streams:** Append-only event log (Redis Streams / Kafka) as source of truth; state reconstructed by replaying event sequence — enables time-travel debugging.\n\n**Pub/Sub Messaging Pipelines:** Redis Pub/Sub for real-time inter-agent notifications; agent state change events broadcast to subscriber agents; fan-out patterns for multi-agent coordination.\n\n**Sub-Millisecond State Coordination:** Redis pipeline batching of state read-modify-write cycles; Lua scripting for atomic state transitions; RESP3 protocol for reduced round-trips.\n\n📁 `[[AI_Engineering/StatePersistence/CheckpointersBackends.md]]`",
+			"styleAttributes":{},
+			"x":12950,
+			"y":200,
+			"width":600,
+			"height":460,
+			"color":"5"
+		},
+		{
+			"id":"hub_agents",
+			"type":"text",
+			"text":"# 🔷 AUTONOMOUS AGENTS & COGNITIVE STATE GRAPHS\n\n**Agents are LLMs with agency** — given tools, memory, and a goal, they plan, execute, observe, and iterate until the task is complete.\n\nThis phase covers the full agent engineering stack: reasoning loops (ReAct, Plan-and-Solve), stateful graph orchestration (LangGraph), human-in-the-loop control flows, and multi-agent team architectures (AutoGen, CrewAI, Semantic Kernel).\n\n**Core Architecture:** Perception → Memory Recall → Planning → Tool Execution → Observation → Reflection → Next Action\n\n📁 `[[AI_Engineering/Agents/README.md]]`",
+			"styleAttributes":{},
+			"x":15100,
+			"y":-400,
+			"width":700,
+			"height":380,
+			"color":"4"
+		},
+		{
+			"id":"hub_statepersist",
+			"type":"text",
+			"text":"# 🔵 STATE PERSISTENCE & CONTEXT MAINTENANCE\n*Intersection Hub — Bridges Memory & Agents*\n\nThe durable backbone connecting ephemeral agent execution to persistent memory. State checkpointers ensure that agentic workflows can pause, resume, recover from failures, and share context across distributed nodes without losing execution progress.\n\n**Critical for:** Multi-step agentic tasks, human-in-the-loop interruptions, cross-region agent coordination, and event-driven workflow orchestration.\n\n📁 `[[AI_Engineering/StatePersistence/README.md]]`",
+			"styleAttributes":{},
+			"x":13100,
+			"y":-400,
+			"width":700,
+			"height":360,
+			"color":"5"
+		},
+		{
+			"id":"rag_search",
+			"type":"text",
+			"text":"# 🔍 Search Algorithms & Reranking Pipeline\n\n**Hybrid Search (BM25 + Dense):** Sparse BM25 keyword matching fused with dense ANN retrieval via RRF or weighted sum — outperforms either alone on most benchmarks.\n\n**Cross-Encoders:** Full attention over query+passage pairs for precise relevance scoring — used as second-stage reranker (not first-stage retriever due to latency).\n\n**Cohere Rerank:** API-based neural reranker; `co.rerank()` with `model='rerank-english-v3.0'`, returns ranked docs with relevance scores.\n\n**BGE-Reranker:** Open-source cross-encoder from BAAI (`bge-reranker-v2-m3`); competitive with Cohere on BEIR benchmarks.\n\n**Query Rewriting:** LLM-based query expansion and reformulation — HyDE (Hypothetical Document Embeddings), step-back prompting, query decomposition.\n\n**Sub-Query Generation:** Breaking complex queries into atomic sub-queries, parallel retrieval, answer synthesis.\n\n**HyDE (Hypothetical Document Embeddings):** Generate a hypothetical answer, embed it, retrieve docs similar to the hypothetical — bridges query-document embedding gap.\n\n📁 `[[AI_Engineering/RAG/SearchReranking.md]]`",
+			"styleAttributes":{},
+			"x":5050,
+			"y":1350,
+			"width":560,
+			"height":440,
+			"color":"2"
+		},
+		{
+			"id":"vi_engines",
+			"type":"text",
+			"text":"# 🗄 Distributed Vector Database Engines\n\n**Chroma:** In-process and client-server modes; `PersistentClient`, collections API, metadata filtering; ideal for local dev and prototyping.\n\n**Pinecone Serverless:** Fully managed; `upsert`, `query`, `fetch`, namespace isolation, sparse-dense hybrid index support; auto-scaling.\n\n**Weaviate:** GraphQL + REST API, modular vectorizer plugins, multi-tenancy, HNSW + flat index selection per class.\n\n**FAISS:** Meta's CPU/GPU ANN library; `IndexFlatL2`, `IndexIVFPQ`, `IndexHNSW` — gold standard for custom high-perf indexes.\n\n**Qdrant:** Rust-based; payload filtering, named vectors, sparse vector support, gRPC API, Qdrant Cloud managed offering.\n\n**Milvus:** Cloud-native; tiered storage (S3 + local), GPU-accelerated IVF, Attu UI, Zilliz Cloud managed version.\n\n**LanceDB:** Embedded columnar vector DB (Arrow/Lance format); zero-copy reads, versioned data, multimodal support.\n\n**Supabase pgvector:** PostgreSQL extension; co-located relational + vector queries; `<->` operator, HNSW and IVFFlat indexes.\n\n**MongoDB Atlas Vector Search:** `$vectorSearch` aggregation stage; integrated with Atlas full-text search for hybrid queries.\n\n**Oracle AI Vector Search:** Enterprise-grade; `VECTOR` column type, `VECTOR_DISTANCE()` SQL function, integrated with Oracle DB security.\n\n📁 `[[AI_Engineering/VectorInfra/DistributedEngines.md]]`",
+			"styleAttributes":{},
+			"x":7850,
+			"y":200,
+			"width":600,
+			"height":520,
+			"color":"5"
+		},
+		{
+			"id":"vi_perf",
+			"type":"text",
+			"text":"# 📈 Performance Metrics & Scale Engineering\n\n**Billion-Scale Search:** Sharding strategies, distributed HNSW graph replication, DiskANN for SSD-resident indexes beyond RAM limits.\n\n**Sub-100ms Vector Lookup Loops:** Batched query execution, connection pooling, gRPC vs. REST protocol selection for latency-sensitive paths.\n\n**95% Precision @ 1.3s Median Latency:** Real benchmark target — tuning `ef_search` and `nprobe` parameters to hit this production SLA.\n\n**Filtered Query Latency Reduction 120ms → 70ms:** Pre-filtering via inverted index on metadata fields before ANN search; post-filtering tradeoffs.\n\n**Strong Filtering on Kubernetes:** Label selectors for pod affinity, HPA for index replica scaling, Persistent Volume Claims for index durability.\n\n**Index Warm-Up Strategies:** Pre-loading HNSW graph into memory, health checks before traffic routing, canary deployments for index version upgrades.\n\n📁 `[[AI_Engineering/VectorInfra/PerformanceScale.md]]`",
+			"styleAttributes":{},
+			"x":7850,
+			"y":850,
+			"width":600,
+			"height":400,
+			"color":"5"
+		},
+		{
+			"id":"mem_session",
+			"type":"text",
+			"text":"# 💬 Session & Buffer Memory\n\n**Windowed Rolling Buffers:** Maintain a fixed-size deque of the last N message pairs; oldest messages evicted as window fills — `ConversationBufferWindowMemory` in LangChain.\n\n**Last-N Token Management:** Token-count-aware truncation rather than message-count; ensures context window budget never exceeded regardless of message verbosity.\n\n**Multi-Session Historical Context Continuity:** Persisting conversation state to Redis/PostgreSQL between sessions; reloading relevant history on session resume via `session_id` keying.\n\n**LangChain Memory Types:** `ConversationBufferMemory`, `ConversationSummaryMemory`, `ConversationSummaryBufferMemory`, `ConversationKGMemory`.\n\n**Token Compression:** Selective message pruning, keeping only assistant tool-call pairs and high-salience turns identified via TF-IDF scoring.\n\n📁 `[[AI_Engineering/Memory/SessionBufferMemory.md]]`",
+			"styleAttributes":{},
+			"x":9950,
+			"y":200,
+			"width":560,
+			"height":380,
+			"color":"3"
+		},
+		{
+			"id":"mem_longterm",
+			"type":"text",
+			"text":"# 🧩 Long-Term Semantic & Entity Memory\n\n**Dynamic Conversation Summarization:** Progressive summarization — each new turn triggers a diff-summary update rather than full re-summary, minimizing LLM calls.\n\n**Writing Summaries to Vector Layers:** Compressed conversation summaries embedded and upserted to a long-term vector store (e.g., Qdrant namespace per user), queryable across sessions.\n\n**Cross-Session Context Continuity:** On new session start, semantic search over summary vectors surfaces relevant prior context — 'What did we discuss about X?'\n\n**Entity Key-Value Extraction:** Continuous extraction of named entities (names, preferences, decisions) into a structured key-value store (Redis Hash) per client/entity ID.\n\n**Mem0 / MemGPT Architectures:** Hierarchical memory management with OS-inspired virtual memory — automatically manages what to keep in-context vs. offload to storage.\n\n📁 `[[AI_Engineering/Memory/LongTermSemanticMemory.md]]`",
+			"styleAttributes":{},
+			"x":10600,
+			"y":200,
+			"width":560,
+			"height":400,
+			"color":"3"
+		},
+		{
+			"id":"mem_cache",
+			"type":"text",
+			"text":"# ⚡ Semantic Caching Layer\n\n**Pre-Routing via Similarity Lookup:** Incoming queries are first embedded and compared against a cache index; if similarity > threshold (e.g., 0.95), cached response returned — zero LLM cost.\n\n**RedisVL SemanticCache:** `SemanticCache` class with `store()` and `check()` methods; Redis Vector Library handles embedding index in-memory for sub-millisecond lookup.\n\n**Redis LangCache:** Drop-in LangChain `set_llm_cache(RedisSemanticCache(...))` — transparent caching layer across all LLM calls without code changes.\n\n**pgvector 0.8.0 Integration:** HNSW index on a `vector` column in PostgreSQL; `5.7x query performance improvement` in v0.8.0 benchmarks; natural fit for existing Postgres-backed apps.\n\n**Cache Invalidation Strategies:** TTL-based expiry, explicit invalidation on source document update, confidence-score threshold tuning for freshness vs. hit-rate tradeoff.\n\n**70% LLM Cost Savings:** Benchmarked on high-traffic customer support deployments — repeated FAQ queries served from semantic cache rather than LLM.\n\n📁 `[[AI_Engineering/Memory/SemanticCachingLayer.md]]`",
+			"styleAttributes":{},
+			"x":9950,
+			"y":750,
+			"width":560,
+			"height":420,
+			"color":"3"
+		},
+		{
+			"id":"hub_memory",
+			"type":"text",
+			"text":"# 🟢 CONVERSATIONAL MEMORY & SEMANTIC CACHING\n\n**Memory transforms stateless LLM calls into coherent, continuous intelligent systems.** Without memory, every conversation starts from zero.\n\nThis phase architects four memory tiers: short-term buffer memory (last N messages), long-term semantic memory (cross-session compressed summaries), entity/key-value memory (client profiles), and semantic caching (serving repeated queries from cache, not LLM).\n\n**Cost Impact:** Semantic caching alone can achieve 70% LLM cost reduction on high-traffic applications.\n\n📁 `[[AI_Engineering/Memory/README.md]]`",
+			"styleAttributes":{},
+			"x":10100,
+			"y":-400,
+			"width":700,
+			"height":380,
+			"color":"3"
+		},
+		{
+			"id":"mem_automation",
+			"type":"text",
+			"text":"# 🤖 Memory Automation & Advanced Patterns\n\n**Multi-Agent Memory Networks:** Shared memory pools accessible across agent instances — agents read/write to a common semantic store enabling implicit coordination without explicit message passing.\n\n**Multimodal Memory Tracking:** Storing image embeddings, audio transcripts, video frame summaries alongside text memories — unified multimodal retrieval interface.\n\n**Reinforcement Learning Memory Integration:** RL agents using episodic memory buffers (experience replay) — adapting retrieval policies based on reward signals from task success.\n\n**Forgetting Mechanisms:** Importance-weighted decay — low-importance memories (low access frequency, low retrieval score) pruned on schedule to prevent memory bloat.\n\n**Zep Memory Store:** Production-ready memory service — automatic fact extraction, graph-based entity relationship storage, temporal context queries.\n\n📁 `[[AI_Engineering/Memory/MemoryAutomation.md]]`",
+			"styleAttributes":{},
+			"x":10600,
+			"y":750,
+			"width":560,
+			"height":400,
+			"color":"3"
+		},
+		{
+			"id":"hub_rag",
+			"type":"text",
+			"text":"# 🟡 ADVANCED RETRIEVAL & RAG\n\n**Retrieval-Augmented Generation** grounds LLM outputs in factual, up-to-date, domain-specific context — eliminating hallucination and enabling knowledge-intensive applications.\n\nThis phase covers the full engineering spectrum: from document ingestion and chunking strategies, through next-generation RAG paradigms (Self-RAG, CRAG, Agentic RAG), to specialized graph and multimodal retrievers, search algorithms, and production RAG frameworks.\n\n**Core Loop:** Ingest → Chunk → Embed → Index → Retrieve → Rerank → Generate\n\n📁 `[[AI_Engineering/RAG/README.md]]`",
+			"styleAttributes":{},
+			"x":5200,
+			"y":-400,
+			"width":700,
+			"height":380,
+			"color":"2"
+		},
+		{
+			"id":"hub_vectorinfra",
+			"type":"text",
+			"text":"# 🔵 DISTRIBUTED VECTOR INFRASTRUCTURE\n*Intersection Hub — Bridges RAG & Memory Systems*\n\nThe persistent storage and retrieval layer for embeddings at scale. Vector databases provide ANN search, metadata filtering, CRUD on embeddings, and distributed index replication — enabling both RAG pipelines and long-term memory architectures.\n\n**Selection Criteria:** Managed vs. self-hosted, filtering capability, horizontal scalability, persistence guarantees, ecosystem integrations.\n\n📁 `[[AI_Engineering/VectorInfra/README.md]]`",
+			"styleAttributes":{},
+			"x":8000,
+			"y":-400,
+			"width":700,
+			"height":360,
+			"color":"5"
+		},
+		{
+			"id":"emb_engines",
+			"type":"text",
+			"text":"# ⚙️ Embedding Engines & Model Selection\n\n**OpenAI Embedding Models:** `text-embedding-3-small` (1536-dim), `text-embedding-3-large` (3072-dim) — industry benchmark quality, matryoshka representation learning for dimension truncation.\n\n**Sentence Transformers:** `all-MiniLM-L6-v2`, `all-mpnet-base-v2`, `bge-large-en-v1.5` — open-source, self-hostable, asymmetric query/passage models.\n\n**Open-Source Alternatives:** `nomic-embed-text`, `mxbai-embed-large`, `Alibaba-NLP/gte-Qwen2-7B-instruct` — MTEB leaderboard evaluation.\n\n**Multimodal Embeddings:** CLIP, ImageBind, SigLIP — joint image-text embedding spaces for cross-modal retrieval.\n\n**Embedding Pipelines:** Batching strategies, async embedding generation, embedding cache layers to prevent redundant API calls.\n\n📁 `[[AI_Engineering/Embeddings/EmbeddingEngines.md]]`",
+			"styleAttributes":{},
+			"x":3860,
+			"y":-60,
+			"width":560,
+			"height":360,
+			"color":"5"
+		},
+		{
+			"id":"emb_scaling",
+			"type":"text",
+			"text":"# 📊 Enterprise Embedding Scaling & Optimization\n\n**High-Dimensionality Array Layouts:** Row-major vs. column-major storage for embedding matrices; memory-mapped files for billion-scale datasets.\n\n**Dimensional Reduction:** PCA, UMAP, t-SNE for visualization; Matryoshka Representation Learning (MRL) for native truncation without quality loss.\n\n**HNSW Tuning:** `M` (graph connections), `ef_construction` (build quality), `ef_search` (query-time recall) — tradeoff curves for production ANN configs.\n\n**Scalar Quantization (SQ):** float32 → int8 compression, 4x memory reduction with ~1% recall drop.\n\n**Product Quantization (PQ):** Sub-vector decomposition, codebook learning — enabling billion-scale indexes on commodity hardware.\n\n**Vector + Operational Data Consolidation:** pgvector for co-located relational + vector queries, eliminating dual-DB sync overhead.\n\n📁 `[[AI_Engineering/Embeddings/EnterpriseScaling.md]]`",
+			"styleAttributes":{},
+			"x":2980,
+			"y":1320,
+			"width":560,
+			"height":400,
+			"color":"5"
+		},
+		{
+			"id":"emb_math",
+			"type":"text",
+			"text":"# 📐 Foundational Math for Vector Space\n\n**Cosine Similarity:** `cos(θ) = (A·B)/(|A||B|)` — measures angular similarity between vectors; invariant to magnitude, ideal for normalized embeddings.\n\n**Dot Product:** `A·B = Σ(aᵢ×bᵢ)` — raw inner product; used in MaxSim scoring and ColBERT late-interaction models.\n\n**Euclidean Distance (L2):** `d = √Σ(aᵢ-bᵢ)²` — magnitude-sensitive; used in clustering algorithms like k-means over embedding spaces.\n\n**Vector Normalization:** L2-norm normalization converts dot product to cosine similarity — critical preprocessing step for embedding indexes.\n\n**Dimensionality Intuition:** Why high-dimensional spaces suffer from the 'curse of dimensionality' and how ANN algorithms mitigate this.\n\n📁 `[[AI_Engineering/Embeddings/VectorMath.md]]`",
+			"styleAttributes":{},
+			"x":2780,
+			"y":360,
+			"width":560,
+			"height":360,
+			"color":"5"
+		},
+		{
+			"id":"hub_embeddings",
+			"type":"text",
+			"text":"# 🔵 EMBEDDINGS & VECTOR SPACE\n*Intersection Hub — Bridges Foundations, RAG & Memory*\n\n**Embeddings are the universal language of modern AI systems.** A dense vector representation that encodes semantic meaning, enabling similarity-based retrieval, memory compression, and cross-modal search.\n\nThis hub sits at the convergence of LLM Foundations (producing embeddings), RAG (indexing and retrieving them), and Memory Systems (storing compressed semantic state). Every downstream pipeline depends on the quality of this layer.\n\n📁 `[[AI_Engineering/Embeddings/README.md]]`",
+			"styleAttributes":{},
+			"x":3340,
+			"y":-560,
+			"width":700,
+			"height":380,
+			"color":"5"
+		},
+		{
+			"id":"ops_testing",
+			"type":"text",
+			"text":"# 🧪 LLM Testing & Automated Optimization\n\n**DSPy Prompt Compilers:** Replaces hand-written prompts with learned programs — `dspy.Predict`, `dspy.ChainOfThought`, `dspy.Retrieve` modules compiled by optimizers (`BootstrapFewShot`, `MIPROv2`).\n\n**Automated Prompt / Weight Tuning:** DSPy optimizers search prompt space using a training set + metric function — finds optimal few-shot examples and instruction formulations automatically.\n\n**LangTest Framework:** `Harness` class for robustness testing — bias, fairness, accuracy, toxicity suites; `augment()` for adversarial test generation; `run()` for batch evaluation.\n\n**Giskard Vulnerability Detection:** LLM vulnerability scanner — tests for hallucination, prompt injection, sensitive info disclosure, stereotyping; integrates with CI/CD pipelines.\n\n**Unit Testing LLM Outputs:** `pytest` + LLM-as-judge scoring, `deepeval` framework for assertion-based LLM testing, golden dataset regression testing.\n\n**A/B Testing Prompt Variants:** Traffic splitting across prompt versions, statistical significance testing on quality metrics, automated champion/challenger promotion.\n\n📁 `[[AI_Engineering/LLMOps/TestingOptimization.md]]`",
+			"styleAttributes":{},
+			"x":20050,
+			"y":200,
+			"width":560,
+			"height":440,
+			"color":"6"
+		},
+		{
+			"id":"ops_evaluation",
+			"type":"text",
+			"text":"# 📊 Validation & Evaluation Metrics Matrix\n\n**RAG Triad (TruLens / RAGAS):**\n• **Context Relevance:** Are retrieved chunks actually relevant to the query? (LLM-graded, 0-1 score)\n• **Groundedness / Faithfulness:** Is the generated answer supported by retrieved context? (claim-level verification)\n• **Answer Relevance:** Does the final answer actually address the user's question? (query-answer alignment scoring)\n\n**RAGAS Metrics Suite:** `context_precision`, `context_recall`, `faithfulness`, `answer_relevancy`, `answer_correctness` — end-to-end RAG pipeline evaluation.\n\n**LLM-as-Judge Patterns:** GPT-4o as evaluator with structured rubrics — pairwise comparison, single-answer grading, reference-free evaluation.\n\n**Hallucination Detection:** NLI-based fact verification, SelfCheckGPT (sampling consistency), FactScore for entity-level factuality.\n\n**Latency & Cost Metrics:** P50/P95/P99 latency budgets, tokens-per-dollar efficiency, cost-per-query tracking dashboards.\n\n📁 `[[AI_Engineering/LLMOps/EvaluationMetrics.md]]`",
+			"styleAttributes":{},
+			"x":20700,
+			"y":200,
+			"width":560,
+			"height":440,
+			"color":"6"
+		},
+		{
+			"id":"mm_engines",
+			"type":"text",
+			"text":"# 🎨 Multi-Stage Multimodal Engines\n\n**OpenAI Vision (GPT-4o):** `image_url` content blocks in messages; base64 or URL image input; detail levels (`low`/`high`) controlling token cost vs. resolution tradeoff.\n\n**DALL-E 3 API:** `images.generate()` with `model='dall-e-3'`; prompt rewriting by model; quality (`standard`/`hd`), style, size parameters; `revised_prompt` in response.\n\n**Whisper API:** `audio.transcriptions.create()` — 99-language transcription; `audio.translations.create()` for English translation; `response_format` (json/srt/vtt/text).\n\n**Hugging Face Vision Models:** BLIP-2, LLaVA, InternVL, Qwen2-VL — open-source multimodal LLMs for self-hosted vision pipelines.\n\n**Multi-Stage Multimodal RAG:** OCR → chunk → embed image regions; retrieve relevant image patches + text chunks; fuse in generation prompt.\n\n**Training-Free Multimodal LLM Orchestration:** Routing modality-specific inputs to specialized models via orchestrator agent without fine-tuning — plug-and-play architecture.\n\n**Modularity + Interpretability Routing:** Each modality processed by dedicated module; attention maps over modality contributions provide interpretable reasoning traces.\n\n📁 `[[AI_Engineering/Multimodal/MultimodalEngines.md]]`",
+			"styleAttributes":{},
+			"x":17950,
+			"y":200,
+			"width":600,
+			"height":500,
+			"color":"5"
+		},
+		{
+			"id":"mm_langchain",
+			"type":"text",
+			"text":"# 🔗 Multimodal Framework Integration\n\n**LangChain Multimodal:** `HumanMessage(content=[{type:'image_url', image_url:{url:...}}, {type:'text', text:...}])` — multi-content message construction; cross-model compatibility layer.\n\n**LlamaIndex Multimodal:** `MultiModalVectorStoreIndex`, `SimpleDirectoryReader` with image loading, `MultiModalQueryEngine` for joint text+image retrieval.\n\n**Multimodal Agent Workflows:** Agents with vision tools — screenshot analysis, diagram interpretation, chart data extraction feeding into reasoning loops.\n\n**Audio Processing Pipelines:** Whisper → diarization (pyannote.audio) → chunk by speaker turn → embed + index for audio RAG over meeting recordings.\n\n📁 `[[AI_Engineering/Multimodal/FrameworkIntegration.md]]`",
+			"styleAttributes":{},
+			"x":17950,
+			"y":850,
+			"width":600,
+			"height":360,
+			"color":"5"
+		},
+		{
+			"id":"ops_observability",
+			"type":"text",
+			"text":"# 🔭 Observability & Enterprise Tracing\n\n**Langfuse Tracking Engine:** Open-source LLM observability — `@observe()` decorator, trace/span hierarchy, token cost tracking, prompt version management, dataset curation from production traces.\n\n**Arize Phoenix:** Local-first observability — `px.launch_app()`, OpenInference trace instrumentation, embedding drift detection, cluster visualization of retrieved chunks.\n\n**LangSmith:** LangChain's hosted tracing — auto-instrumented for LangChain/LangGraph, run comparison across prompt versions, evaluation datasets from production runs.\n\n**Confident AI (DeepEval):** Cloud evaluation platform — regression testing, CI/CD integration, metric trending dashboards.\n\n**Node-Level Latency Breakout:** Tracing individual graph node execution times — identifying bottleneck retrieval steps, slow reranker calls, expensive generation nodes.\n\n**Token Usage Distributions:** Per-model, per-endpoint token consumption histograms; anomaly detection on token spikes; budget alerting.\n\n**OpenTelemetry Integration:** Standardized trace propagation across microservices — LLM call spans alongside database and HTTP spans in unified trace view.\n\n📁 `[[AI_Engineering/LLMOps/ObservabilityTracing.md]]`",
+			"styleAttributes":{},
+			"x":20050,
+			"y":800,
+			"width":560,
+			"height":460,
+			"color":"6"
+		},
+		{
+			"id":"ops_guardrails",
+			"type":"text",
+			"text":"# 🔒 Guardrails, Moderation & Security Operations\n\n**OpenAI Moderation API:** `moderations.create(input=text)` — classifies `hate`, `hate/threatening`, `self-harm`, `sexual`, `violence` categories with per-category scores; integrate as pre/post-generation filter.\n\n**End-User ID Prompt Tracking:** Passing `user='user_{uuid}'` in all API calls — enables per-user rate limiting, abuse pattern detection, and audit trail for compliance.\n\n**Continuous Adversarial Testing / Red Teaming:** Automated jailbreak probing (PyRIT, Garak), scheduled red team runs in CI, LLM-powered adversarial prompt generation.\n\n**Structural JSON Validators:** Pydantic v2 model validation on all LLM outputs; `instructor` library for retry-on-validation-error; Outlines/Guidance for constrained decoding.\n\n**Guardrails AI:** `Guard` object with validators (`TwoWords`, `ValidChoices`, `RegexMatch`, `LLMCritic`) — wraps LLM calls with input/output validation pipeline.\n\n**Prompt Injection Defense:** Input sanitization regex, schema-enforced output constraints, system prompt leakage prevention, indirect injection via tool outputs.\n\n**PII Redaction Pipeline:** Presidio (Microsoft) for NER-based PII detection and redaction before LLM input; post-processing redaction of PII in generated outputs.\n\n📁 `[[AI_Engineering/LLMOps/GuardrailsSecurityOps.md]]`",
+			"styleAttributes":{},
+			"x":20700,
+			"y":800,
+			"width":560,
+			"height":480,
+			"color":"6"
+		},
+		{
+			"id":"hub_multimodal",
+			"type":"text",
+			"text":"# 🔵 MULTIMODAL WORKFLOWS & COORDINATION\n*Intersection Hub — Bridges Agents & Production*\n\nModern production AI systems process text, images, audio, and video within unified pipelines. This hub covers multi-stage multimodal orchestration — routing inputs to specialized models, fusing cross-modal evidence, and coordinating multimodal agent workflows.\n\n**Enables:** Vision-RAG, audio-grounded agents, video summarization pipelines, image-generation loops, and training-free multimodal LLM routing.\n\n📁 `[[AI_Engineering/Multimodal/README.md]]`",
+			"styleAttributes":{},
+			"x":18100,
+			"y":-400,
+			"width":700,
+			"height":360,
+			"color":"5"
+		},
+		{
+			"id":"hub_llmops",
+			"type":"text",
+			"text":"# 🟣 PRODUCTION LLMOps & EVALUATION\n\n**LLMOps closes the production loop** — transforming experimental AI prototypes into reliable, observable, secure, cost-efficient production systems.\n\nThis phase covers the full production engineering stack: automated prompt optimization (DSPy), comprehensive evaluation frameworks (RAGAS, RAG Triad), enterprise observability (Langfuse, Arize Phoenix), and security hardening (guardrails, red teaming, moderation).\n\n**North Star Metric:** Every deployed AI system must be measurable, traceable, and improvable without manual intervention.\n\n📁 `[[AI_Engineering/LLMOps/README.md]]`",
+			"styleAttributes":{},
+			"x":20200,
+			"y":-400,
+			"width":700,
+			"height":380,
+			"color":"6"
+		},
+		{
+			"id":"ops_infra",
+			"type":"text",
+			"text":"# 🏗 Production Infrastructure & Deployment\n\n**Containerization:** Multi-stage Docker builds for FastAPI AI services; GPU-enabled containers with `nvidia/cuda` base; health checks, graceful shutdown for model unloading.\n\n**Kubernetes for AI:** GPU node pools, `nvidia.com/gpu` resource limits, HPA on custom metrics (queue depth), PVC for model weight persistence, Helm charts for AI stacks.\n\n**Model Serving:** vLLM for high-throughput LLM serving (PagedAttention, continuous batching); TGI (Text Generation Inference); Triton Inference Server for multi-framework.\n\n**CI/CD for AI:** GitHub Actions pipelines — automated eval regression gates, Docker image build+push, Kubernetes rolling updates; no model promotion without passing eval suite.\n\n**API Gateway Patterns:** Kong / AWS API Gateway for rate limiting, auth, routing; LiteLLM proxy for multi-provider fallback; cost allocation by team/product via headers.\n\n**Cost Optimization at Scale:** Prompt caching (Anthropic/OpenAI), batching API calls, spot instance inference, model cascading (cheap model first, expensive model if confidence low).\n\n📁 `[[AI_Engineering/LLMOps/ProductionInfrastructure.md]]`",
+			"styleAttributes":{},
+			"x":20050,
+			"y":1430,
+			"width":560,
+			"height":440,
+			"color":"6"
+		},
+		{
+			"id":"hub_foundations",
+			"type":"text",
+			"text":"# 🔴 CORE AI FOUNDATIONS\n\n**The bedrock layer of Production AI Engineering.** Before orchestrating agents or deploying RAG pipelines, every engineer must master: async Python runtimes, typed API contracts, LLM tokenization internals, multi-provider model ecosystems, and precision prompt engineering.\n\nThis phase covers the full prereq stack — from FastAPI service design to ChatCompletion API mechanics to provider SDK integration across OpenAI, Anthropic, Google, AWS, and Hugging Face.\n\n📁 `[[AI_Engineering/Foundations/README.md]]`",
+			"styleAttributes":{},
+			"x":200,
+			"y":-500,
+			"width":700,
+			"height":380,
+			"color":"1"
+		},
+		{
+			"id":"f_providers",
+			"type":"text",
+			"text":"# 🌐 Model Provider Ecosystems\n\n**Open vs. Closed Source Tradeoffs:** Licensing, customizability, cost at scale, data privacy (self-hosted vs. API calls).\n\n**OpenAI:** GPT-4o, o1/o3 reasoning models, Realtime API, Assistants API v2, Structured Outputs, Batch API.\n\n**Anthropic Claude:** Claude 3.5 Sonnet/Opus, 200k context, tool use, computer use beta, Constitutional AI alignment.\n\n**Google Gemini:** Gemini 1.5 Pro (1M context), Vertex AI integration, multimodal-native architecture.\n\n**Azure AI / AWS SageMaker:** Enterprise deployment, VPC isolation, managed endpoints, fine-tune pipelines.\n\n**Hugging Face Hub:** Model cards, Inference API, Spaces, Transformers library integration.\n\n**Ollama SDK:** Local model serving (`llama3`, `mistral`, `phi3`), REST API compatibility, model pull/run lifecycle.\n\n📁 `[[AI_Engineering/Foundations/ModelProviderEcosystems.md]]`",
+			"styleAttributes":{},
+			"x":-200,
+			"y":780,
+			"width":560,
+			"height":380,
+			"color":"1"
+		},
+		{
+			"id":"f_safety",
+			"type":"text",
+			"text":"# 🛡 AI Safety, Ethics & Moderation\n\n**Prompt Injection Attacks:** Direct and indirect injection vectors, jailbreak patterns, defense via input sanitization and schema enforcement.\n\n**Bias & Fairness:** Dataset bias propagation through fine-tuning, evaluation metrics for demographic parity, disparate impact testing.\n\n**Security & Privacy:** PII detection and redaction pipelines, GDPR compliance for LLM outputs, data residency constraints.\n\n**OpenAI Moderation API:** Classifying flagged categories (`hate`, `self-harm`, `violence`), integrating moderation as a pre/post filter.\n\n**Adversarial Testing:** Red teaming checklists, automated fuzzing of prompts, LLM-graded safety evaluations.\n\n**End-User ID Tracking:** Passing `user` field in API calls for abuse detection, audit logging patterns.\n\n📁 `[[AI_Engineering/Foundations/AISafetyEthics.md]]`",
+			"styleAttributes":{},
+			"x":1340,
+			"y":-310,
+			"width":560,
+			"height":340,
+			"color":"1"
+		},
+		{
+			"id":"f_prompteng",
+			"type":"text",
+			"text":"# ✍️ Prompt Engineering & Chat Completions\n\n**System Instructions:** Role priming, persona injection, constraint anchoring in `system` role messages.\n\n**Few-Shot Prompting:** In-context example formatting, shot selection strategies, dynamic few-shot from retrieval.\n\n**Chain-of-Thought (CoT):** Zero-shot CoT (`'Think step by step'`), self-consistency voting across multiple reasoning chains.\n\n**Chat Completions API:** `messages[]` array construction, `temperature`, `top_p`, `presence_penalty`, streaming via SSE.\n\n**API Gateways & Rate Limiting:** LiteLLM proxy, OpenRouter, request queuing with token bucket counters, exponential backoff.\n\n**Session Routing:** Stateless vs. stateful session design, user-scoped thread management, conversation ID tracking.\n\n📁 `[[AI_Engineering/Foundations/PromptEngineering.md]]`",
+			"styleAttributes":{},
+			"x":1200,
+			"y":300,
+			"width":560,
+			"height":380,
+			"color":"1"
+		},
+		{
+			"id":"f_opensource",
+			"type":"text",
+			"text":"# 🔓 Open Source AI Engineering\n\n**Hugging Face Ecosystem:** `transformers`, `datasets`, `evaluate`, `accelerate` libraries; Hub API for programmatic model/dataset access.\n\n**Hugging Face Tasks:** Text generation, classification, NER, translation, summarization, question answering — mapping tasks to model architectures.\n\n**Inference SDK:** `huggingface_hub.InferenceClient`, streaming outputs, async inference endpoints.\n\n**Transformers.js:** Running quantized models browser-side (WASM backend), use cases in edge AI product features.\n\n**Ollama Deep Dive:** Modelfile authoring, system prompt injection, multi-model API server, GPU layer offloading config.\n\n**Popular OSS Models:** Llama 3.1/3.2, Mistral 7B/8x7B, Phi-3, Gemma 2, Qwen2, DeepSeek-R1.\n\n📁 `[[AI_Engineering/Foundations/OpenSourceAI.md]]`",
+			"styleAttributes":{},
+			"x":1200,
+			"y":860,
+			"width":560,
+			"height":380,
+			"color":"1"
+		},
+		{
+			"id":"f_llmfundamentals",
+			"type":"text",
+			"text":"# 🧠 LLM Fundamentals & Context Windows\n\n**Tokenization Mechanics:** BPE (Byte-Pair Encoding) internals, `tiktoken` library, token counting per model family (GPT-4o = ~128k ctx, Claude 3.5 = ~200k ctx).\n\n**Sliding Context Windows:** Strategies for handling documents exceeding the context limit — chunking, summarization-based compression, and rolling window buffers.\n\n**Pricing Overhead Control:** Per-token input/output cost modeling, prompt compression techniques (LLMLingua), caching identical prefixes to reduce spend.\n\n**Attention Mechanism Intuition:** Self-attention, KV-cache behavior under repeated inference, and its implications for latency optimization.\n\n📁 `[[AI_Engineering/Foundations/LLMFundamentals.md]]`",
+			"styleAttributes":{},
+			"x":380,
+			"y":150,
+			"width":560,
+			"height":340,
+			"color":"1"
+		},
+		{
+			"id":"f_devtools",
+			"type":"text",
+			"text":"# 🧰 Development Tools & AI Coding Environment\n\n**AI Code Editors:** Cursor IDE (Claude/GPT-powered inline suggestions), GitHub Copilot enterprise config, Windsurf Cascade.\n\n**Code Completion Tools:** Tabnine, Codeium, Supermaven — local vs. cloud-routed completion latency tradeoffs.\n\n**Environment Setup:** `uv` package manager, `pyproject.toml`, virtual env isolation, `.env` secret management with `python-dotenv`.\n\n**Jupyter + AI Notebooks:** `%%ai` magic, kernel management, nbformat for programmatic notebook generation from LLM outputs.\n\n**Docker for AI Dev:** Multi-stage builds for FastAPI + ML deps, GPU-enabled containers (`nvidia/cuda` base images), Docker Compose orchestration for local AI stacks.\n\n📁 `[[AI_Engineering/Foundations/DevelopmentTools.md]]`",
+			"styleAttributes":{},
+			"x":280,
+			"y":1220,
+			"width":560,
+			"height":340,
+			"color":"1"
+		},
+		{
+			"id":"f_softwaredev",
+			"type":"text",
+			"text":"# 🛠 Software Dev Tracks & Core Proficiencies\n\n**Async I/O & Concurrency:** Python `asyncio`, `aiohttp`, `httpx` for non-blocking LLM calls and streaming response handling.\n\n**FastAPI:** Typed route definitions, dependency injection, background tasks, WebSocket support for real-time AI pipelines.\n\n**Pydantic v2:** Runtime data validation, `model_validator`, `field_validator`, schema generation for strict JSON mode contracts.\n\n**JSON Mode & Structured Outputs:** Enforcing `response_format={type:'json_object'}`, parsing and validating LLM responses against schemas.\n\n**SQL/NoSQL Pipelines:** SQLAlchemy async ORM, Alembic migrations, Redis async client, MongoDB motor — routing AI state to durable storage.\n\n📁 `[[AI_Engineering/Foundations/SoftwareDevTracks.md]]`",
+			"styleAttributes":{},
+			"x":-280,
+			"y":-40,
+			"width":560,
+			"height":340,
+			"color":"1"
+		}
+	],
+	"edges":[
+		{
+			"id":"edge_1000",
+			"styleAttributes":{},
+			"toFloating":false,
+			"fromNode":"hub_foundations",
+			"fromSide":"bottom",
+			"toNode":"f_softwaredev",
+			"toSide":"top",
+			"label":"grounds"
+		},
+		{
+			"id":"edge_1001",
+			"styleAttributes":{},
+			"fromNode":"hub_foundations",
+			"fromSide":"bottom",
+			"toNode":"f_llmfundamentals",
+			"toSide":"top",
+			"label":"explains"
+		},
+		{
+			"id":"edge_1002",
+			"styleAttributes":{},
+			"fromNode":"hub_foundations",
+			"fromSide":"bottom",
+			"toNode":"f_providers",
+			"toSide":"top",
+			"label":"catalogs"
+		},
+		{
+			"id":"edge_1003",
+			"styleAttributes":{},
+			"fromNode":"hub_foundations",
+			"fromSide":"bottom",
+			"toNode":"f_prompteng",
+			"toSide":"top",
+			"label":"teaches"
+		},
+		{
+			"id":"edge_1004",
+			"styleAttributes":{},
+			"fromNode":"hub_foundations",
+			"fromSide":"right",
+			"toNode":"f_safety",
+			"toSide":"left",
+			"label":"enforces"
+		},
+		{
+			"id":"edge_1005",
+			"styleAttributes":{},
+			"fromNode":"hub_foundations",
+			"fromSide":"right",
+			"toNode":"f_opensource",
+			"toSide":"left",
+			"label":"extends via"
+		},
+		{
+			"id":"edge_1006",
+			"styleAttributes":{},
+			"toFloating":false,
+			"fromNode":"hub_foundations",
+			"fromSide":"bottom",
+			"toNode":"f_devtools",
+			"toSide":"top",
+			"label":"tooled by"
+		},
+		{
+			"id":"edge_1007",
+			"styleAttributes":{
+				"path":null,
+				"pathfindingMethod":null
+			},
+			"fromFloating":false,
+			"fromNode":"f_softwaredev",
+			"fromSide":"bottom",
+			"toNode":"f_providers",
+			"toSide":"left",
+			"label":"integrates"
+		},
+		{
+			"id":"edge_1008",
+			"styleAttributes":{},
+			"fromFloating":false,
+			"fromNode":"f_llmfundamentals",
+			"fromSide":"bottom",
+			"toNode":"f_prompteng",
+			"toSide":"left",
+			"label":"informs"
+		},
+		{
+			"id":"edge_1009",
+			"styleAttributes":{},
+			"fromNode":"f_providers",
+			"fromSide":"right",
+			"toNode":"f_opensource",
+			"toSide":"left",
+			"label":"open-sources"
+		},
+		{
+			"id":"edge_1010",
+			"styleAttributes":{},
+			"fromNode":"hub_embeddings",
+			"fromSide":"bottom",
+			"toNode":"emb_math",
+			"toSide":"top",
+			"label":"grounded in"
+		},
+		{
+			"id":"edge_1011",
+			"styleAttributes":{},
+			"fromNode":"hub_embeddings",
+			"fromSide":"bottom",
+			"toNode":"emb_engines",
+			"toSide":"top",
+			"label":"powered by"
+		},
+		{
+			"id":"edge_1012",
+			"styleAttributes":{},
+			"fromNode":"hub_embeddings",
+			"fromSide":"bottom",
+			"toNode":"emb_scaling",
+			"toSide":"top",
+			"label":"scaled via"
+		},
+		{
+			"id":"edge_1013",
+			"styleAttributes":{},
+			"fromNode":"emb_math",
+			"fromSide":"right",
+			"toNode":"emb_engines",
+			"toSide":"left",
+			"label":"informs"
+		},
+		{
+			"id":"edge_1014",
+			"styleAttributes":{},
+			"fromFloating":false,
+			"fromNode":"grp_embeddings_hub",
+			"fromSide":"right",
+			"toNode":"emb_scaling",
+			"toSide":"left",
+			"label":"feeds into"
+		},
+		{
+			"id":"edge_1015",
+			"styleAttributes":{},
+			"fromNode":"f_llmfundamentals",
+			"fromSide":"right",
+			"toNode":"hub_embeddings",
+			"toSide":"left",
+			"label":"encodes via"
+		},
+		{
+			"id":"edge_1016",
+			"styleAttributes":{},
+			"fromNode":"f_providers",
+			"fromSide":"right",
+			"toNode":"hub_embeddings",
+			"toSide":"left",
+			"label":"generates via"
+		},
+		{
+			"id":"edge_1017",
+			"styleAttributes":{},
+			"fromNode":"f_opensource",
+			"fromSide":"right",
+			"toNode":"hub_embeddings",
+			"toSide":"left",
+			"label":"open-source models"
+		},
+		{
+			"id":"edge_1018",
+			"styleAttributes":{},
+			"fromNode":"hub_rag",
+			"fromSide":"bottom",
+			"toNode":"rag_ingestion",
+			"toSide":"top",
+			"label":"starts with"
+		},
+		{
+			"id":"edge_1019",
+			"styleAttributes":{},
+			"fromNode":"hub_rag",
+			"fromSide":"bottom",
+			"toNode":"rag_paradigms",
+			"toSide":"top",
+			"label":"evolves into"
+		},
+		{
+			"id":"edge_1020",
+			"styleAttributes":{},
+			"fromNode":"hub_rag",
+			"fromSide":"bottom",
+			"toNode":"rag_specialized",
+			"toSide":"top",
+			"label":"extends to"
+		},
+		{
+			"id":"edge_1021",
+			"styleAttributes":{},
+			"fromNode":"hub_rag",
+			"fromSide":"bottom",
+			"toNode":"rag_alternatives",
+			"toSide":"top",
+			"label":"alternatives via"
+		},
+		{
+			"id":"edge_1022",
+			"styleAttributes":{},
+			"fromNode":"hub_rag",
+			"fromSide":"bottom",
+			"toNode":"rag_search",
+			"toSide":"top",
+			"label":"retrieves via"
+		},
+		{
+			"id":"edge_1023",
+			"styleAttributes":{},
+			"fromNode":"rag_ingestion",
+			"fromSide":"right",
+			"toNode":"rag_specialized",
+			"toSide":"left",
+			"label":"feeds"
+		},
+		{
+			"id":"edge_1024",
+			"styleAttributes":{},
+			"fromNode":"rag_paradigms",
+			"fromSide":"right",
+			"toNode":"rag_alternatives",
+			"toSide":"left",
+			"label":"productionized by"
+		},
+		{
+			"id":"edge_1025",
+			"styleAttributes":{},
+			"fromNode":"rag_search",
+			"fromSide":"right",
+			"toNode":"rag_paradigms",
+			"toSide":"left",
+			"label":"improves recall for"
+		},
+		{
+			"id":"edge_1026",
+			"styleAttributes":{},
+			"fromNode":"hub_embeddings",
+			"fromSide":"right",
+			"toNode":"hub_rag",
+			"toSide":"left",
+			"label":"indexes into"
+		},
+		{
+			"id":"edge_1027",
+			"styleAttributes":{},
+			"fromNode":"emb_engines",
+			"fromSide":"right",
+			"toNode":"rag_ingestion",
+			"toSide":"left",
+			"label":"embeds chunks for"
+		},
+		{
+			"id":"edge_1028",
+			"styleAttributes":{},
+			"fromNode":"emb_scaling",
+			"fromSide":"right",
+			"toNode":"rag_search",
+			"toSide":"left",
+			"label":"enables ANN in"
+		},
+		{
+			"id":"edge_1029",
+			"styleAttributes":{},
+			"fromNode":"hub_vectorinfra",
+			"fromSide":"bottom",
+			"toNode":"vi_engines",
+			"toSide":"top",
+			"label":"powered by"
+		},
+		{
+			"id":"edge_1030",
+			"styleAttributes":{},
+			"fromNode":"hub_vectorinfra",
+			"fromSide":"bottom",
+			"toNode":"vi_perf",
+			"toSide":"top",
+			"label":"measured by"
+		},
+		{
+			"id":"edge_1031",
+			"styleAttributes":{},
+			"fromNode":"vi_engines",
+			"fromSide":"right",
+			"toNode":"vi_perf",
+			"toSide":"left",
+			"label":"benchmarked via"
+		},
+		{
+			"id":"edge_1032",
+			"styleAttributes":{},
+			"fromNode":"hub_rag",
+			"fromSide":"right",
+			"toNode":"hub_vectorinfra",
+			"toSide":"left",
+			"label":"indexes into"
+		},
+		{
+			"id":"edge_1033",
+			"styleAttributes":{},
+			"fromNode":"rag_search",
+			"fromSide":"right",
+			"toNode":"vi_engines",
+			"toSide":"left",
+			"label":"queries via"
+		},
+		{
+			"id":"edge_1034",
+			"styleAttributes":{},
+			"fromNode":"emb_scaling",
+			"fromSide":"right",
+			"toNode":"vi_engines",
+			"toSide":"left",
+			"label":"stored in"
+		},
+		{
+			"id":"edge_1035",
+			"styleAttributes":{},
+			"fromNode":"hub_memory",
+			"fromSide":"bottom",
+			"toNode":"mem_session",
+			"toSide":"top",
+			"label":"manages short-term via"
+		},
+		{
+			"id":"edge_1036",
+			"styleAttributes":{},
+			"fromNode":"hub_memory",
+			"fromSide":"bottom",
+			"toNode":"mem_longterm",
+			"toSide":"top",
+			"label":"persists long-term via"
+		},
+		{
+			"id":"edge_1037",
+			"styleAttributes":{},
+			"fromNode":"hub_memory",
+			"fromSide":"bottom",
+			"toNode":"mem_cache",
+			"toSide":"top",
+			"label":"accelerates via"
+		},
+		{
+			"id":"edge_1038",
+			"styleAttributes":{},
+			"fromNode":"hub_memory",
+			"fromSide":"bottom",
+			"toNode":"mem_automation",
+			"toSide":"top",
+			"label":"automates via"
+		},
+		{
+			"id":"edge_1039",
+			"styleAttributes":{},
+			"fromNode":"mem_session",
+			"fromSide":"right",
+			"toNode":"mem_longterm",
+			"toSide":"left",
+			"label":"compresses into"
+		},
+		{
+			"id":"edge_1040",
+			"styleAttributes":{},
+			"fromNode":"mem_longterm",
+			"fromSide":"right",
+			"toNode":"mem_cache",
+			"toSide":"left",
+			"label":"seeds cache from"
+		},
+		{
+			"id":"edge_1041",
+			"styleAttributes":{},
+			"fromNode":"mem_cache",
+			"fromSide":"right",
+			"toNode":"mem_automation",
+			"toSide":"left",
+			"label":"optimized by"
+		},
+		{
+			"id":"edge_1042",
+			"styleAttributes":{},
+			"fromNode":"hub_vectorinfra",
+			"fromSide":"right",
+			"toNode":"hub_memory",
+			"toSide":"left",
+			"label":"stores state in"
+		},
+		{
+			"id":"edge_1043",
+			"styleAttributes":{},
+			"fromNode":"vi_engines",
+			"fromSide":"right",
+			"toNode":"mem_longterm",
+			"toSide":"left",
+			"label":"persists summaries to"
+		},
+		{
+			"id":"edge_1044",
+			"styleAttributes":{},
+			"fromNode":"vi_engines",
+			"fromSide":"right",
+			"toNode":"mem_cache",
+			"toSide":"left",
+			"label":"caches via"
+		},
+		{
+			"id":"edge_1045",
+			"styleAttributes":{},
+			"fromNode":"hub_statepersist",
+			"fromSide":"bottom",
+			"toNode":"sp_checkpointers",
+			"toSide":"top",
+			"label":"implemented via"
+		},
+		{
+			"id":"edge_1046",
+			"styleAttributes":{},
+			"fromNode":"hub_memory",
+			"fromSide":"right",
+			"toNode":"hub_statepersist",
+			"toSide":"left",
+			"label":"recovers state via"
+		},
+		{
+			"id":"edge_1047",
+			"styleAttributes":{},
+			"fromNode":"mem_session",
+			"fromSide":"right",
+			"toNode":"sp_checkpointers",
+			"toSide":"left",
+			"label":"persists buffer to"
+		},
+		{
+			"id":"edge_1048",
+			"styleAttributes":{},
+			"fromNode":"mem_longterm",
+			"fromSide":"right",
+			"toNode":"sp_checkpointers",
+			"toSide":"left",
+			"label":"archives summaries via"
+		},
+		{
+			"id":"edge_1049",
+			"styleAttributes":{},
+			"fromNode":"hub_agents",
+			"fromSide":"bottom",
+			"toNode":"ag_reasoning",
+			"toSide":"top",
+			"label":"reasons via"
+		},
+		{
+			"id":"edge_1050",
+			"styleAttributes":{},
+			"fromNode":"hub_agents",
+			"fromSide":"bottom",
+			"toNode":"ag_stategraphs",
+			"toSide":"top",
+			"label":"orchestrated by"
+		},
+		{
+			"id":"edge_1051",
+			"styleAttributes":{},
+			"fromNode":"hub_agents",
+			"fromSide":"bottom",
+			"toNode":"ag_hitl",
+			"toSide":"top",
+			"label":"controlled via"
+		},
+		{
+			"id":"edge_1052",
+			"styleAttributes":{},
+			"fromNode":"hub_agents",
+			"fromSide":"bottom",
+			"toNode":"ag_multiagent",
+			"toSide":"top",
+			"label":"scales to"
+		},
+		{
+			"id":"edge_1053",
+			"styleAttributes":{},
+			"fromNode":"ag_reasoning",
+			"fromSide":"right",
+			"toNode":"ag_stategraphs",
+			"toSide":"left",
+			"label":"structured in"
+		},
+		{
+			"id":"edge_1054",
+			"styleAttributes":{},
+			"fromNode":"ag_stategraphs",
+			"fromSide":"right",
+			"toNode":"ag_hitl",
+			"toSide":"left",
+			"label":"interrupted by"
+		},
+		{
+			"id":"edge_1055",
+			"styleAttributes":{},
+			"fromNode":"ag_hitl",
+			"fromSide":"right",
+			"toNode":"ag_multiagent",
+			"toSide":"left",
+			"label":"delegates to"
+		},
+		{
+			"id":"edge_1056",
+			"styleAttributes":{},
+			"fromNode":"ag_reasoning",
+			"fromSide":"right",
+			"toNode":"ag_multiagent",
+			"toSide":"left",
+			"label":"coordinates via"
+		},
+		{
+			"id":"edge_1057",
+			"styleAttributes":{},
+			"fromNode":"hub_statepersist",
+			"fromSide":"right",
+			"toNode":"hub_agents",
+			"toSide":"left",
+			"label":"recovers state for"
+		},
+		{
+			"id":"edge_1058",
+			"styleAttributes":{},
+			"fromNode":"sp_checkpointers",
+			"fromSide":"right",
+			"toNode":"ag_stategraphs",
+			"toSide":"left",
+			"label":"checkpoints"
+		},
+		{
+			"id":"edge_1059",
+			"styleAttributes":{},
+			"fromNode":"sp_checkpointers",
+			"fromSide":"right",
+			"toNode":"ag_hitl",
+			"toSide":"left",
+			"label":"snapshots state for"
+		},
+		{
+			"id":"edge_1060",
+			"styleAttributes":{},
+			"fromNode":"hub_memory",
+			"fromSide":"right",
+			"toNode":"hub_agents",
+			"toSide":"left",
+			"label":"provides context to"
+		},
+		{
+			"id":"edge_1061",
+			"styleAttributes":{},
+			"fromNode":"mem_longterm",
+			"fromSide":"right",
+			"toNode":"ag_reasoning",
+			"toSide":"left",
+			"label":"recalls context for"
+		},
+		{
+			"id":"edge_1062",
+			"styleAttributes":{},
+			"fromNode":"hub_multimodal",
+			"fromSide":"bottom",
+			"toNode":"mm_engines",
+			"toSide":"top",
+			"label":"orchestrated by"
+		},
+		{
+			"id":"edge_1063",
+			"styleAttributes":{},
+			"fromNode":"hub_multimodal",
+			"fromSide":"bottom",
+			"toNode":"mm_langchain",
+			"toSide":"top",
+			"label":"integrated via"
+		},
+		{
+			"id":"edge_1064",
+			"styleAttributes":{},
+			"fromNode":"mm_engines",
+			"fromSide":"right",
+			"toNode":"mm_langchain",
+			"toSide":"left",
+			"label":"wrapped by"
+		},
+		{
+			"id":"edge_1065",
+			"styleAttributes":{},
+			"fromNode":"hub_agents",
+			"fromSide":"right",
+			"toNode":"hub_multimodal",
+			"toSide":"left",
+			"label":"perceives via"
+		},
+		{
+			"id":"edge_1066",
+			"styleAttributes":{},
+			"fromNode":"ag_reasoning",
+			"fromSide":"right",
+			"toNode":"mm_engines",
+			"toSide":"left",
+			"label":"uses vision tools from"
+		},
+		{
+			"id":"edge_1067",
+			"styleAttributes":{},
+			"fromNode":"ag_multiagent",
+			"fromSide":"right",
+			"toNode":"hub_multimodal",
+			"toSide":"left",
+			"label":"coordinates multimodal"
+		},
+		{
+			"id":"edge_1068",
+			"styleAttributes":{},
+			"fromNode":"hub_embeddings",
+			"fromSide":"right",
+			"toNode":"hub_multimodal",
+			"toSide":"left",
+			"label":"embeds modalities for"
+		},
+		{
+			"id":"edge_1069",
+			"styleAttributes":{},
+			"fromNode":"hub_llmops",
+			"fromSide":"bottom",
+			"toNode":"ops_testing",
+			"toSide":"top",
+			"label":"validated by"
+		},
+		{
+			"id":"edge_1070",
+			"styleAttributes":{},
+			"fromNode":"hub_llmops",
+			"fromSide":"bottom",
+			"toNode":"ops_evaluation",
+			"toSide":"top",
+			"label":"measured by"
+		},
+		{
+			"id":"edge_1071",
+			"styleAttributes":{},
+			"fromNode":"hub_llmops",
+			"fromSide":"bottom",
+			"toNode":"ops_observability",
+			"toSide":"top",
+			"label":"traced by"
+		},
+		{
+			"id":"edge_1072",
+			"styleAttributes":{},
+			"fromNode":"hub_llmops",
+			"fromSide":"bottom",
+			"toNode":"ops_guardrails",
+			"toSide":"top",
+			"label":"secured by"
+		},
+		{
+			"id":"edge_1073",
+			"styleAttributes":{},
+			"fromNode":"hub_llmops",
+			"fromSide":"bottom",
+			"toNode":"ops_infra",
+			"toSide":"top",
+			"label":"deployed via"
+		},
+		{
+			"id":"edge_1074",
+			"styleAttributes":{},
+			"fromNode":"ops_testing",
+			"fromSide":"right",
+			"toNode":"ops_evaluation",
+			"toSide":"left",
+			"label":"scored by"
+		},
+		{
+			"id":"edge_1075",
+			"styleAttributes":{},
+			"fromNode":"ops_evaluation",
+			"fromSide":"right",
+			"toNode":"ops_observability",
+			"toSide":"left",
+			"label":"monitored in"
+		},
+		{
+			"id":"edge_1076",
+			"styleAttributes":{},
+			"fromNode":"ops_observability",
+			"fromSide":"right",
+			"toNode":"ops_guardrails",
+			"toSide":"left",
+			"label":"alerts trigger"
+		},
+		{
+			"id":"edge_1077",
+			"styleAttributes":{},
+			"fromNode":"ops_guardrails",
+			"fromSide":"right",
+			"toNode":"ops_infra",
+			"toSide":"left",
+			"label":"deployed on"
+		},
+		{
+			"id":"edge_1078",
+			"styleAttributes":{},
+			"fromNode":"hub_multimodal",
+			"fromSide":"right",
+			"toNode":"hub_llmops",
+			"toSide":"left",
+			"label":"evaluated by"
+		},
+		{
+			"id":"edge_1079",
+			"styleAttributes":{},
+			"fromNode":"mm_engines",
+			"fromSide":"right",
+			"toNode":"ops_guardrails",
+			"toSide":"left",
+			"label":"moderated by"
+		},
+		{
+			"id":"edge_1080",
+			"styleAttributes":{},
+			"fromNode":"hub_agents",
+			"fromSide":"right",
+			"toNode":"hub_llmops",
+			"toSide":"left",
+			"label":"monitored by"
+		},
+		{
+			"id":"edge_1081",
+			"styleAttributes":{},
+			"fromNode":"ag_stategraphs",
+			"fromSide":"right",
+			"toNode":"ops_observability",
+			"toSide":"left",
+			"label":"traced in"
+		},
+		{
+			"id":"edge_1082",
+			"styleAttributes":{},
+			"fromNode":"ag_multiagent",
+			"fromSide":"right",
+			"toNode":"ops_guardrails",
+			"toSide":"left",
+			"label":"secured by"
+		},
+		{
+			"id":"edge_1083",
+			"styleAttributes":{},
+			"fromNode":"hub_rag",
+			"fromSide":"right",
+			"toNode":"ops_evaluation",
+			"toSide":"left",
+			"label":"evaluated by"
+		},
+		{
+			"id":"edge_1084",
+			"styleAttributes":{},
+			"fromNode":"mem_cache",
+			"fromSide":"right",
+			"toNode":"ops_observability",
+			"toSide":"left",
+			"label":"cache metrics in"
+		},
+		{
+			"id":"edge_1085",
+			"styleAttributes":{
+				"path":null
+			},
+			"fromFloating":false,
+			"fromNode":"f_safety",
+			"fromSide":"right",
+			"toNode":"ops_guardrails",
+			"toSide":"left",
+			"label":"enforced by"
+		},
+		{
+			"id":"edge_1086",
+			"styleAttributes":{},
+			"fromNode":"f_prompteng",
+			"fromSide":"right",
+			"toNode":"ops_testing",
+			"toSide":"left",
+			"label":"optimized by"
+		}
+	],
+	"metadata":{
+		"version":"1.0-1.0",
+		"frontmatter":{}
+	}
+}
