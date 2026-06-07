@@ -6,3 +6,6 @@ Cosine similarity measures the cosine of the angle between two non‑zero vector
 ## Formula
 
 For vectors **A** and **B**:
+
+cosine_similarity(A, B) = (A · B) / (||A|| × ||B||)
+= Σ(Ai × Bi) / (√Σ(Ai²) × √Σ(Bi²))
