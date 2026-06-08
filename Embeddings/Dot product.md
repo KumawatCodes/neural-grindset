@@ -58,3 +58,12 @@ dot = a @ b                 # Python 3.5+ (matrix multiplication operator)
 
 # Method 3
 dot = np.sum(a * b)         # element‑wise multiply then sum
+
+```
+For batched vectors (common in embedding retrieval)
+```python
+# Query embedding (single vector) vs. document matrix (N x dim)
+query = np.array([0.2, 0.8, 0.5])        # shape (dim,)
+docs = np.random.rand(1000, 3)           # shape (N, dim)
+
+scores = np.dot(docs, query)             # shape (N,) – each dot product
