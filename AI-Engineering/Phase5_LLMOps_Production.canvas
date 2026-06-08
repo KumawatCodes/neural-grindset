@@ -1,0 +1,1364 @@
+{
+	"nodes": [
+		{
+			"id": "p5_root",
+			"type": "text",
+			"text": "🟣 PHASE 5\nProduction LLMOps\nTesting & Evaluation",
+			"styleAttributes": {},
+			"x": 0,
+			"y": 600,
+			"width": 260,
+			"height": 110,
+			"color": "#a855f7"
+		},
+		{
+			"id": "grp_test",
+			"type": "group",
+			"x": 370,
+			"y": -40,
+			"width": 340,
+			"height": 1100,
+			"label": "🧪 LLM Testing & Optimization"
+		},
+		{
+			"id": "a_hub",
+			"type": "text",
+			"text": "🧪 LLM Testing\n& Automated Optimization",
+			"styleAttributes": {},
+			"x": 410,
+			"y": 0,
+			"width": 260,
+			"height": 90,
+			"color": "#ec4899"
+		},
+		{
+			"id": "a_dspy",
+			"type": "text",
+			"text": "🔷 DSPy Prompt Compiler\n— Replace hand-written prompts\n— dspy.Predict, ChainOfThought\n— BootstrapFewShot optimizer\n— MIPROv2: instruction search",
+			"styleAttributes": {},
+			"x": 410,
+			"y": 120,
+			"width": 260,
+			"height": 110,
+			"color": "#ec4899"
+		},
+		{
+			"id": "a_auto_tune",
+			"type": "text",
+			"text": "◈ Automated Prompt Tuning\n— Metric function definition\n— Training set construction\n— Search over prompt space\n— Optimal few-shot auto-find",
+			"styleAttributes": {},
+			"x": 410,
+			"y": 260,
+			"width": 260,
+			"height": 100,
+			"color": "#ec4899"
+		},
+		{
+			"id": "a_langtest",
+			"type": "text",
+			"text": "◈ LangTest Framework\n— Harness for robustness tests\n— Bias, fairness, accuracy suites\n— augment() adversarial gen\n— run() batch evaluation",
+			"styleAttributes": {},
+			"x": 410,
+			"y": 390,
+			"width": 260,
+			"height": 100,
+			"color": "#ec4899"
+		},
+		{
+			"id": "a_giskard",
+			"type": "text",
+			"text": "◈ Giskard Vulnerability\n— LLM vulnerability scanner\n— Hallucination detection\n— Prompt injection testing\n— Stereotype / PII leakage",
+			"styleAttributes": {},
+			"x": 410,
+			"y": 520,
+			"width": 260,
+			"height": 100,
+			"color": "#ec4899"
+		},
+		{
+			"id": "a_unit",
+			"type": "text",
+			"text": "◈ Unit Testing LLM Outputs\n— pytest + LLM-as-judge\n— deepeval assertion framework\n— Golden dataset regression\n— Deterministic: temperature=0",
+			"styleAttributes": {},
+			"x": 410,
+			"y": 650,
+			"width": 260,
+			"height": 100,
+			"color": "#ec4899"
+		},
+		{
+			"id": "a_ab",
+			"type": "text",
+			"text": "◈ A/B Testing Prompts\n— Traffic split across variants\n— Statistical significance test\n— Champion/challenger promo\n— Math: t-test, p-value < 0.05",
+			"styleAttributes": {},
+			"x": 410,
+			"y": 780,
+			"width": 260,
+			"height": 100,
+			"color": "#ec4899"
+		},
+		{
+			"id": "a_finetune_eval",
+			"type": "text",
+			"text": "◈ Fine-Tune Evaluation\n— BLEU, ROUGE metrics\n— Human eval vs auto-eval\n— Held-out test set design\n— Catastrophic forgetting check",
+			"styleAttributes": {},
+			"x": 410,
+			"y": 910,
+			"width": 260,
+			"height": 90,
+			"color": "#ec4899"
+		},
+		{
+			"id": "a_math_test",
+			"type": "text",
+			"text": "🔷 Evaluation Math\n— Precision = TP/(TP+FP)\n— Recall = TP/(TP+FN)\n— F1 = 2·P·R/(P+R)\n— NDCG for ranked retrieval",
+			"styleAttributes": {},
+			"x": 410,
+			"y": 1020,
+			"width": 260,
+			"height": 80,
+			"color": "#6c3483"
+		},
+		{
+			"id": "grp_eval",
+			"type": "group",
+			"x": 800,
+			"y": -40,
+			"width": 340,
+			"height": 1060,
+			"label": "📊 Evaluation Metrics Matrix"
+		},
+		{
+			"id": "b_hub",
+			"type": "text",
+			"text": "📊 Validation &\nEvaluation Metrics Matrix",
+			"styleAttributes": {},
+			"x": 840,
+			"y": 0,
+			"width": 260,
+			"height": 90,
+			"color": "#f97316"
+		},
+		{
+			"id": "b_rag_triad",
+			"type": "text",
+			"text": "🔷 RAG Triad\n— Context Relevance (0-1)\n— Faithfulness/Groundedness\n— Answer Relevance score\n— Math: harmonic mean",
+			"styleAttributes": {},
+			"x": 840,
+			"y": 120,
+			"width": 260,
+			"height": 110,
+			"color": "#f97316"
+		},
+		{
+			"id": "b_ragas",
+			"type": "text",
+			"text": "🔷 RAGAS Suite\n— context_precision\n— context_recall\n— faithfulness\n— answer_correctness",
+			"styleAttributes": {},
+			"x": 840,
+			"y": 260,
+			"width": 260,
+			"height": 100,
+			"color": "#f97316"
+		},
+		{
+			"id": "b_judge",
+			"type": "text",
+			"text": "◈ LLM-as-Judge\n— GPT-4o evaluator rubric\n— Pairwise comparison\n— Single-answer grading\n— Reference-free evaluation",
+			"styleAttributes": {},
+			"x": 840,
+			"y": 390,
+			"width": 260,
+			"height": 100,
+			"color": "#f97316"
+		},
+		{
+			"id": "b_hallucination",
+			"type": "text",
+			"text": "◈ Hallucination Detection\n— NLI fact verification\n— SelfCheckGPT sampling\n— FactScore entity-level\n— FActScoring pipeline",
+			"styleAttributes": {},
+			"x": 840,
+			"y": 520,
+			"width": 260,
+			"height": 100,
+			"color": "#f97316"
+		},
+		{
+			"id": "b_latency",
+			"type": "text",
+			"text": "◈ Latency & Cost Metrics\n— P50/P95/P99 budgets\n— Tokens-per-dollar efficiency\n— Cost-per-query dashboard\n— Math: percentile formulas",
+			"styleAttributes": {},
+			"x": 840,
+			"y": 650,
+			"width": 260,
+			"height": 100,
+			"color": "#f97316"
+		},
+		{
+			"id": "b_agent_eval",
+			"type": "text",
+			"text": "◈ Agent Evaluation\n— Task success rate\n— Tool call accuracy\n— Step efficiency ratio\n— Trajectory evaluation",
+			"styleAttributes": {},
+			"x": 840,
+			"y": 780,
+			"width": 260,
+			"height": 90,
+			"color": "#f97316"
+		},
+		{
+			"id": "b_human",
+			"type": "text",
+			"text": "◈ Human Evaluation\n— Inter-rater reliability\n— Cohen's kappa: κ=(po-pe)/(1-pe)\n— Likert scale design\n— Crowdsource eval setup",
+			"styleAttributes": {},
+			"x": 840,
+			"y": 900,
+			"width": 260,
+			"height": 90,
+			"color": "#6c3483"
+		},
+		{
+			"id": "b_benchmark",
+			"type": "text",
+			"text": "◈ Standard Benchmarks\n— MMLU, HellaSwag, ARC\n— HumanEval (code)\n— BEIR (retrieval)\n— MT-Bench (chat quality)",
+			"styleAttributes": {},
+			"x": 840,
+			"y": 1000,
+			"width": 260,
+			"height": 70,
+			"color": "#f97316"
+		},
+		{
+			"id": "grp_obs",
+			"type": "group",
+			"x": 1230,
+			"y": -40,
+			"width": 340,
+			"height": 1060,
+			"label": "🔭 Observability & Tracing"
+		},
+		{
+			"id": "c_hub",
+			"type": "text",
+			"text": "🔭 Observability &\nEnterprise Tracing",
+			"styleAttributes": {},
+			"x": 1270,
+			"y": 0,
+			"width": 260,
+			"height": 90,
+			"color": "#06b6d4"
+		},
+		{
+			"id": "c_langfuse",
+			"type": "text",
+			"text": "🔷 Langfuse\n— @observe() decorator\n— Trace/span hierarchy\n— Token cost per trace\n— Prompt version management",
+			"styleAttributes": {},
+			"x": 1270,
+			"y": 120,
+			"width": 260,
+			"height": 100,
+			"color": "#06b6d4"
+		},
+		{
+			"id": "c_phoenix",
+			"type": "text",
+			"text": "🔷 Arize Phoenix\n— px.launch_app() local\n— OpenInference tracing\n— Embedding drift detection\n— Cluster visualization",
+			"styleAttributes": {},
+			"x": 1270,
+			"y": 250,
+			"width": 260,
+			"height": 100,
+			"color": "#06b6d4"
+		},
+		{
+			"id": "c_langsmith",
+			"type": "text",
+			"text": "◈ LangSmith\n— Auto-instrumented LC/LG\n— Run comparison across prompts\n— Dataset from prod traces\n— CI evaluation integration",
+			"styleAttributes": {},
+			"x": 1270,
+			"y": 380,
+			"width": 260,
+			"height": 100,
+			"color": "#06b6d4"
+		},
+		{
+			"id": "c_confident",
+			"type": "text",
+			"text": "◈ Confident AI (DeepEval)\n— Cloud eval platform\n— Metric trending dashboards\n— Regression test suites\n— CI/CD pipeline gates",
+			"styleAttributes": {},
+			"x": 1270,
+			"y": 510,
+			"width": 260,
+			"height": 90,
+			"color": "#06b6d4"
+		},
+		{
+			"id": "c_latency",
+			"type": "text",
+			"text": "◈ Node-Level Latency\n— Per-node execution timing\n— Bottleneck identification\n— Slow reranker detection\n— P95 budget per node",
+			"styleAttributes": {},
+			"x": 1270,
+			"y": 630,
+			"width": 260,
+			"height": 90,
+			"color": "#06b6d4"
+		},
+		{
+			"id": "c_tokens",
+			"type": "text",
+			"text": "◈ Token Usage Tracking\n— Per-model histograms\n— Per-endpoint consumption\n— Anomaly spike detection\n— Budget alert thresholds",
+			"styleAttributes": {},
+			"x": 1270,
+			"y": 750,
+			"width": 260,
+			"height": 90,
+			"color": "#06b6d4"
+		},
+		{
+			"id": "c_otel",
+			"type": "text",
+			"text": "◈ OpenTelemetry\n— Standardized trace propagation\n— LLM spans + DB + HTTP\n— Unified trace dashboard\n— OTLP export to backends",
+			"styleAttributes": {},
+			"x": 1270,
+			"y": 870,
+			"width": 260,
+			"height": 90,
+			"color": "#06b6d4"
+		},
+		{
+			"id": "c_dash",
+			"type": "text",
+			"text": "◈ Observability Dashboards\n— Grafana + Prometheus setup\n— Custom LLM metrics\n— Error rate alerting\n— SLO/SLA tracking",
+			"styleAttributes": {},
+			"x": 1270,
+			"y": 980,
+			"width": 260,
+			"height": 80,
+			"color": "#06b6d4"
+		},
+		{
+			"id": "grp_guard",
+			"type": "group",
+			"x": 1660,
+			"y": -40,
+			"width": 340,
+			"height": 1100,
+			"label": "🔒 Guardrails & Security Ops"
+		},
+		{
+			"id": "d_hub",
+			"type": "text",
+			"text": "🔒 Guardrails, Moderation\n& Security Ops",
+			"styleAttributes": {},
+			"x": 1700,
+			"y": 0,
+			"width": 260,
+			"height": 90,
+			"color": "#ef4444"
+		},
+		{
+			"id": "d_moderation",
+			"type": "text",
+			"text": "🔷 OpenAI Moderation API\n— moderations.create()\n— Categories: hate, violence,\n  self-harm, sexual\n— Pre/post generation filter",
+			"styleAttributes": {},
+			"x": 1700,
+			"y": 120,
+			"width": 260,
+			"height": 110,
+			"color": "#ef4444"
+		},
+		{
+			"id": "d_guardrails",
+			"type": "text",
+			"text": "🔷 Guardrails AI\n— Guard object + validators\n— TwoWords, ValidChoices\n— RegexMatch, LLMCritic\n— Input/output validation pipe",
+			"styleAttributes": {},
+			"x": 1700,
+			"y": 260,
+			"width": 260,
+			"height": 100,
+			"color": "#ef4444"
+		},
+		{
+			"id": "d_injection",
+			"type": "text",
+			"text": "◈ Prompt Injection Defense\n— Input sanitization regex\n— Schema-enforced outputs\n— System prompt leakage prevention\n— Indirect injection via tools",
+			"styleAttributes": {},
+			"x": 1700,
+			"y": 390,
+			"width": 260,
+			"height": 100,
+			"color": "#ef4444"
+		},
+		{
+			"id": "d_pii",
+			"type": "text",
+			"text": "◈ PII Redaction Pipeline\n— Presidio (Microsoft) NER\n— Pre-LLM input redaction\n— Post-gen output redaction\n— GDPR audit trail logging",
+			"styleAttributes": {},
+			"x": 1700,
+			"y": 520,
+			"width": 260,
+			"height": 100,
+			"color": "#ef4444"
+		},
+		{
+			"id": "d_redteam",
+			"type": "text",
+			"text": "◈ Red Teaming & Adversarial\n— PyRIT framework\n— Garak vulnerability scanner\n— Automated jailbreak probing\n— Scheduled CI red team runs",
+			"styleAttributes": {},
+			"x": 1700,
+			"y": 650,
+			"width": 260,
+			"height": 100,
+			"color": "#ef4444"
+		},
+		{
+			"id": "d_json_val",
+			"type": "text",
+			"text": "◈ Structural JSON Validators\n— Pydantic v2 LLM output\n— instructor: retry on fail\n— Outlines constrained decoding\n— Guidance structured gen",
+			"styleAttributes": {},
+			"x": 1700,
+			"y": 780,
+			"width": 260,
+			"height": 100,
+			"color": "#ef4444"
+		},
+		{
+			"id": "d_userid",
+			"type": "text",
+			"text": "◈ End-User ID Tracking\n— user field in API calls\n— Per-user rate limiting\n— Abuse pattern detection\n— Compliance audit export",
+			"styleAttributes": {},
+			"x": 1700,
+			"y": 910,
+			"width": 260,
+			"height": 90,
+			"color": "#ef4444"
+		},
+		{
+			"id": "d_nemo",
+			"type": "text",
+			"text": "◈ NVIDIA NeMo Guardrails\n— Colang policy language\n— Topical / safety / dialog rails\n— LLM-backed rail decisions\n— On/off-topic enforcement",
+			"styleAttributes": {},
+			"x": 1700,
+			"y": 1020,
+			"width": 260,
+			"height": 80,
+			"color": "#ef4444"
+		},
+		{
+			"id": "grp_infra",
+			"type": "group",
+			"x": 2090,
+			"y": -40,
+			"width": 340,
+			"height": 1060,
+			"label": "🏗️ Production Infrastructure"
+		},
+		{
+			"id": "e_hub",
+			"type": "text",
+			"text": "🏗️ Production\nInfrastructure & Deployment",
+			"styleAttributes": {},
+			"x": 2130,
+			"y": 0,
+			"width": 260,
+			"height": 90,
+			"color": "#3b82f6"
+		},
+		{
+			"id": "e_docker",
+			"type": "text",
+			"text": "◈ Docker for Production\n— Multi-stage AI builds\n— nvidia/cuda base images\n— Health checks + graceful stop\n— GPU-enabled containers",
+			"styleAttributes": {},
+			"x": 2130,
+			"y": 120,
+			"width": 260,
+			"height": 100,
+			"color": "#3b82f6"
+		},
+		{
+			"id": "e_k8s",
+			"type": "text",
+			"text": "🔷 Kubernetes for AI\n— GPU node pools\n— nvidia.com/gpu resource limits\n— HPA on queue depth metrics\n— PVC for model weight persist",
+			"styleAttributes": {},
+			"x": 2130,
+			"y": 250,
+			"width": 260,
+			"height": 110,
+			"color": "#3b82f6"
+		},
+		{
+			"id": "e_serving",
+			"type": "text",
+			"text": "🔷 Model Serving\n— vLLM: PagedAttention + batching\n— TGI (Text Gen Inference)\n— Triton Inference Server\n— Ray Serve for multi-model",
+			"styleAttributes": {},
+			"x": 2130,
+			"y": 390,
+			"width": 260,
+			"height": 100,
+			"color": "#3b82f6"
+		},
+		{
+			"id": "e_gateway",
+			"type": "text",
+			"text": "◈ API Gateway Patterns\n— Kong / AWS API Gateway\n— LiteLLM multi-provider proxy\n— Rate limiting per team/product\n— Cost allocation via headers",
+			"styleAttributes": {},
+			"x": 2130,
+			"y": 520,
+			"width": 260,
+			"height": 100,
+			"color": "#3b82f6"
+		},
+		{
+			"id": "e_terraform",
+			"type": "text",
+			"text": "◈ IaC & Terraform\n— AWS EC2/EKS provisioning\n— GPU instance types (g4dn)\n— S3 model artifact storage\n— VPC isolation for AI APIs",
+			"styleAttributes": {},
+			"x": 2130,
+			"y": 650,
+			"width": 260,
+			"height": 90,
+			"color": "#3b82f6"
+		},
+		{
+			"id": "e_loadtest",
+			"type": "text",
+			"text": "◈ Load Testing\n— Locust for LLM endpoints\n— Concurrent user simulation\n— Token throughput benchmarks\n— Bottleneck identification",
+			"styleAttributes": {},
+			"x": 2130,
+			"y": 770,
+			"width": 260,
+			"height": 90,
+			"color": "#3b82f6"
+		},
+		{
+			"id": "e_scaling",
+			"type": "text",
+			"text": "◈ Scaling Strategies\n— Horizontal: replica scaling\n— Vertical: larger GPU instances\n— Model cascading (cheap first)\n— Spot instance inference",
+			"styleAttributes": {},
+			"x": 2130,
+			"y": 890,
+			"width": 260,
+			"height": 90,
+			"color": "#3b82f6"
+		},
+		{
+			"id": "e_math_infra",
+			"type": "text",
+			"text": "◈ Infra Cost Math\n— Token throughput: tok/sec/GPU\n— Cost per 1M tokens formula\n— Break-even: API vs self-host\n— Utilization optimization",
+			"styleAttributes": {},
+			"x": 2130,
+			"y": 1000,
+			"width": 260,
+			"height": 70,
+			"color": "#6c3483"
+		},
+		{
+			"id": "grp_cicd",
+			"type": "group",
+			"x": 2520,
+			"y": -40,
+			"width": 340,
+			"height": 960,
+			"label": "🔄 CI/CD for AI Systems"
+		},
+		{
+			"id": "f_hub",
+			"type": "text",
+			"text": "🔄 CI/CD for AI\nSystems",
+			"styleAttributes": {},
+			"x": 2560,
+			"y": 0,
+			"width": 260,
+			"height": 90,
+			"color": "#8b5cf6"
+		},
+		{
+			"id": "f_pipeline",
+			"type": "text",
+			"text": "🔷 GitHub Actions Pipeline\n— Trigger on PR/push\n— Docker build + push step\n— Eval regression gate\n— Kubernetes rolling deploy",
+			"styleAttributes": {},
+			"x": 2560,
+			"y": 120,
+			"width": 260,
+			"height": 100,
+			"color": "#8b5cf6"
+		},
+		{
+			"id": "f_evalgate",
+			"type": "text",
+			"text": "🔷 Eval Regression Gate\n— No deploy if eval drops\n— RAGAS score threshold\n— Golden dataset comparison\n— Automated pass/fail report",
+			"styleAttributes": {},
+			"x": 2560,
+			"y": 250,
+			"width": 260,
+			"height": 100,
+			"color": "#8b5cf6"
+		},
+		{
+			"id": "f_modelreg",
+			"type": "text",
+			"text": "◈ Model Registry\n— MLflow model versioning\n— Artifact storage (S3)\n— Stage: staging → prod\n— Rollback to prior version",
+			"styleAttributes": {},
+			"x": 2560,
+			"y": 380,
+			"width": 260,
+			"height": 100,
+			"color": "#8b5cf6"
+		},
+		{
+			"id": "f_shadow",
+			"type": "text",
+			"text": "◈ Shadow Deployment\n— New model runs in shadow\n— Compare outputs vs prod\n— No user impact testing\n— Metric comparison reports",
+			"styleAttributes": {},
+			"x": 2560,
+			"y": 510,
+			"width": 260,
+			"height": 90,
+			"color": "#8b5cf6"
+		},
+		{
+			"id": "f_canary",
+			"type": "text",
+			"text": "◈ Canary Deployments\n— 5% → 25% → 100% rollout\n— Auto-rollback on error spike\n— Feature flag integration\n— Gradual traffic shifting",
+			"styleAttributes": {},
+			"x": 2560,
+			"y": 630,
+			"width": 260,
+			"height": 90,
+			"color": "#8b5cf6"
+		},
+		{
+			"id": "f_data_version",
+			"type": "text",
+			"text": "◈ Data Versioning (DVC)\n— Track dataset versions\n— Reproduce experiments\n— Data pipeline DAG\n— S3 / GCS remote storage",
+			"styleAttributes": {},
+			"x": 2560,
+			"y": 750,
+			"width": 260,
+			"height": 90,
+			"color": "#8b5cf6"
+		},
+		{
+			"id": "f_mlflow",
+			"type": "text",
+			"text": "◈ MLflow Experiment Tracking\n— Log params, metrics, artifacts\n— Compare experiment runs\n— Auto-log with LangChain\n— UI for run comparison",
+			"styleAttributes": {},
+			"x": 2560,
+			"y": 870,
+			"width": 260,
+			"height": 90,
+			"color": "#8b5cf6"
+		},
+		{
+			"id": "grp_cost",
+			"type": "group",
+			"x": 2950,
+			"y": -40,
+			"width": 340,
+			"height": 960,
+			"label": "💰 Cost Optimization"
+		},
+		{
+			"id": "g_hub",
+			"type": "text",
+			"text": "💰 Cost Optimization\nStrategies",
+			"styleAttributes": {},
+			"x": 2990,
+			"y": 0,
+			"width": 260,
+			"height": 90,
+			"color": "#10b981"
+		},
+		{
+			"id": "g_cache",
+			"type": "text",
+			"text": "🔷 Prompt Caching\n— Anthropic prefix caching\n— OpenAI cached input tokens\n— 90% discount on cached\n— Cache-aware prompt design",
+			"styleAttributes": {},
+			"x": 2990,
+			"y": 120,
+			"width": 260,
+			"height": 100,
+			"color": "#10b981"
+		},
+		{
+			"id": "g_batch",
+			"type": "text",
+			"text": "◈ Batch API Processing\n— OpenAI Batch API\n— 50% cost reduction\n— 24hr async processing\n— Bulk eval / embed jobs",
+			"styleAttributes": {},
+			"x": 2990,
+			"y": 250,
+			"width": 260,
+			"height": 100,
+			"color": "#10b981"
+		},
+		{
+			"id": "g_cascade",
+			"type": "text",
+			"text": "🔷 Model Cascading\n— Cheap model first (Haiku)\n— Route complex→expensive\n— Confidence-gated escalation\n— Math: expected cost formula",
+			"styleAttributes": {},
+			"x": 2990,
+			"y": 380,
+			"width": 260,
+			"height": 110,
+			"color": "#10b981"
+		},
+		{
+			"id": "g_quantize",
+			"type": "text",
+			"text": "◈ Model Quantization\n— INT8/INT4 inference\n— GGUF format (llama.cpp)\n— 4x memory reduction\n— Minimal quality tradeoff",
+			"styleAttributes": {},
+			"x": 2990,
+			"y": 520,
+			"width": 260,
+			"height": 90,
+			"color": "#10b981"
+		},
+		{
+			"id": "g_compress",
+			"type": "text",
+			"text": "◈ Context Compression\n— LLMLingua token pruning\n— Selective history inclusion\n— Summarization compression\n— 60% token reduction target",
+			"styleAttributes": {},
+			"x": 2990,
+			"y": 640,
+			"width": 260,
+			"height": 90,
+			"color": "#10b981"
+		},
+		{
+			"id": "g_spot",
+			"type": "text",
+			"text": "◈ Spot / Preemptible Infra\n— AWS Spot for inference\n— Checkpointing for recovery\n— 60-90% cost vs on-demand\n— Stateless request design",
+			"styleAttributes": {},
+			"x": 2990,
+			"y": 760,
+			"width": 260,
+			"height": 90,
+			"color": "#10b981"
+		},
+		{
+			"id": "g_math_cost",
+			"type": "text",
+			"text": "🔷 Cost Modeling Math\n— C = (input_tok × p_in) + (output_tok × p_out)\n— ROI = (cost_saved - infra_cost) / infra_cost\n— Break-even analysis\n— TCO: total cost of ownership",
+			"styleAttributes": {},
+			"x": 2990,
+			"y": 880,
+			"width": 260,
+			"height": 100,
+			"color": "#6c3483"
+		}
+	],
+	"edges": [
+		{
+			"id": "e0001",
+			"styleAttributes": {},
+			"fromNode": "p5_root",
+			"fromSide": "right",
+			"toNode": "a_hub",
+			"toSide": "left",
+			"color": "#a855f7"
+		},
+		{
+			"id": "e0002",
+			"styleAttributes": {},
+			"fromNode": "a_hub",
+			"fromSide": "bottom",
+			"toNode": "a_dspy",
+			"toSide": "top",
+			"color": "#ec4899"
+		},
+		{
+			"id": "e0003",
+			"styleAttributes": {},
+			"fromNode": "a_dspy",
+			"fromSide": "bottom",
+			"toNode": "a_auto_tune",
+			"toSide": "top",
+			"color": "#ec4899"
+		},
+		{
+			"id": "e0004",
+			"styleAttributes": {},
+			"fromNode": "a_auto_tune",
+			"fromSide": "bottom",
+			"toNode": "a_langtest",
+			"toSide": "top",
+			"color": "#ec4899"
+		},
+		{
+			"id": "e0005",
+			"styleAttributes": {},
+			"fromNode": "a_langtest",
+			"fromSide": "bottom",
+			"toNode": "a_giskard",
+			"toSide": "top",
+			"color": "#ec4899"
+		},
+		{
+			"id": "e0006",
+			"styleAttributes": {},
+			"fromNode": "a_giskard",
+			"fromSide": "bottom",
+			"toNode": "a_unit",
+			"toSide": "top",
+			"color": "#ec4899"
+		},
+		{
+			"id": "e0007",
+			"styleAttributes": {},
+			"fromNode": "a_unit",
+			"fromSide": "bottom",
+			"toNode": "a_ab",
+			"toSide": "top",
+			"color": "#ec4899"
+		},
+		{
+			"id": "e0008",
+			"styleAttributes": {},
+			"fromNode": "a_ab",
+			"fromSide": "bottom",
+			"toNode": "a_finetune_eval",
+			"toSide": "top",
+			"color": "#ec4899"
+		},
+		{
+			"id": "e0009",
+			"styleAttributes": {},
+			"fromNode": "a_finetune_eval",
+			"fromSide": "bottom",
+			"toNode": "a_math_test",
+			"toSide": "top",
+			"color": "#6c3483"
+		},
+		{
+			"id": "e0010",
+			"styleAttributes": {},
+			"fromNode": "a_hub",
+			"fromSide": "right",
+			"toNode": "b_hub",
+			"toSide": "left",
+			"color": "#f97316"
+		},
+		{
+			"id": "e0011",
+			"styleAttributes": {},
+			"fromNode": "b_hub",
+			"fromSide": "bottom",
+			"toNode": "b_rag_triad",
+			"toSide": "top",
+			"color": "#f97316"
+		},
+		{
+			"id": "e0012",
+			"styleAttributes": {},
+			"fromNode": "b_rag_triad",
+			"fromSide": "bottom",
+			"toNode": "b_ragas",
+			"toSide": "top",
+			"color": "#f97316"
+		},
+		{
+			"id": "e0013",
+			"styleAttributes": {},
+			"fromNode": "b_ragas",
+			"fromSide": "bottom",
+			"toNode": "b_judge",
+			"toSide": "top",
+			"color": "#f97316"
+		},
+		{
+			"id": "e0014",
+			"styleAttributes": {},
+			"fromNode": "b_judge",
+			"fromSide": "bottom",
+			"toNode": "b_hallucination",
+			"toSide": "top",
+			"color": "#f97316"
+		},
+		{
+			"id": "e0015",
+			"styleAttributes": {},
+			"fromNode": "b_hallucination",
+			"fromSide": "bottom",
+			"toNode": "b_latency",
+			"toSide": "top",
+			"color": "#f97316"
+		},
+		{
+			"id": "e0016",
+			"styleAttributes": {},
+			"fromNode": "b_latency",
+			"fromSide": "bottom",
+			"toNode": "b_agent_eval",
+			"toSide": "top",
+			"color": "#f97316"
+		},
+		{
+			"id": "e0017",
+			"styleAttributes": {},
+			"fromNode": "b_agent_eval",
+			"fromSide": "bottom",
+			"toNode": "b_human",
+			"toSide": "top",
+			"color": "#6c3483"
+		},
+		{
+			"id": "e0018",
+			"styleAttributes": {},
+			"fromNode": "b_human",
+			"fromSide": "bottom",
+			"toNode": "b_benchmark",
+			"toSide": "top",
+			"color": "#f97316"
+		},
+		{
+			"id": "e0019",
+			"styleAttributes": {},
+			"fromNode": "b_hub",
+			"fromSide": "right",
+			"toNode": "c_hub",
+			"toSide": "left",
+			"color": "#06b6d4"
+		},
+		{
+			"id": "e0020",
+			"styleAttributes": {},
+			"fromNode": "c_hub",
+			"fromSide": "bottom",
+			"toNode": "c_langfuse",
+			"toSide": "top",
+			"color": "#06b6d4"
+		},
+		{
+			"id": "e0021",
+			"styleAttributes": {},
+			"fromNode": "c_langfuse",
+			"fromSide": "bottom",
+			"toNode": "c_phoenix",
+			"toSide": "top",
+			"color": "#06b6d4"
+		},
+		{
+			"id": "e0022",
+			"styleAttributes": {},
+			"fromNode": "c_phoenix",
+			"fromSide": "bottom",
+			"toNode": "c_langsmith",
+			"toSide": "top",
+			"color": "#06b6d4"
+		},
+		{
+			"id": "e0023",
+			"styleAttributes": {},
+			"fromNode": "c_langsmith",
+			"fromSide": "bottom",
+			"toNode": "c_confident",
+			"toSide": "top",
+			"color": "#06b6d4"
+		},
+		{
+			"id": "e0024",
+			"styleAttributes": {},
+			"fromNode": "c_confident",
+			"fromSide": "bottom",
+			"toNode": "c_latency",
+			"toSide": "top",
+			"color": "#06b6d4"
+		},
+		{
+			"id": "e0025",
+			"styleAttributes": {},
+			"fromNode": "c_latency",
+			"fromSide": "bottom",
+			"toNode": "c_tokens",
+			"toSide": "top",
+			"color": "#06b6d4"
+		},
+		{
+			"id": "e0026",
+			"styleAttributes": {},
+			"fromNode": "c_tokens",
+			"fromSide": "bottom",
+			"toNode": "c_otel",
+			"toSide": "top",
+			"color": "#06b6d4"
+		},
+		{
+			"id": "e0027",
+			"styleAttributes": {},
+			"fromNode": "c_otel",
+			"fromSide": "bottom",
+			"toNode": "c_dash",
+			"toSide": "top",
+			"color": "#06b6d4"
+		},
+		{
+			"id": "e0028",
+			"styleAttributes": {},
+			"fromNode": "c_hub",
+			"fromSide": "right",
+			"toNode": "d_hub",
+			"toSide": "left",
+			"color": "#ef4444"
+		},
+		{
+			"id": "e0029",
+			"styleAttributes": {},
+			"fromNode": "d_hub",
+			"fromSide": "bottom",
+			"toNode": "d_moderation",
+			"toSide": "top",
+			"color": "#ef4444"
+		},
+		{
+			"id": "e0030",
+			"styleAttributes": {},
+			"fromNode": "d_moderation",
+			"fromSide": "bottom",
+			"toNode": "d_guardrails",
+			"toSide": "top",
+			"color": "#ef4444"
+		},
+		{
+			"id": "e0031",
+			"styleAttributes": {},
+			"fromNode": "d_guardrails",
+			"fromSide": "bottom",
+			"toNode": "d_injection",
+			"toSide": "top",
+			"color": "#ef4444"
+		},
+		{
+			"id": "e0032",
+			"styleAttributes": {},
+			"fromNode": "d_injection",
+			"fromSide": "bottom",
+			"toNode": "d_pii",
+			"toSide": "top",
+			"color": "#ef4444"
+		},
+		{
+			"id": "e0033",
+			"styleAttributes": {},
+			"fromNode": "d_pii",
+			"fromSide": "bottom",
+			"toNode": "d_redteam",
+			"toSide": "top",
+			"color": "#ef4444"
+		},
+		{
+			"id": "e0034",
+			"styleAttributes": {},
+			"fromNode": "d_redteam",
+			"fromSide": "bottom",
+			"toNode": "d_json_val",
+			"toSide": "top",
+			"color": "#ef4444"
+		},
+		{
+			"id": "e0035",
+			"styleAttributes": {},
+			"fromNode": "d_json_val",
+			"fromSide": "bottom",
+			"toNode": "d_userid",
+			"toSide": "top",
+			"color": "#ef4444"
+		},
+		{
+			"id": "e0036",
+			"styleAttributes": {},
+			"fromNode": "d_userid",
+			"fromSide": "bottom",
+			"toNode": "d_nemo",
+			"toSide": "top",
+			"color": "#ef4444"
+		},
+		{
+			"id": "e0037",
+			"styleAttributes": {},
+			"fromNode": "d_hub",
+			"fromSide": "right",
+			"toNode": "e_hub",
+			"toSide": "left",
+			"color": "#3b82f6"
+		},
+		{
+			"id": "e0038",
+			"styleAttributes": {},
+			"fromNode": "e_hub",
+			"fromSide": "bottom",
+			"toNode": "e_docker",
+			"toSide": "top",
+			"color": "#3b82f6"
+		},
+		{
+			"id": "e0039",
+			"styleAttributes": {},
+			"fromNode": "e_docker",
+			"fromSide": "bottom",
+			"toNode": "e_k8s",
+			"toSide": "top",
+			"color": "#3b82f6"
+		},
+		{
+			"id": "e0040",
+			"styleAttributes": {},
+			"fromNode": "e_k8s",
+			"fromSide": "bottom",
+			"toNode": "e_serving",
+			"toSide": "top",
+			"color": "#3b82f6"
+		},
+		{
+			"id": "e0041",
+			"styleAttributes": {},
+			"fromNode": "e_serving",
+			"fromSide": "bottom",
+			"toNode": "e_gateway",
+			"toSide": "top",
+			"color": "#3b82f6"
+		},
+		{
+			"id": "e0042",
+			"styleAttributes": {},
+			"fromNode": "e_gateway",
+			"fromSide": "bottom",
+			"toNode": "e_terraform",
+			"toSide": "top",
+			"color": "#3b82f6"
+		},
+		{
+			"id": "e0043",
+			"styleAttributes": {},
+			"fromNode": "e_terraform",
+			"fromSide": "bottom",
+			"toNode": "e_loadtest",
+			"toSide": "top",
+			"color": "#3b82f6"
+		},
+		{
+			"id": "e0044",
+			"styleAttributes": {},
+			"fromNode": "e_loadtest",
+			"fromSide": "bottom",
+			"toNode": "e_scaling",
+			"toSide": "top",
+			"color": "#3b82f6"
+		},
+		{
+			"id": "e0045",
+			"styleAttributes": {},
+			"fromNode": "e_scaling",
+			"fromSide": "bottom",
+			"toNode": "e_math_infra",
+			"toSide": "top",
+			"color": "#6c3483"
+		},
+		{
+			"id": "e0046",
+			"styleAttributes": {},
+			"fromNode": "e_hub",
+			"fromSide": "right",
+			"toNode": "f_hub",
+			"toSide": "left",
+			"color": "#8b5cf6"
+		},
+		{
+			"id": "e0047",
+			"styleAttributes": {},
+			"fromNode": "f_hub",
+			"fromSide": "bottom",
+			"toNode": "f_pipeline",
+			"toSide": "top",
+			"color": "#8b5cf6"
+		},
+		{
+			"id": "e0048",
+			"styleAttributes": {},
+			"fromNode": "f_pipeline",
+			"fromSide": "bottom",
+			"toNode": "f_evalgate",
+			"toSide": "top",
+			"color": "#8b5cf6"
+		},
+		{
+			"id": "e0049",
+			"styleAttributes": {},
+			"fromNode": "f_evalgate",
+			"fromSide": "bottom",
+			"toNode": "f_modelreg",
+			"toSide": "top",
+			"color": "#8b5cf6"
+		},
+		{
+			"id": "e0050",
+			"styleAttributes": {},
+			"fromNode": "f_modelreg",
+			"fromSide": "bottom",
+			"toNode": "f_shadow",
+			"toSide": "top",
+			"color": "#8b5cf6"
+		},
+		{
+			"id": "e0051",
+			"styleAttributes": {},
+			"fromNode": "f_shadow",
+			"fromSide": "bottom",
+			"toNode": "f_canary",
+			"toSide": "top",
+			"color": "#8b5cf6"
+		},
+		{
+			"id": "e0052",
+			"styleAttributes": {},
+			"fromNode": "f_canary",
+			"fromSide": "bottom",
+			"toNode": "f_data_version",
+			"toSide": "top",
+			"color": "#8b5cf6"
+		},
+		{
+			"id": "e0053",
+			"styleAttributes": {},
+			"fromNode": "f_data_version",
+			"fromSide": "bottom",
+			"toNode": "f_mlflow",
+			"toSide": "top",
+			"color": "#8b5cf6"
+		},
+		{
+			"id": "e0054",
+			"styleAttributes": {},
+			"fromNode": "f_hub",
+			"fromSide": "right",
+			"toNode": "g_hub",
+			"toSide": "left",
+			"color": "#10b981"
+		},
+		{
+			"id": "e0055",
+			"styleAttributes": {},
+			"fromNode": "g_hub",
+			"fromSide": "bottom",
+			"toNode": "g_cache",
+			"toSide": "top",
+			"color": "#10b981"
+		},
+		{
+			"id": "e0056",
+			"styleAttributes": {},
+			"fromNode": "g_cache",
+			"fromSide": "bottom",
+			"toNode": "g_batch",
+			"toSide": "top",
+			"color": "#10b981"
+		},
+		{
+			"id": "e0057",
+			"styleAttributes": {},
+			"fromNode": "g_batch",
+			"fromSide": "bottom",
+			"toNode": "g_cascade",
+			"toSide": "top",
+			"color": "#10b981"
+		},
+		{
+			"id": "e0058",
+			"styleAttributes": {},
+			"fromNode": "g_cascade",
+			"fromSide": "bottom",
+			"toNode": "g_quantize",
+			"toSide": "top",
+			"color": "#10b981"
+		},
+		{
+			"id": "e0059",
+			"styleAttributes": {},
+			"fromNode": "g_quantize",
+			"fromSide": "bottom",
+			"toNode": "g_compress",
+			"toSide": "top",
+			"color": "#10b981"
+		},
+		{
+			"id": "e0060",
+			"styleAttributes": {},
+			"fromNode": "g_compress",
+			"fromSide": "bottom",
+			"toNode": "g_spot",
+			"toSide": "top",
+			"color": "#10b981"
+		},
+		{
+			"id": "e0061",
+			"styleAttributes": {},
+			"fromNode": "g_spot",
+			"fromSide": "bottom",
+			"toNode": "g_math_cost",
+			"toSide": "top",
+			"color": "#6c3483"
+		},
+		{
+			"id": "e0062",
+			"styleAttributes": {},
+			"fromNode": "a_unit",
+			"fromSide": "right",
+			"toNode": "b_rag_triad",
+			"toSide": "left",
+			"label": "unit tests use RAG triad",
+			"color": "#fbbf24"
+		},
+		{
+			"id": "e0063",
+			"styleAttributes": {},
+			"fromNode": "b_latency",
+			"fromSide": "right",
+			"toNode": "c_latency",
+			"toSide": "left",
+			"label": "latency tracked in obs",
+			"color": "#fbbf24"
+		},
+		{
+			"id": "e0064",
+			"styleAttributes": {},
+			"fromNode": "c_langfuse",
+			"fromSide": "right",
+			"toNode": "f_evalgate",
+			"toSide": "left",
+			"label": "trace feeds eval gate",
+			"color": "#fbbf24"
+		},
+		{
+			"id": "e0065",
+			"styleAttributes": {},
+			"fromNode": "d_redteam",
+			"fromSide": "right",
+			"toNode": "a_giskard",
+			"toSide": "left",
+			"label": "both scan vulnerabilities",
+			"color": "#fbbf24"
+		},
+		{
+			"id": "e0066",
+			"styleAttributes": {},
+			"fromNode": "e_serving",
+			"fromSide": "right",
+			"toNode": "g_quantize",
+			"toSide": "left",
+			"label": "serving uses quantized",
+			"color": "#fbbf24"
+		},
+		{
+			"id": "e0067",
+			"styleAttributes": {},
+			"fromNode": "f_evalgate",
+			"fromSide": "right",
+			"toNode": "b_ragas",
+			"toSide": "left",
+			"label": "gate uses RAGAS score",
+			"color": "#fbbf24"
+		}
+	],
+	"metadata": {
+		"version": "1.0-1.0",
+		"frontmatter": {}
+	}
+}

@@ -1,228 +1,112 @@
 {
 	"nodes":[
+		{"id":"grp_ingest","type":"group","x":360,"y":-40,"width":350,"height":1270,"color":"4","label":"📥 Ingestion & Document Processing"},
+		{"id":"grp_vdb","type":"group","x":1660,"y":-40,"width":340,"height":1200,"label":"🗄️ Vector Databases"},
+		{"id":"grp_emb","type":"group","x":1230,"y":-40,"width":340,"height":1100,"label":"🧮 Embeddings & Vector Space"},
+		{"id":"grp_search","type":"group","x":2090,"y":-40,"width":340,"height":1060,"label":"🔍 Search & Reranking"},
+		{"id":"grp_paradigm","type":"group","x":2520,"y":-40,"width":340,"height":1060,"label":"🚀 Next-Gen RAG Paradigms"},
+		{"id":"grp_chunk","type":"group","x":840,"y":-40,"width":300,"height":1150,"label":"✂️ Chunking Strategies"},
+		{"id":"grp_special","type":"group","x":2950,"y":-40,"width":340,"height":980,"label":"🔬 Specialized Retrievers"},
+		{"id":"grp_alt","type":"group","x":3380,"y":-40,"width":340,"height":900,"label":"🛠️ RAG Frameworks & Tools"},
 		{
-			"id":"p2_root",
+			"id":"d_hub",
 			"type":"text",
-			"text":"📚 PHASE 2\nAdvanced Retrieval\n& RAG Architectures",
+			"text":"🗄️ Vector Databases\n& ANN Indexes",
 			"styleAttributes":{},
-			"x":0,
-			"y":600,
+			"x":1700,
+			"y":0,
+			"width":260,
+			"height":90,
+			"color":"#2980b9"
+		},
+		{
+			"id":"d_hnsw",
+			"type":"text",
+			"text":"🔷 HNSW Index\n— Hierarchical Navigable\nSmall World graph\n— M (connections), ef_construction\n— Sub-linear ANN search: O(log n)\n— Recall vs speed tradeoff",
+			"styleAttributes":{},
+			"x":1700,
+			"y":120,
+			"width":260,
+			"height":120,
+			"color":"#6c3483"
+		},
+		{
+			"id":"d_ivf",
+			"type":"text",
+			"text":"◈ IVF / IVFFlat / IVFPQ\n— Cluster-based Voronoi\n— nlist centroids, nprobe search\n— PQ: sub-vector codebooks\n— 4x memory compression",
+			"styleAttributes":{},
+			"x":1700,
+			"y":270,
 			"width":260,
 			"height":110,
-			"color":"#e67700"
-		},
-		{"id":"grp_ingest","type":"group","x":370,"y":-40,"width":340,"height":1280,"label":"📥 Ingestion & Document Processing"},
-		{
-			"id":"a_hub",
-			"type":"text",
-			"text":"📥 Ingestion &\nDocument Processing",
-			"styleAttributes":{},
-			"x":410,
-			"y":0,
-			"width":260,
-			"height":90,
-			"color":"#2ecc71"
+			"color":"#6c3483"
 		},
 		{
-			"id":"a_loaders",
+			"id":"d_ann",
 			"type":"text",
-			"text":"◈ Document Loaders\n— PyPDFLoader, WebBaseLoader\n— DirectoryLoader bulk ingestion\n— Notion, Confluence connectors\n— Custom API source loaders",
+			"text":"◈ ANN Search Mechanics\n— Approximate k-NN query\n— Query→graph traversal\n— ef_search tuning\n— Sub-100ms at million scale",
 			"styleAttributes":{},
-			"x":410,
-			"y":120,
+			"x":1700,
+			"y":410,
 			"width":260,
 			"height":100,
-			"color":"#2ecc71"
+			"color":"#2980b9"
 		},
 		{
-			"id":"a_formats",
+			"id":"d_hybrid",
 			"type":"text",
-			"text":"◈ File Format Parsers\n— PDF: pdfplumber layout-aware\n— HTML: BeautifulSoup stripping\n— DOCX: python-docx paragraphs\n— MD: header-aware extraction",
+			"text":"🔷 Hybrid Search\n— BM25 sparse + dense ANN\n— Reciprocal Rank Fusion (RRF)\n— Pinecone sparse-dense index\n— Weaviate BM25+vector",
 			"styleAttributes":{},
-			"x":410,
-			"y":250,
+			"x":1700,
+			"y":670,
 			"width":260,
 			"height":100,
-			"color":"#2ecc71"
+			"color":"#2980b9"
 		},
 		{
-			"id":"a_cleaning",
+			"id":"d_chroma",
 			"type":"text",
-			"text":"◈ Document Cleaning\n— Strip headers, footers, pg#\n— Unicode normalization\n— Dedup identical paragraphs\n— Language detection/filter",
+			"text":"◈ Chroma\n— In-process/client-server\n— PersistentClient, collections\n— Best for: local dev, prototyping\n— LangChain native integration",
 			"styleAttributes":{},
-			"x":410,
-			"y":380,
+			"x":1700,
+			"y":800,
 			"width":260,
 			"height":100,
-			"color":"#2ecc71"
+			"color":"#2980b9"
 		},
 		{
-			"id":"a_metadata",
+			"id":"d_pinecone",
 			"type":"text",
-			"text":"◈ Metadata Enrichment\n— Source URL, doc title\n— Section headers, page numbers\n— Author, creation timestamp\n— Custom taxonomy tagging",
+			"text":"◈ Pinecone\n— Serverless, fully managed\n— Namespace isolation\n— Sparse-dense hybrid support\n— Best for: production, scale",
 			"styleAttributes":{},
-			"x":410,
-			"y":510,
+			"x":1700,
+			"y":920,
 			"width":260,
 			"height":100,
-			"color":"#2ecc71"
+			"color":"#2980b9"
 		},
 		{
-			"id":"a_temporal",
+			"id":"d_qdrant",
 			"type":"text",
-			"text":"◈ Temporal Tagging\n— created_at / updated_at stamps\n— Time-scoped retrieval design\n— Freshness decay weighting\n— TTL-based chunk expiry",
+			"text":"◈ Qdrant / Weaviate / Milvus\n— Qdrant: Rust, payload filter\n— Weaviate: GraphQL, modules\n— Milvus: cloud-native, GPU\n— LanceDB: columnar, embedded",
 			"styleAttributes":{},
-			"x":410,
-			"y":640,
+			"x":1700,
+			"y":1050,
 			"width":260,
 			"height":100,
-			"color":"#2ecc71"
+			"color":"#2980b9"
 		},
 		{
-			"id":"a_autosum",
+			"id":"d_pgvector",
 			"type":"text",
-			"text":"◈ Auto-Summarization\n— Per-chunk LLM summaries\n— Document-level summaries\n— Summaries as alt retrieval\n— Abstract vs detail retrieval",
+			"text":"◈ pgvector (PostgreSQL)\n— VECTOR column type\n— HNSW + IVFFlat indexes\n— Co-located relational+vector\n— v0.8.0: 5.7x perf update",
 			"styleAttributes":{},
-			"x":410,
-			"y":770,
+			"x":1700,
+			"y":1160,
 			"width":260,
-			"height":90,
-			"color":"#2ecc71"
+			"height":70,
+			"color":"#2980b9"
 		},
-		{
-			"id":"a_pipeline",
-			"type":"text",
-			"text":"🔷 Ingestion Pipeline\n— Load → Clean → Chunk\n→ Embed → Store flow\n— Idempotent upsert by doc_id\n— Change-detection diffing",
-			"styleAttributes":{},
-			"x":410,
-			"y":890,
-			"width":260,
-			"height":100,
-			"color":"#2ecc71"
-		},
-		{
-			"id":"a_ocr",
-			"type":"text",
-			"text":"◈ OCR & Scanned Docs\n— Tesseract integration\n— AWS Textract for tables\n— Layout analysis (Unstructured)\n— Image-to-text preprocessing",
-			"styleAttributes":{},
-			"x":410,
-			"y":1020,
-			"width":260,
-			"height":90,
-			"color":"#2ecc71"
-		},
-		{
-			"id":"a_multimodal_ingest",
-			"type":"text",
-			"text":"◈ Multimodal Ingestion\n— Image caption embedding\n— Audio transcript ingestion\n— Table extraction as text\n— Chart data extraction",
-			"styleAttributes":{},
-			"x":410,
-			"y":1140,
-			"width":260,
-			"height":90,
-			"color":"#2ecc71"
-		},
-		{"id":"grp_chunk","type":"group","x":800,"y":-40,"width":340,"height":1100,"label":"✂️ Chunking Strategies"},
-		{
-			"id":"b_hub",
-			"type":"text",
-			"text":"✂️ Chunking Strategies\n& Text Splitting",
-			"styleAttributes":{},
-			"x":840,
-			"y":0,
-			"width":260,
-			"height":90,
-			"color":"#1abc9c"
-		},
-		{
-			"id":"b_fixed",
-			"type":"text",
-			"text":"◈ Fixed-Size Chunking\n— char/token-based splits\n— chunk_size, chunk_overlap\n— Fast, predictable baseline\n— Risk: mid-sentence splits",
-			"styleAttributes":{},
-			"x":840,
-			"y":120,
-			"width":260,
-			"height":100,
-			"color":"#1abc9c"
-		},
-		{
-			"id":"b_semantic",
-			"type":"text",
-			"text":"🔷 Semantic Chunking\n— Embed sentences, compare\n— Split at cosine drop threshold\n— SemanticChunker (LangChain)\n— Preserves topic coherence",
-			"styleAttributes":{},
-			"x":840,
-			"y":250,
-			"width":260,
-			"height":100,
-			"color":"#1abc9c"
-		},
-		{
-			"id":"b_hierarchical",
-			"type":"text",
-			"text":"🔷 Hierarchical / Parent-Child\n— Child (128 tok): precision\n— Parent (512 tok): context fill\n— HierarchicalNodeParser\n— Small-to-big retrieval",
-			"styleAttributes":{},
-			"x":840,
-			"y":380,
-			"width":260,
-			"height":100,
-			"color":"#1abc9c"
-		},
-		{
-			"id":"b_overlap",
-			"type":"text",
-			"text":"◈ Overlap Strategy\n— 10-20% overlap window\n— Boundary info preservation\n— Metadata: chunk_index,\n  prev_id, next_id links",
-			"styleAttributes":{},
-			"x":840,
-			"y":510,
-			"width":260,
-			"height":100,
-			"color":"#1abc9c"
-		},
-		{
-			"id":"b_recursive",
-			"type":"text",
-			"text":"◈ Recursive Text Splitter\n— Priority separator list\n— ['\\n\\n','\\n',' ','']\n— LangChain default splitter\n— Respects paragraph structure",
-			"styleAttributes":{},
-			"x":840,
-			"y":640,
-			"width":260,
-			"height":100,
-			"color":"#1abc9c"
-		},
-		{
-			"id":"b_docspecific",
-			"type":"text",
-			"text":"◈ Doc-Specific Splitters\n— MarkdownHeaderSplitter\n— HTMLHeaderTextSplitter\n— PythonCodeSplitter (AST)\n— LaTeX / JSON splitters",
-			"styleAttributes":{},
-			"x":840,
-			"y":770,
-			"width":260,
-			"height":90,
-			"color":"#1abc9c"
-		},
-		{
-			"id":"b_agentic",
-			"type":"text",
-			"text":"◈ Agentic / LLM Chunking\n— LLM determines split points\n— Proposition-based chunking\n— Atomic fact extraction\n— Dense X retrieval",
-			"styleAttributes":{},
-			"x":840,
-			"y":890,
-			"width":260,
-			"height":90,
-			"color":"#1abc9c"
-		},
-		{
-			"id":"b_eval",
-			"type":"text",
-			"text":"◈ Chunk Quality Evaluation\n— Retrieval precision vs recall\n— Chunk size ablation tests\n— LLM-graded coherence score\n— Math: chunk coverage metric",
-			"styleAttributes":{},
-			"x":840,
-			"y":1000,
-			"width":260,
-			"height":80,
-			"color":"#1abc9c"
-		},
-		{"id":"grp_emb","type":"group","x":1230,"y":-40,"width":340,"height":1100,"label":"🧮 Embeddings & Vector Space"},
 		{
 			"id":"c_hub",
 			"type":"text",
@@ -312,62 +196,6 @@
 			"color":"#9b59b6"
 		},
 		{
-			"id":"c_dim",
-			"type":"text",
-			"text":"◈ Dimensionality\n— High-dim: curse explained\n— PCA / UMAP reduction\n— MRL: lossless truncation\n— Quantization: float32→int8",
-			"styleAttributes":{},
-			"x":1270,
-			"y":1010,
-			"width":260,
-			"height":70,
-			"color":"#6c3483"
-		},
-		{"id":"grp_vdb","type":"group","x":1660,"y":-40,"width":340,"height":1200,"label":"🗄️ Vector Databases"},
-		{
-			"id":"d_hub",
-			"type":"text",
-			"text":"🗄️ Vector Databases\n& ANN Indexes",
-			"styleAttributes":{},
-			"x":1700,
-			"y":0,
-			"width":260,
-			"height":90,
-			"color":"#2980b9"
-		},
-		{
-			"id":"d_hnsw",
-			"type":"text",
-			"text":"🔷 HNSW Index\n— Hierarchical Navigable\nSmall World graph\n— M (connections), ef_construction\n— Sub-linear ANN search: O(log n)\n— Recall vs speed tradeoff",
-			"styleAttributes":{},
-			"x":1700,
-			"y":120,
-			"width":260,
-			"height":120,
-			"color":"#6c3483"
-		},
-		{
-			"id":"d_ivf",
-			"type":"text",
-			"text":"◈ IVF / IVFFlat / IVFPQ\n— Cluster-based Voronoi\n— nlist centroids, nprobe search\n— PQ: sub-vector codebooks\n— 4x memory compression",
-			"styleAttributes":{},
-			"x":1700,
-			"y":270,
-			"width":260,
-			"height":110,
-			"color":"#6c3483"
-		},
-		{
-			"id":"d_ann",
-			"type":"text",
-			"text":"◈ ANN Search Mechanics\n— Approximate k-NN query\n— Query→graph traversal\n— ef_search tuning\n— Sub-100ms at million scale",
-			"styleAttributes":{},
-			"x":1700,
-			"y":410,
-			"width":260,
-			"height":100,
-			"color":"#2980b9"
-		},
-		{
 			"id":"d_filter",
 			"type":"text",
 			"text":"◈ Metadata Filtering\n— Pre-filter (narrows ANN)\n— Post-filter (recall risk)\n— Payload index on fields\n— Filtered latency: 120→70ms",
@@ -379,115 +207,235 @@
 			"color":"#2980b9"
 		},
 		{
-			"id":"d_hybrid",
+			"id":"b_hub",
 			"type":"text",
-			"text":"🔷 Hybrid Search\n— BM25 sparse + dense ANN\n— Reciprocal Rank Fusion (RRF)\n— Pinecone sparse-dense index\n— Weaviate BM25+vector",
+			"text":"✂️ Chunking Strategies\n& Text Splitting",
 			"styleAttributes":{},
-			"x":1700,
-			"y":670,
-			"width":260,
-			"height":100,
-			"color":"#2980b9"
-		},
-		{
-			"id":"d_chroma",
-			"type":"text",
-			"text":"◈ Chroma\n— In-process/client-server\n— PersistentClient, collections\n— Best for: local dev, prototyping\n— LangChain native integration",
-			"styleAttributes":{},
-			"x":1700,
-			"y":800,
-			"width":260,
-			"height":100,
-			"color":"#2980b9"
-		},
-		{
-			"id":"d_pinecone",
-			"type":"text",
-			"text":"◈ Pinecone\n— Serverless, fully managed\n— Namespace isolation\n— Sparse-dense hybrid support\n— Best for: production, scale",
-			"styleAttributes":{},
-			"x":1700,
-			"y":920,
-			"width":260,
-			"height":100,
-			"color":"#2980b9"
-		},
-		{
-			"id":"d_qdrant",
-			"type":"text",
-			"text":"◈ Qdrant / Weaviate / Milvus\n— Qdrant: Rust, payload filter\n— Weaviate: GraphQL, modules\n— Milvus: cloud-native, GPU\n— LanceDB: columnar, embedded",
-			"styleAttributes":{},
-			"x":1700,
-			"y":1050,
-			"width":260,
-			"height":100,
-			"color":"#2980b9"
-		},
-		{
-			"id":"d_pgvector",
-			"type":"text",
-			"text":"◈ pgvector (PostgreSQL)\n— VECTOR column type\n— HNSW + IVFFlat indexes\n— Co-located relational+vector\n— v0.8.0: 5.7x perf update",
-			"styleAttributes":{},
-			"x":1700,
-			"y":1160,
-			"width":260,
-			"height":70,
-			"color":"#2980b9"
-		},
-		{"id":"grp_search","type":"group","x":2090,"y":-40,"width":340,"height":1060,"label":"🔍 Search & Reranking"},
-		{
-			"id":"e_hub",
-			"type":"text",
-			"text":"🔍 Search Algorithms\n& Reranking Pipeline",
-			"styleAttributes":{},
-			"x":2130,
+			"x":840,
 			"y":0,
 			"width":260,
 			"height":90,
-			"color":"#c0392b"
+			"color":"#1abc9c"
 		},
 		{
-			"id":"e_bm25",
+			"id":"b_fixed",
 			"type":"text",
-			"text":"◈ BM25 Sparse Retrieval\n— Best Match 25 algorithm\n— TF-IDF variant with saturation\n— Math: Σ IDF·(tf·(k+1))/(tf+k·(1-b+b·dl/avgdl))\n— Keyword exact match strength",
+			"text":"◈ Fixed-Size Chunking\n— char/token-based splits\n— chunk_size, chunk_overlap\n— Fast, predictable baseline\n— Risk: mid-sentence splits",
 			"styleAttributes":{},
-			"x":2130,
+			"x":840,
 			"y":120,
 			"width":260,
-			"height":120,
+			"height":100,
+			"color":"#1abc9c"
+		},
+		{
+			"id":"b_semantic",
+			"type":"text",
+			"text":"🔷 Semantic Chunking\n— Embed sentences, compare\n— Split at cosine drop threshold\n— SemanticChunker (LangChain)\n— Preserves topic coherence",
+			"styleAttributes":{},
+			"x":840,
+			"y":250,
+			"width":260,
+			"height":100,
+			"color":"#1abc9c"
+		},
+		{
+			"id":"b_hierarchical",
+			"type":"text",
+			"text":"🔷 Hierarchical / Parent-Child\n— Child (128 tok): precision\n— Parent (512 tok): context fill\n— HierarchicalNodeParser\n— Small-to-big retrieval",
+			"styleAttributes":{},
+			"x":840,
+			"y":380,
+			"width":260,
+			"height":100,
+			"color":"#1abc9c"
+		},
+		{
+			"id":"b_recursive",
+			"type":"text",
+			"text":"◈ Recursive Text Splitter\n— Priority separator list\n— ['\\n\\n','\\n',' ','']\n— LangChain default splitter\n— Respects paragraph structure",
+			"styleAttributes":{},
+			"x":840,
+			"y":640,
+			"width":260,
+			"height":100,
+			"color":"#1abc9c"
+		},
+		{
+			"id":"b_docspecific",
+			"type":"text",
+			"text":"◈ Doc-Specific Splitters\n— MarkdownHeaderSplitter\n— HTMLHeaderTextSplitter\n— PythonCodeSplitter (AST)\n— LaTeX / JSON splitters",
+			"styleAttributes":{},
+			"x":840,
+			"y":770,
+			"width":260,
+			"height":90,
+			"color":"#1abc9c"
+		},
+		{
+			"id":"b_agentic",
+			"type":"text",
+			"text":"◈ Agentic / LLM Chunking\n— LLM determines split points\n— Proposition-based chunking\n— Atomic fact extraction\n— Dense X retrieval",
+			"styleAttributes":{},
+			"x":840,
+			"y":890,
+			"width":260,
+			"height":90,
+			"color":"#1abc9c"
+		},
+		{
+			"id":"b_eval",
+			"type":"text",
+			"text":"◈ Chunk Quality Evaluation\n— Retrieval precision vs recall\n— Chunk size ablation tests\n— LLM-graded coherence score\n— Math: chunk coverage metric",
+			"styleAttributes":{},
+			"x":840,
+			"y":1000,
+			"width":260,
+			"height":80,
+			"color":"#1abc9c"
+		},
+		{
+			"id":"c_dim",
+			"type":"text",
+			"text":"◈ Dimensionality\n— High-dim: curse explained\n— PCA / UMAP reduction\n— MRL: lossless truncation\n— Quantization: float32→int8",
+			"styleAttributes":{},
+			"x":1270,
+			"y":1010,
+			"width":260,
+			"height":70,
 			"color":"#6c3483"
 		},
 		{
-			"id":"e_dense",
+			"id":"a_hub",
 			"type":"text",
-			"text":"◈ Dense Retrieval\n— ANN over embedding index\n— bi-encoder architecture\n— DPR (Dense Passage Retrieval)\n— FAISS / Qdrant backend",
+			"text":"📥 Ingestion &\nDocument Processing",
 			"styleAttributes":{},
-			"x":2130,
-			"y":270,
+			"x":410,
+			"y":0,
 			"width":260,
-			"height":100,
-			"color":"#c0392b"
+			"height":90,
+			"color":"#2ecc71"
 		},
 		{
-			"id":"e_rrf",
+			"id":"a_loaders",
 			"type":"text",
-			"text":"🔷 Reciprocal Rank Fusion\n— RRF(d) = Σ 1/(k+rank(d))\n— k=60 default constant\n— Merges sparse + dense lists\n— Parameter-free fusion",
+			"text":"◈ Document Loaders\n— PyPDFLoader, WebBaseLoader\n— DirectoryLoader bulk ingestion\n— Notion, Confluence connectors\n— Custom API source loaders",
 			"styleAttributes":{},
-			"x":2130,
-			"y":400,
+			"x":410,
+			"y":120,
+			"width":260,
+			"height":100,
+			"color":"#2ecc71"
+		},
+		{
+			"id":"a_formats",
+			"type":"text",
+			"text":"◈ File Format Parsers\n— PDF: pdfplumber layout-aware\n— HTML: BeautifulSoup stripping\n— DOCX: python-docx paragraphs\n— MD: header-aware extraction",
+			"styleAttributes":{},
+			"x":410,
+			"y":250,
+			"width":260,
+			"height":100,
+			"color":"#2ecc71"
+		},
+		{
+			"id":"p2_root",
+			"type":"text",
+			"text":"📚 PHASE 2\nAdvanced Retrieval\n& RAG Architectures",
+			"styleAttributes":{},
+			"x":0,
+			"y":600,
 			"width":260,
 			"height":110,
-			"color":"#6c3483"
+			"color":"#e67700"
 		},
 		{
-			"id":"e_crossenc",
+			"id":"a_cleaning",
 			"type":"text",
-			"text":"🔷 Cross-Encoder Reranking\n— Full attention: query+chunk\n— bi-directional relevance\n— 2nd-stage precision filter\n— Slower: used post-ANN",
+			"text":"◈ Document Cleaning\n— Strip headers, footers, pg#\n— Unicode normalization\n— Dedup identical paragraphs\n— Language detection/filter",
 			"styleAttributes":{},
-			"x":2130,
-			"y":540,
+			"x":410,
+			"y":380,
 			"width":260,
 			"height":100,
-			"color":"#c0392b"
+			"color":"#2ecc71"
+		},
+		{
+			"id":"a_metadata",
+			"type":"text",
+			"text":"◈ Metadata Enrichment\n— Source URL, doc title\n— Section headers, page numbers\n— Author, creation timestamp\n— Custom taxonomy tagging",
+			"styleAttributes":{},
+			"x":410,
+			"y":510,
+			"width":260,
+			"height":100,
+			"color":"#2ecc71"
+		},
+		{
+			"id":"a_ocr",
+			"type":"text",
+			"text":"◈ OCR & Scanned Docs\n— Tesseract integration\n— AWS Textract for tables\n— Layout analysis (Unstructured)\n— Image-to-text preprocessing",
+			"styleAttributes":{},
+			"x":410,
+			"y":1020,
+			"width":260,
+			"height":90,
+			"color":"#2ecc71"
+		},
+		{
+			"id":"a_multimodal_ingest",
+			"type":"text",
+			"text":"◈ Multimodal Ingestion\n— Image caption embedding\n— Audio transcript ingestion\n— Table extraction as text\n— Chart data extraction",
+			"styleAttributes":{},
+			"x":410,
+			"y":1140,
+			"width":260,
+			"height":90,
+			"color":"#2ecc71"
+		},
+		{
+			"id":"b_overlap",
+			"type":"text",
+			"text":"◈ Overlap Strategy\n— 10-20% overlap window\n— Boundary info preservation\n— Metadata: chunk_index,\n  prev_id, next_id links",
+			"styleAttributes":{},
+			"x":840,
+			"y":510,
+			"width":260,
+			"height":100,
+			"color":"#1abc9c"
+		},
+		{
+			"id":"a_temporal",
+			"type":"text",
+			"text":"◈ Temporal Tagging\n— created_at / updated_at stamps\n— Time-scoped retrieval design\n— Freshness decay weighting\n— TTL-based chunk expiry",
+			"styleAttributes":{},
+			"x":410,
+			"y":640,
+			"width":260,
+			"height":100,
+			"color":"#2ecc71"
+		},
+		{
+			"id":"a_autosum",
+			"type":"text",
+			"text":"◈ Auto-Summarization\n— Per-chunk LLM summaries\n— Document-level summaries\n— Summaries as alt retrieval\n— Abstract vs detail retrieval",
+			"styleAttributes":{},
+			"x":410,
+			"y":770,
+			"width":260,
+			"height":90,
+			"color":"#2ecc71"
+		},
+		{
+			"id":"a_pipeline",
+			"type":"text",
+			"text":"🔷 Ingestion Pipeline\n— Load → Clean → Chunk\n→ Embed → Store flow\n— Idempotent upsert by doc_id\n— Change-detection diffing",
+			"styleAttributes":{},
+			"x":410,
+			"y":890,
+			"width":260,
+			"height":100,
+			"color":"#2ecc71"
 		},
 		{
 			"id":"e_cohere",
@@ -521,73 +469,6 @@
 			"width":260,
 			"height":90,
 			"color":"#c0392b"
-		},
-		{
-			"id":"e_hyde",
-			"type":"text",
-			"text":"◈ HyDE\n— Generate hypothetical answer\n— Embed the hypothesis\n— Retrieve similar docs\n— Bridges query-doc gap",
-			"styleAttributes":{},
-			"x":2130,
-			"y":1000,
-			"width":260,
-			"height":80,
-			"color":"#c0392b"
-		},
-		{"id":"grp_paradigm","type":"group","x":2520,"y":-40,"width":340,"height":1060,"label":"🚀 Next-Gen RAG Paradigms"},
-		{
-			"id":"f_hub",
-			"type":"text",
-			"text":"🚀 Next-Gen RAG\nParadigms",
-			"styleAttributes":{},
-			"x":2560,
-			"y":0,
-			"width":260,
-			"height":90,
-			"color":"#8e44ad"
-		},
-		{
-			"id":"f_selfrag",
-			"type":"text",
-			"text":"🔷 Self-RAG\n— Retrieval tokens (ISRET)\n— Relevance tokens (ISREL)\n— Support tokens (ISSUP)\n— End-to-end trained model",
-			"styleAttributes":{},
-			"x":2560,
-			"y":120,
-			"width":260,
-			"height":110,
-			"color":"#8e44ad"
-		},
-		{
-			"id":"f_adaptive",
-			"type":"text",
-			"text":"◈ Adaptive Retrieval\n— Query uncertainty scoring\n— Skip retrieval: factual Q\n— Trigger: knowledge-intensive\n— Dynamic retrieval threshold",
-			"styleAttributes":{},
-			"x":2560,
-			"y":260,
-			"width":260,
-			"height":100,
-			"color":"#8e44ad"
-		},
-		{
-			"id":"f_crag",
-			"type":"text",
-			"text":"🔷 Corrective RAG (CRAG)\n— Confidence-scored retrieval\n— Web search fallback trigger\n— Below-threshold: web search\n— Combine retrieved + web",
-			"styleAttributes":{},
-			"x":2560,
-			"y":390,
-			"width":260,
-			"height":100,
-			"color":"#8e44ad"
-		},
-		{
-			"id":"f_agentic",
-			"type":"text",
-			"text":"🔷 Agentic RAG / PlanRAG\n— LLM plans retrieval steps\n— Decomposes complex queries\n— Iterates until evidence full\n— Tool-calling retrieval loop",
-			"styleAttributes":{},
-			"x":2560,
-			"y":520,
-			"width":260,
-			"height":100,
-			"color":"#8e44ad"
 		},
 		{
 			"id":"f_flare",
@@ -633,96 +514,6 @@
 			"height":80,
 			"color":"#8e44ad"
 		},
-		{"id":"grp_special","type":"group","x":2950,"y":-40,"width":340,"height":980,"label":"🔬 Specialized Retrievers"},
-		{
-			"id":"g_hub",
-			"type":"text",
-			"text":"🔬 Specialized Retrieval\nArchitectures",
-			"styleAttributes":{},
-			"x":2990,
-			"y":0,
-			"width":260,
-			"height":90,
-			"color":"#16a085"
-		},
-		{
-			"id":"g_graphrag",
-			"type":"text",
-			"text":"🔷 GraphRAG\n— Entity+relation extraction\n— Knowledge graph traversal\n— Multi-hop reasoning paths\n— Neo4j / NetworkX backend",
-			"styleAttributes":{},
-			"x":2990,
-			"y":120,
-			"width":260,
-			"height":100,
-			"color":"#16a085"
-		},
-		{
-			"id":"g_visionrag",
-			"type":"text",
-			"text":"◈ Vision-RAG\n— CLIP/SigLIP image embeds\n— Cross-modal query routing\n— Image+text evidence fusion\n— LayoutLM for doc images",
-			"styleAttributes":{},
-			"x":2990,
-			"y":250,
-			"width":260,
-			"height":100,
-			"color":"#16a085"
-		},
-		{
-			"id":"g_videorag",
-			"type":"text",
-			"text":"◈ Video-RAG\n— Frame sampling strategies\n— Temporal embedding\n— Segment-level retrieval\n— Timestamp-anchored QA",
-			"styleAttributes":{},
-			"x":2990,
-			"y":380,
-			"width":260,
-			"height":100,
-			"color":"#16a085"
-		},
-		{
-			"id":"g_tar",
-			"type":"text",
-			"text":"◈ Temporal Augmented\nRetrieval (TAR)\n— Time-decay score weighting\n— Recency-biased reranking\n— News/financial domains",
-			"styleAttributes":{},
-			"x":2990,
-			"y":510,
-			"width":260,
-			"height":100,
-			"color":"#16a085"
-		},
-		{
-			"id":"g_gnnrag",
-			"type":"text",
-			"text":"◈ GNN-RAG\n— Graph Neural Network retrieval\n— Node embedding propagation\n— Multi-hop graph attention\n— Knowledge-intensive tasks",
-			"styleAttributes":{},
-			"x":2990,
-			"y":640,
-			"width":260,
-			"height":90,
-			"color":"#16a085"
-		},
-		{
-			"id":"g_instructrag",
-			"type":"text",
-			"text":"◈ InstructRAG\n— Instruction-tuned retrieval\n— Task-specific retriever\n— Retriever-generator co-train\n— Specialized domain RAG",
-			"styleAttributes":{},
-			"x":2990,
-			"y":760,
-			"width":260,
-			"height":90,
-			"color":"#16a085"
-		},
-		{
-			"id":"g_refrag",
-			"type":"text",
-			"text":"◈ REFRAG\n— Reference-Filtered RAG\n— Pre-filter by citation quality\n— Trusted source weighting\n— Provenance-aware retrieval",
-			"styleAttributes":{},
-			"x":2990,
-			"y":880,
-			"width":260,
-			"height":80,
-			"color":"#16a085"
-		},
-		{"id":"grp_alt","type":"group","x":3380,"y":-40,"width":340,"height":900,"label":"🛠️ RAG Frameworks & Tools"},
 		{
 			"id":"h_hub",
 			"type":"text",
@@ -810,6 +601,215 @@
 			"width":260,
 			"height":80,
 			"color":"#6c3483"
+		},
+		{
+			"id":"e_hyde",
+			"type":"text",
+			"text":"◈ HyDE\n— Generate hypothetical answer\n— Embed the hypothesis\n— Retrieve similar docs\n— Bridges query-doc gap",
+			"styleAttributes":{},
+			"x":2130,
+			"y":1000,
+			"width":260,
+			"height":80,
+			"color":"#c0392b"
+		},
+		{
+			"id":"g_hub",
+			"type":"text",
+			"text":"🔬 Specialized Retrieval\nArchitectures",
+			"styleAttributes":{},
+			"x":2990,
+			"y":0,
+			"width":260,
+			"height":90,
+			"color":"#16a085"
+		},
+		{
+			"id":"g_graphrag",
+			"type":"text",
+			"text":"🔷 GraphRAG\n— Entity+relation extraction\n— Knowledge graph traversal\n— Multi-hop reasoning paths\n— Neo4j / NetworkX backend",
+			"styleAttributes":{},
+			"x":2990,
+			"y":120,
+			"width":260,
+			"height":100,
+			"color":"#16a085"
+		},
+		{
+			"id":"g_visionrag",
+			"type":"text",
+			"text":"◈ Vision-RAG\n— CLIP/SigLIP image embeds\n— Cross-modal query routing\n— Image+text evidence fusion\n— LayoutLM for doc images",
+			"styleAttributes":{},
+			"x":2990,
+			"y":250,
+			"width":260,
+			"height":100,
+			"color":"#16a085"
+		},
+		{
+			"id":"g_videorag",
+			"type":"text",
+			"text":"◈ Video-RAG\n— Frame sampling strategies\n— Temporal embedding\n— Segment-level retrieval\n— Timestamp-anchored QA",
+			"styleAttributes":{},
+			"x":2990,
+			"y":380,
+			"width":260,
+			"height":100,
+			"color":"#16a085"
+		},
+		{
+			"id":"f_adaptive",
+			"type":"text",
+			"text":"◈ Adaptive Retrieval\n— Query uncertainty scoring\n— Skip retrieval: factual Q\n— Trigger: knowledge-intensive\n— Dynamic retrieval threshold",
+			"styleAttributes":{},
+			"x":2560,
+			"y":260,
+			"width":260,
+			"height":100,
+			"color":"#8e44ad"
+		},
+		{
+			"id":"g_tar",
+			"type":"text",
+			"text":"◈ Temporal Augmented\nRetrieval (TAR)\n— Time-decay score weighting\n— Recency-biased reranking\n— News/financial domains",
+			"styleAttributes":{},
+			"x":2990,
+			"y":510,
+			"width":260,
+			"height":100,
+			"color":"#16a085"
+		},
+		{
+			"id":"g_gnnrag",
+			"type":"text",
+			"text":"◈ GNN-RAG\n— Graph Neural Network retrieval\n— Node embedding propagation\n— Multi-hop graph attention\n— Knowledge-intensive tasks",
+			"styleAttributes":{},
+			"x":2990,
+			"y":640,
+			"width":260,
+			"height":90,
+			"color":"#16a085"
+		},
+		{
+			"id":"g_instructrag",
+			"type":"text",
+			"text":"◈ InstructRAG\n— Instruction-tuned retrieval\n— Task-specific retriever\n— Retriever-generator co-train\n— Specialized domain RAG",
+			"styleAttributes":{},
+			"x":2990,
+			"y":760,
+			"width":260,
+			"height":90,
+			"color":"#16a085"
+		},
+		{
+			"id":"g_refrag",
+			"type":"text",
+			"text":"◈ REFRAG\n— Reference-Filtered RAG\n— Pre-filter by citation quality\n— Trusted source weighting\n— Provenance-aware retrieval",
+			"styleAttributes":{},
+			"x":2990,
+			"y":880,
+			"width":260,
+			"height":80,
+			"color":"#16a085"
+		},
+		{
+			"id":"f_hub",
+			"type":"text",
+			"text":"🚀 Next-Gen RAG\nParadigms",
+			"styleAttributes":{},
+			"x":2560,
+			"y":0,
+			"width":260,
+			"height":90,
+			"color":"#8e44ad"
+		},
+		{
+			"id":"e_hub",
+			"type":"text",
+			"text":"🔍 Search Algorithms\n& Reranking Pipeline",
+			"styleAttributes":{},
+			"x":2130,
+			"y":0,
+			"width":260,
+			"height":90,
+			"color":"#c0392b"
+		},
+		{
+			"id":"e_bm25",
+			"type":"text",
+			"text":"◈ BM25 Sparse Retrieval\n— Best Match 25 algorithm\n— TF-IDF variant with saturation\n— Math: Σ IDF·(tf·(k+1))/(tf+k·(1-b+b·dl/avgdl))\n— Keyword exact match strength",
+			"styleAttributes":{},
+			"x":2130,
+			"y":120,
+			"width":260,
+			"height":120,
+			"color":"#6c3483"
+		},
+		{
+			"id":"e_dense",
+			"type":"text",
+			"text":"◈ Dense Retrieval\n— ANN over embedding index\n— bi-encoder architecture\n— DPR (Dense Passage Retrieval)\n— FAISS / Qdrant backend",
+			"styleAttributes":{},
+			"x":2130,
+			"y":270,
+			"width":260,
+			"height":100,
+			"color":"#c0392b"
+		},
+		{
+			"id":"e_rrf",
+			"type":"text",
+			"text":"🔷 Reciprocal Rank Fusion\n— RRF(d) = Σ 1/(k+rank(d))\n— k=60 default constant\n— Merges sparse + dense lists\n— Parameter-free fusion",
+			"styleAttributes":{},
+			"x":2130,
+			"y":400,
+			"width":260,
+			"height":110,
+			"color":"#6c3483"
+		},
+		{
+			"id":"e_crossenc",
+			"type":"text",
+			"text":"🔷 Cross-Encoder Reranking\n— Full attention: query+chunk\n— bi-directional relevance\n— 2nd-stage precision filter\n— Slower: used post-ANN",
+			"styleAttributes":{},
+			"x":2130,
+			"y":540,
+			"width":260,
+			"height":100,
+			"color":"#c0392b"
+		},
+		{
+			"id":"f_crag",
+			"type":"text",
+			"text":"🔷 Corrective RAG (CRAG)\n— Confidence-scored retrieval\n— Web search fallback trigger\n— Below-threshold: web search\n— Combine retrieved + web",
+			"styleAttributes":{},
+			"x":2560,
+			"y":390,
+			"width":260,
+			"height":100,
+			"color":"#8e44ad"
+		},
+		{
+			"id":"f_agentic",
+			"type":"text",
+			"text":"🔷 Agentic RAG / PlanRAG\n— LLM plans retrieval steps\n— Decomposes complex queries\n— Iterates until evidence full\n— Tool-calling retrieval loop",
+			"styleAttributes":{},
+			"x":2560,
+			"y":520,
+			"width":260,
+			"height":100,
+			"color":"#8e44ad"
+		},
+		{
+			"id":"f_selfrag",
+			"type":"text",
+			"text":"🔷 Self-RAG\n— Retrieval tokens (ISRET)\n— Relevance tokens (ISREL)\n— Support tokens (ISSUP)\n— End-to-end trained model",
+			"styleAttributes":{},
+			"x":2560,
+			"y":120,
+			"width":260,
+			"height":110,
+			"color":"#8e44ad"
 		}
 	],
 	"edges":[
@@ -1468,8 +1468,8 @@
 			"fromSide":"right",
 			"toNode":"d_hnsw",
 			"toSide":"left",
-			"label":"same metric powers index",
-			"color":"#f39c12"
+			"color":"#f39c12",
+			"label":"same metric powers index"
 		},
 		{
 			"id":"e0074",
@@ -1478,8 +1478,8 @@
 			"fromSide":"right",
 			"toNode":"e_dense",
 			"toSide":"left",
-			"label":"same model used",
-			"color":"#f39c12"
+			"color":"#f39c12",
+			"label":"same model used"
 		},
 		{
 			"id":"e0075",
@@ -1488,8 +1488,8 @@
 			"fromSide":"right",
 			"toNode":"e_rrf",
 			"toSide":"left",
-			"label":"hybrid uses RRF",
-			"color":"#f39c12"
+			"color":"#f39c12",
+			"label":"hybrid uses RRF"
 		},
 		{
 			"id":"e0076",
@@ -1498,8 +1498,8 @@
 			"fromSide":"right",
 			"toNode":"f_crag",
 			"toSide":"left",
-			"label":"reranker in CRAG",
-			"color":"#f39c12"
+			"color":"#f39c12",
+			"label":"reranker in CRAG"
 		},
 		{
 			"id":"e0077",
@@ -1508,8 +1508,8 @@
 			"fromSide":"right",
 			"toNode":"c_cosine",
 			"toSide":"left",
-			"label":"semantic split uses cosine",
-			"color":"#f39c12"
+			"color":"#f39c12",
+			"label":"semantic split uses cosine"
 		},
 		{
 			"id":"e0078",
@@ -1518,8 +1518,8 @@
 			"fromSide":"right",
 			"toNode":"g_graphrag",
 			"toSide":"left",
-			"label":"agents traverse graphs",
-			"color":"#f39c12"
+			"color":"#f39c12",
+			"label":"agents traverse graphs"
 		}
 	],
 	"metadata":{

@@ -8,17 +8,6 @@
 		{"id":"grp_safety","type":"group","x":2100,"y":0,"width":340,"height":1000,"label":"🛡️ AI Safety & Ethics"},
 		{"id":"grp_oss","type":"group","x":2530,"y":0,"width":340,"height":1000,"label":"🔓 Open Source AI Engineering"},
 		{
-			"id":"p1_root",
-			"type":"text",
-			"text":"🎓 PHASE 1\nCore AI Foundations\n& Prerequisites",
-			"styleAttributes":{},
-			"x":0,
-			"y":600,
-			"width":260,
-			"height":110,
-			"color":"#c0392b"
-		},
-		{
 			"id":"b_tokenization",
 			"type":"text",
 			"text":"◈ Tokenization\n— BPE (Byte-Pair Encoding)\n— tiktoken library\n— Token counting per model\n— Math: vocabulary compression",
@@ -96,37 +85,37 @@
 			"color":"#8e44ad"
 		},
 		{
-			"id":"c_openai",
+			"id":"b_hub",
 			"type":"text",
-			"text":"🔷 OpenAI\n— GPT-4o, o1, o3 models\n— Realtime API, Assistants v2\n— Structured Outputs, Batch API\n— Context: 128k tokens",
+			"text":"🧠 LLM Fundamentals\n& Context Windows",
 			"styleAttributes":{},
-			"x":1280,
-			"y":280,
+			"x":850,
+			"y":40,
 			"width":260,
-			"height":100,
-			"color":"#16a085"
+			"height":90,
+			"color":"#8e44ad"
 		},
 		{
-			"id":"c_anthropic",
+			"id":"b_transformer",
 			"type":"text",
-			"text":"🔷 Anthropic Claude\n— Claude 3.5 Sonnet/Opus\n— 200k context window\n— Computer Use beta\n— Constitutional AI alignment",
+			"text":"🔷 Transformer Architecture\n— Self-attention mechanism\n— Math: Attention(Q,K,V)=softmax(QKᵀ/√dk)V\n— Multi-head attention",
 			"styleAttributes":{},
-			"x":1280,
-			"y":410,
+			"x":850,
+			"y":160,
 			"width":260,
-			"height":100,
-			"color":"#16a085"
+			"height":110,
+			"color":"#8e44ad"
 		},
 		{
-			"id":"c_google",
+			"id":"p1_root",
 			"type":"text",
-			"text":"🔷 Google Gemini\n— Gemini 1.5 Pro (1M ctx)\n— Vertex AI integration\n— Multimodal-native arch\n— Google AI Studio API",
+			"text":"🎓 PHASE 1\nCore AI Foundations\n& Prerequisites",
 			"styleAttributes":{},
-			"x":1280,
-			"y":540,
+			"x":0,
+			"y":600,
 			"width":260,
-			"height":100,
-			"color":"#16a085"
+			"height":110,
+			"color":"#c0392b"
 		},
 		{
 			"id":"a_hub",
@@ -184,36 +173,14 @@
 			"color":"#e67e22"
 		},
 		{
-			"id":"b_hub",
-			"type":"text",
-			"text":"🧠 LLM Fundamentals\n& Context Windows",
-			"styleAttributes":{},
-			"x":850,
-			"y":40,
-			"width":260,
-			"height":90,
-			"color":"#8e44ad"
-		},
-		{
-			"id":"b_transformer",
-			"type":"text",
-			"text":"🔷 Transformer Architecture\n— Self-attention mechanism\n— Math: Attention(Q,K,V)=softmax(QKᵀ/√dk)V\n— Multi-head attention",
-			"styleAttributes":{},
-			"x":850,
-			"y":160,
-			"width":260,
-			"height":110,
-			"color":"#8e44ad"
-		},
-		{
 			"id":"a_asyncio",
 			"type":"text",
-			"text":"◈ asyncio & Event Loop\n— coroutines, tasks, gather()\n— non-blocking LLM calls\n— Math: concurrency model",
+			"text":"◈[[01_Async-IO-and-Event-Loop]]\n— coroutines, tasks, gather()\n— non-blocking LLM calls\n— Math: concurrency model",
 			"styleAttributes":{},
 			"x":420,
 			"y":170,
 			"width":260,
-			"height":100,
+			"height":110,
 			"color":"#e67e22"
 		},
 		{
@@ -292,6 +259,50 @@
 			"width":260,
 			"height":100,
 			"color":"#6c3483"
+		},
+		{
+			"id":"d_structured",
+			"type":"text",
+			"text":"◈ Structured Output Prompting\n— XML tag scaffolding\n— JSON schema in prompt\n— Constrained decoding (Outlines)\n— instructor library patterns",
+			"styleAttributes":{},
+			"x":1710,
+			"y":690,
+			"width":260,
+			"height":100,
+			"color":"#d35400"
+		},
+		{
+			"id":"d_gateway",
+			"type":"text",
+			"text":"◈ API Gateways & Rate Limiting\n— Token bucket counters\n— Exponential backoff\n— Request queuing patterns\n— Session routing by user_id",
+			"styleAttributes":{},
+			"x":1710,
+			"y":820,
+			"width":260,
+			"height":100,
+			"color":"#d35400"
+		},
+		{
+			"id":"d_compression",
+			"type":"text",
+			"text":"◈ Prompt Compression\n— LLMLingua: token pruning\n— Selective context inclusion\n— Summarization-based compression\n— Math: compression ratio metrics",
+			"styleAttributes":{},
+			"x":1710,
+			"y":950,
+			"width":260,
+			"height":100,
+			"color":"#d35400"
+		},
+		{
+			"id":"d_hyde",
+			"type":"text",
+			"text":"◈ HyDE Prompting\n— Hypothetical Document\nEmbeddings for retrieval\n— Bridges query-doc gap",
+			"styleAttributes":{},
+			"x":1710,
+			"y":1080,
+			"width":260,
+			"height":80,
+			"color":"#d35400"
 		},
 		{
 			"id":"f_transformersjs",
@@ -547,28 +558,6 @@
 			"color":"#d35400"
 		},
 		{
-			"id":"d_structured",
-			"type":"text",
-			"text":"◈ Structured Output Prompting\n— XML tag scaffolding\n— JSON schema in prompt\n— Constrained decoding (Outlines)\n— instructor library patterns",
-			"styleAttributes":{},
-			"x":1710,
-			"y":690,
-			"width":260,
-			"height":100,
-			"color":"#d35400"
-		},
-		{
-			"id":"d_gateway",
-			"type":"text",
-			"text":"◈ API Gateways & Rate Limiting\n— Token bucket counters\n— Exponential backoff\n— Request queuing patterns\n— Session routing by user_id",
-			"styleAttributes":{},
-			"x":1710,
-			"y":820,
-			"width":260,
-			"height":100,
-			"color":"#d35400"
-		},
-		{
 			"id":"e_injection",
 			"type":"text",
 			"text":"◈ Prompt Injection\n— Direct injection vectors\n— Indirect via tool outputs\n— Jailbreak pattern taxonomy\n— Defense: schema enforcement",
@@ -602,6 +591,50 @@
 			"color":"#c0392b"
 		},
 		{
+			"id":"c_azure",
+			"type":"text",
+			"text":"◈ Azure AI\n— Enterprise VPC isolation\n— Managed endpoints\n— Fine-tune pipelines\n— Compliance & data residency",
+			"styleAttributes":{},
+			"x":1280,
+			"y":670,
+			"width":260,
+			"height":90,
+			"color":"#16a085"
+		},
+		{
+			"id":"c_openai",
+			"type":"text",
+			"text":"🔷 OpenAI\n— GPT-4o, o1, o3 models\n— Realtime API, Assistants v2\n— Structured Outputs, Batch API\n— Context: 128k tokens",
+			"styleAttributes":{},
+			"x":1280,
+			"y":280,
+			"width":260,
+			"height":100,
+			"color":"#16a085"
+		},
+		{
+			"id":"c_anthropic",
+			"type":"text",
+			"text":"🔷 Anthropic Claude\n— Claude 3.5 Sonnet/Opus\n— 200k context window\n— Computer Use beta\n— Constitutional AI alignment",
+			"styleAttributes":{},
+			"x":1280,
+			"y":410,
+			"width":260,
+			"height":100,
+			"color":"#16a085"
+		},
+		{
+			"id":"c_google",
+			"type":"text",
+			"text":"🔷 Google Gemini\n— Gemini 1.5 Pro (1M ctx)\n— Vertex AI integration\n— Multimodal-native arch\n— Google AI Studio API",
+			"styleAttributes":{},
+			"x":1280,
+			"y":540,
+			"width":260,
+			"height":100,
+			"color":"#16a085"
+		},
+		{
 			"id":"c_hub",
 			"type":"text",
 			"text":"🌐 Model Provider\nEcosystems",
@@ -619,17 +652,6 @@
 			"styleAttributes":{},
 			"x":1280,
 			"y":160,
-			"width":260,
-			"height":90,
-			"color":"#16a085"
-		},
-		{
-			"id":"c_azure",
-			"type":"text",
-			"text":"◈ Azure AI\n— Enterprise VPC isolation\n— Managed endpoints\n— Fine-tune pipelines\n— Compliance & data residency",
-			"styleAttributes":{},
-			"x":1280,
-			"y":670,
 			"width":260,
 			"height":90,
 			"color":"#16a085"
@@ -677,28 +699,6 @@
 			"width":260,
 			"height":50,
 			"color":"#16a085"
-		},
-		{
-			"id":"d_compression",
-			"type":"text",
-			"text":"◈ Prompt Compression\n— LLMLingua: token pruning\n— Selective context inclusion\n— Summarization-based compression\n— Math: compression ratio metrics",
-			"styleAttributes":{},
-			"x":1710,
-			"y":950,
-			"width":260,
-			"height":100,
-			"color":"#d35400"
-		},
-		{
-			"id":"d_hyde",
-			"type":"text",
-			"text":"◈ HyDE Prompting\n— Hypothetical Document\nEmbeddings for retrieval\n— Bridges query-doc gap",
-			"styleAttributes":{},
-			"x":1710,
-			"y":1080,
-			"width":260,
-			"height":80,
-			"color":"#d35400"
 		}
 	],
 	"edges":[
