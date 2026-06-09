@@ -98,7 +98,7 @@
 		{
 			"id":"b_transformer",
 			"type":"text",
-			"text":"🔷 Transformer Architecture\n— Self-attention mechanism\n— Math: Attention(Q,K,V)=softmax(QKᵀ/√dk)V\n— Multi-head attention",
+			"text":"## 🔷 [[Transformer Architecture]]",
 			"styleAttributes":{},
 			"x":850,
 			"y":160,
@@ -261,48 +261,48 @@
 			"color":"#6c3483"
 		},
 		{
-			"id":"d_structured",
+			"id":"c_azure",
 			"type":"text",
-			"text":"◈ Structured Output Prompting\n— XML tag scaffolding\n— JSON schema in prompt\n— Constrained decoding (Outlines)\n— instructor library patterns",
+			"text":"◈ Azure AI\n— Enterprise VPC isolation\n— Managed endpoints\n— Fine-tune pipelines\n— Compliance & data residency",
 			"styleAttributes":{},
-			"x":1710,
-			"y":690,
+			"x":1280,
+			"y":670,
 			"width":260,
-			"height":100,
-			"color":"#d35400"
+			"height":90,
+			"color":"#16a085"
 		},
 		{
-			"id":"d_gateway",
+			"id":"c_aws",
 			"type":"text",
-			"text":"◈ API Gateways & Rate Limiting\n— Token bucket counters\n— Exponential backoff\n— Request queuing patterns\n— Session routing by user_id",
+			"text":"◈ AWS SageMaker\n— Bedrock model access\n— Endpoint deployment\n— Auto-scaling inference\n— IAM integration",
 			"styleAttributes":{},
-			"x":1710,
-			"y":820,
+			"x":1280,
+			"y":790,
 			"width":260,
-			"height":100,
-			"color":"#d35400"
+			"height":90,
+			"color":"#16a085"
 		},
 		{
-			"id":"d_compression",
+			"id":"c_hf",
 			"type":"text",
-			"text":"◈ Prompt Compression\n— LLMLingua: token pruning\n— Selective context inclusion\n— Summarization-based compression\n— Math: compression ratio metrics",
+			"text":"🔷 Hugging Face Hub\n— transformers library\n— Inference API & Spaces\n— Model cards & datasets\n— accelerate & PEFT",
 			"styleAttributes":{},
-			"x":1710,
-			"y":950,
+			"x":1280,
+			"y":910,
 			"width":260,
-			"height":100,
-			"color":"#d35400"
+			"height":90,
+			"color":"#27ae60"
 		},
 		{
-			"id":"d_hyde",
+			"id":"c_ollama",
 			"type":"text",
-			"text":"◈ HyDE Prompting\n— Hypothetical Document\nEmbeddings for retrieval\n— Bridges query-doc gap",
+			"text":"◈ Ollama SDK\n— Local model serving\n— llama3, mistral, phi3\n— Modelfile authoring\n— GPU layer offloading",
 			"styleAttributes":{},
-			"x":1710,
-			"y":1080,
+			"x":1280,
+			"y":1030,
 			"width":260,
-			"height":80,
-			"color":"#d35400"
+			"height":90,
+			"color":"#27ae60"
 		},
 		{
 			"id":"f_transformersjs",
@@ -503,6 +503,50 @@
 			"color":"#27ae60"
 		},
 		{
+			"id":"d_structured",
+			"type":"text",
+			"text":"◈ Structured Output Prompting\n— XML tag scaffolding\n— JSON schema in prompt\n— Constrained decoding (Outlines)\n— instructor library patterns",
+			"styleAttributes":{},
+			"x":1710,
+			"y":690,
+			"width":260,
+			"height":100,
+			"color":"#d35400"
+		},
+		{
+			"id":"d_gateway",
+			"type":"text",
+			"text":"◈ API Gateways & Rate Limiting\n— Token bucket counters\n— Exponential backoff\n— Request queuing patterns\n— Session routing by user_id",
+			"styleAttributes":{},
+			"x":1710,
+			"y":820,
+			"width":260,
+			"height":100,
+			"color":"#d35400"
+		},
+		{
+			"id":"d_compression",
+			"type":"text",
+			"text":"◈ Prompt Compression\n— LLMLingua: token pruning\n— Selective context inclusion\n— Summarization-based compression\n— Math: compression ratio metrics",
+			"styleAttributes":{},
+			"x":1710,
+			"y":950,
+			"width":260,
+			"height":100,
+			"color":"#d35400"
+		},
+		{
+			"id":"d_hyde",
+			"type":"text",
+			"text":"◈ HyDE Prompting\n— Hypothetical Document\nEmbeddings for retrieval\n— Bridges query-doc gap",
+			"styleAttributes":{},
+			"x":1710,
+			"y":1080,
+			"width":260,
+			"height":80,
+			"color":"#d35400"
+		},
+		{
 			"id":"d_hub",
 			"type":"text",
 			"text":"✍️ Prompt Engineering\n& Chat Completions",
@@ -520,39 +564,6 @@
 			"styleAttributes":{},
 			"x":1710,
 			"y":160,
-			"width":260,
-			"height":100,
-			"color":"#d35400"
-		},
-		{
-			"id":"d_fewshot",
-			"type":"text",
-			"text":"◈ Few-Shot Prompting\n— In-context example format\n— Dynamic few-shot from retrieval\n— Shot selection strategies\n— Example ordering effects",
-			"styleAttributes":{},
-			"x":1710,
-			"y":290,
-			"width":260,
-			"height":100,
-			"color":"#d35400"
-		},
-		{
-			"id":"d_cot",
-			"type":"text",
-			"text":"🔷 Chain-of-Thought (CoT)\n— Zero-shot CoT: 'Think step by step'\n— Self-consistency voting\n— Tree-of-Thought extension\n— Math: majority vote across chains",
-			"styleAttributes":{},
-			"x":1710,
-			"y":420,
-			"width":260,
-			"height":110,
-			"color":"#d35400"
-		},
-		{
-			"id":"d_react",
-			"type":"text",
-			"text":"◈ ReAct Prompting\n— Thought → Action → Observation\n— Tool-grounded reasoning\n— Iterative refinement loops\n— Grounding via observations",
-			"styleAttributes":{},
-			"x":1710,
-			"y":560,
 			"width":260,
 			"height":100,
 			"color":"#d35400"
@@ -591,15 +602,37 @@
 			"color":"#c0392b"
 		},
 		{
-			"id":"c_azure",
+			"id":"d_fewshot",
 			"type":"text",
-			"text":"◈ Azure AI\n— Enterprise VPC isolation\n— Managed endpoints\n— Fine-tune pipelines\n— Compliance & data residency",
+			"text":"◈ Few-Shot Prompting\n— In-context example format\n— Dynamic few-shot from retrieval\n— Shot selection strategies\n— Example ordering effects",
 			"styleAttributes":{},
-			"x":1280,
-			"y":670,
+			"x":1710,
+			"y":290,
 			"width":260,
-			"height":90,
-			"color":"#16a085"
+			"height":100,
+			"color":"#d35400"
+		},
+		{
+			"id":"d_cot",
+			"type":"text",
+			"text":"🔷 Chain-of-Thought (CoT)\n— Zero-shot CoT: 'Think step by step'\n— Self-consistency voting\n— Tree-of-Thought extension\n— Math: majority vote across chains",
+			"styleAttributes":{},
+			"x":1710,
+			"y":420,
+			"width":260,
+			"height":110,
+			"color":"#d35400"
+		},
+		{
+			"id":"d_react",
+			"type":"text",
+			"text":"◈ ReAct Prompting\n— Thought → Action → Observation\n— Tool-grounded reasoning\n— Iterative refinement loops\n— Grounding via observations",
+			"styleAttributes":{},
+			"x":1710,
+			"y":560,
+			"width":260,
+			"height":100,
+			"color":"#d35400"
 		},
 		{
 			"id":"c_openai",
@@ -655,39 +688,6 @@
 			"width":260,
 			"height":90,
 			"color":"#16a085"
-		},
-		{
-			"id":"c_aws",
-			"type":"text",
-			"text":"◈ AWS SageMaker\n— Bedrock model access\n— Endpoint deployment\n— Auto-scaling inference\n— IAM integration",
-			"styleAttributes":{},
-			"x":1280,
-			"y":790,
-			"width":260,
-			"height":90,
-			"color":"#16a085"
-		},
-		{
-			"id":"c_hf",
-			"type":"text",
-			"text":"🔷 Hugging Face Hub\n— transformers library\n— Inference API & Spaces\n— Model cards & datasets\n— accelerate & PEFT",
-			"styleAttributes":{},
-			"x":1280,
-			"y":910,
-			"width":260,
-			"height":90,
-			"color":"#27ae60"
-		},
-		{
-			"id":"c_ollama",
-			"type":"text",
-			"text":"◈ Ollama SDK\n— Local model serving\n— llama3, mistral, phi3\n— Modelfile authoring\n— GPU layer offloading",
-			"styleAttributes":{},
-			"x":1280,
-			"y":1030,
-			"width":260,
-			"height":90,
-			"color":"#27ae60"
 		},
 		{
 			"id":"c_litellm",
