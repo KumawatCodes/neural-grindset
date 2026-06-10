@@ -1,1334 +1,1278 @@
 {
-	"nodes": [
-		{
-			"id": "p4_root",
-			"type": "text",
-			"text": "🤖 PHASE 4\nAutonomous Agents\n& Cognitive State Graphs",
-			"styleAttributes": {},
-			"x": 0,
-			"y": 600,
-			"width": 260,
-			"height": 110,
-			"color": "#e84393"
-		},
-		{
-			"id": "grp_reason",
-			"type": "group",
-			"x": 370,
-			"y": -40,
-			"width": 340,
-			"height": 1180,
-			"label": "🧩 Agent Reasoning Loops"
-		},
-		{
-			"id": "a_hub",
-			"type": "text",
-			"text": "🧩 Agent Reasoning\nLoops & Cognition",
-			"styleAttributes": {},
-			"x": 410,
-			"y": 0,
-			"width": 260,
-			"height": 90,
-			"color": "#3498db"
-		},
-		{
-			"id": "a_react",
-			"type": "text",
-			"text": "🔷 ReAct Framework\n— Thought → Action → Observation\n— Tool-grounded reasoning\n— Iterative refinement cycle\n— Paper: Yao et al. 2022",
-			"styleAttributes": {},
-			"x": 410,
-			"y": 120,
-			"width": 260,
-			"height": 110,
-			"color": "#3498db"
-		},
-		{
-			"id": "a_plansolve",
-			"type": "text",
-			"text": "◈ Plan-and-Solve\n— Phase 1: explicit plan generation\n— Phase 2: sequential execution\n— Reduces lost-in-middle failures\n— Plan tracking state variable",
-			"styleAttributes": {},
-			"x": 410,
-			"y": 260,
-			"width": 260,
-			"height": 100,
-			"color": "#3498db"
-		},
-		{
-			"id": "a_reflection",
-			"type": "text",
-			"text": "🔷 Reflection & Self-Critique\n— Agent critiques own output\n— Gap identification loop\n— Reflexion paper architecture\n— Score-threshold re-attempt",
-			"styleAttributes": {},
-			"x": 410,
-			"y": 390,
-			"width": 260,
-			"height": 100,
-			"color": "#3498db"
-		},
-		{
-			"id": "a_selfcorrect",
-			"type": "text",
-			"text": "◈ Self-Correction\n— LLM-as-judge self-scoring\n— Rewrite below-threshold\n— Max retry ceiling\n— Escalate to human if fail",
-			"styleAttributes": {},
-			"x": 410,
-			"y": 520,
-			"width": 260,
-			"height": 100,
-			"color": "#3498db"
-		},
-		{
-			"id": "a_cot_agent",
-			"type": "text",
-			"text": "◈ CoT in Agents\n— Chain-of-thought as scratchpad\n— Internal monologue pattern\n— Structured reasoning traces\n— Tree-of-Thought search",
-			"styleAttributes": {},
-			"x": 410,
-			"y": 650,
-			"width": 260,
-			"height": 100,
-			"color": "#3498db"
-		},
-		{
-			"id": "a_phidata",
-			"type": "text",
-			"text": "◈ Phidata Agents\n— Agent(model, tools, storage, memory)\n— Built-in web/file/code tools\n— Declarative agent definition\n— Team orchestration support",
-			"styleAttributes": {},
-			"x": 410,
-			"y": 780,
-			"width": 260,
-			"height": 100,
-			"color": "#3498db"
-		},
-		{
-			"id": "a_smolagents",
-			"type": "text",
-			"text": "◈ smolagents (HuggingFace)\n— CodeAgent: code execution\n— ToolCallingAgent: tool use\n— Minimal overhead design\n— Multi-agent support",
-			"styleAttributes": {},
-			"x": 410,
-			"y": 910,
-			"width": 260,
-			"height": 90,
-			"color": "#3498db"
-		},
-		{
-			"id": "a_math",
-			"type": "text",
-			"text": "🔷 Agent Math & Theory\n— POMDP: (S,A,T,R,O,Z)\n— Reward maximization loop\n— Belief state over observations\n— Expected utility: EU=ΣP(s)U(s)",
-			"styleAttributes": {},
-			"x": 410,
-			"y": 1030,
-			"width": 260,
-			"height": 110,
-			"color": "#6c3483"
-		},
-		{
-			"id": "grp_tools",
-			"type": "group",
-			"x": 800,
-			"y": -40,
-			"width": 340,
-			"height": 1060,
-			"label": "🔧 Tools & Function Calling"
-		},
-		{
-			"id": "b_hub",
-			"type": "text",
-			"text": "🔧 Tools &\nFunction Calling",
-			"styleAttributes": {},
-			"x": 840,
-			"y": 0,
-			"width": 260,
-			"height": 90,
-			"color": "#e74c3c"
-		},
-		{
-			"id": "b_openai_tools",
-			"type": "text",
-			"text": "🔷 OpenAI Tools API\n— tools=[{type:'function', ...}]\n— Structured JSON schema\n— Parallel tool call support\n— tool_choice: auto/required/none",
-			"styleAttributes": {},
-			"x": 840,
-			"y": 120,
-			"width": 260,
-			"height": 110,
-			"color": "#e74c3c"
-		},
-		{
-			"id": "b_schema",
-			"type": "text",
-			"text": "◈ Tool Schema Design\n— name, description, parameters\n— JSON Schema for inputs\n— Description quality matters\n— Pydantic → schema auto-gen",
-			"styleAttributes": {},
-			"x": 840,
-			"y": 260,
-			"width": 260,
-			"height": 100,
-			"color": "#e74c3c"
-		},
-		{
-			"id": "b_builtin",
-			"type": "text",
-			"text": "◈ Built-in Tool Types\n— Web search (Tavily, Brave)\n— Code interpreter (sandbox)\n— File I/O (read/write)\n— Calculator, calendar, email",
-			"styleAttributes": {},
-			"x": 840,
-			"y": 390,
-			"width": 260,
-			"height": 100,
-			"color": "#e74c3c"
-		},
-		{
-			"id": "b_custom",
-			"type": "text",
-			"text": "◈ Custom Tool Creation\n— @tool decorator (LangChain)\n— StructuredTool.from_function()\n— Async tool support\n— Error handling in tools",
-			"styleAttributes": {},
-			"x": 840,
-			"y": 520,
-			"width": 260,
-			"height": 90,
-			"color": "#e74c3c"
-		},
-		{
-			"id": "b_mcp",
-			"type": "text",
-			"text": "🔷 Model Context Protocol\n— MCP server/client arch\n— Tool discovery protocol\n— Resource + prompt primitives\n— Anthropic standard (2024)",
-			"styleAttributes": {},
-			"x": 840,
-			"y": 640,
-			"width": 260,
-			"height": 100,
-			"color": "#e74c3c"
-		},
-		{
-			"id": "b_toolchoice",
-			"type": "text",
-			"text": "◈ Tool Selection Strategy\n— LLM selects tool by description\n— Routing agent pattern\n— Tool embedding + similarity\n— Confidence-gated tool use",
-			"styleAttributes": {},
-			"x": 840,
-			"y": 770,
-			"width": 260,
-			"height": 90,
-			"color": "#e74c3c"
-		},
-		{
-			"id": "b_sandbox",
-			"type": "text",
-			"text": "◈ Code Execution Sandbox\n— Docker-isolated exec\n— Piston engine (multi-lang)\n— Resource limits: CPU/mem\n— Output capture & timeout",
-			"styleAttributes": {},
-			"x": 840,
-			"y": 890,
-			"width": 260,
-			"height": 90,
-			"color": "#e74c3c"
-		},
-		{
-			"id": "b_toolmath",
-			"type": "text",
-			"text": "◈ Tool Call Latency\n— Parallel vs sequential calls\n— Expected latency: E[L]=max(Lᵢ) parallel\n— Sequential: E[L]=ΣLᵢ\n— Async gather() pattern",
-			"styleAttributes": {},
-			"x": 840,
-			"y": 1000,
-			"width": 260,
-			"height": 70,
-			"color": "#6c3483"
-		},
-		{
-			"id": "grp_graph",
-			"type": "group",
-			"x": 1230,
-			"y": -40,
-			"width": 340,
-			"height": 1100,
-			"label": "🗺️ LangGraph State Graphs"
-		},
-		{
-			"id": "c_hub",
-			"type": "text",
-			"text": "🗺️ LangGraph &\nState Graph Orchestration",
-			"styleAttributes": {},
-			"x": 1270,
-			"y": 0,
-			"width": 260,
-			"height": 90,
-			"color": "#e67e22"
-		},
-		{
-			"id": "c_core",
-			"type": "text",
-			"text": "🔷 LangGraph Core\n— StateGraph class\n— TypedDict state schema\n— add_node(), add_edge()\n— Compiles to Runnable",
-			"styleAttributes": {},
-			"x": 1270,
-			"y": 120,
-			"width": 260,
-			"height": 100,
-			"color": "#e67e22"
-		},
-		{
-			"id": "c_state",
-			"type": "text",
-			"text": "◈ Typed State Transitions\n— Annotated[list, operator.add]\n— Custom reducer functions\n— Append vs replace semantics\n— Type safety across nodes",
-			"styleAttributes": {},
-			"x": 1270,
-			"y": 250,
-			"width": 260,
-			"height": 100,
-			"color": "#e67e22"
-		},
-		{
-			"id": "c_conditional",
-			"type": "text",
-			"text": "🔷 Conditional Edges\n— add_conditional_edges()\n— Route by state field value\n— Dynamic branching logic\n— Cycle support (loops)",
-			"styleAttributes": {},
-			"x": 1270,
-			"y": 380,
-			"width": 260,
-			"height": 100,
-			"color": "#e67e22"
-		},
-		{
-			"id": "c_parallel",
-			"type": "text",
-			"text": "◈ Parallel Node Execution\n— Independent subtask nodes\n— Fan-out then fan-in pattern\n— Merge via reducer function\n— Async parallel execution",
-			"styleAttributes": {},
-			"x": 1270,
-			"y": 510,
-			"width": 260,
-			"height": 100,
-			"color": "#e67e22"
-		},
-		{
-			"id": "c_stream",
-			"type": "text",
-			"text": "◈ Streaming & Events\n— graph.stream() token-level\n— astream_events() async\n— Step-level execution stream\n— Real-time UX integration",
-			"styleAttributes": {},
-			"x": 1270,
-			"y": 640,
-			"width": 260,
-			"height": 100,
-			"color": "#e67e22"
-		},
-		{
-			"id": "c_subgraph",
-			"type": "text",
-			"text": "◈ Subgraph Composition\n— Compose subgraphs as nodes\n— Modular agent architecture\n— Reusable workflow units\n— Nested state management",
-			"styleAttributes": {},
-			"x": 1270,
-			"y": 770,
-			"width": 260,
-			"height": 90,
-			"color": "#e67e22"
-		},
-		{
-			"id": "c_studio",
-			"type": "text",
-			"text": "◈ LangGraph Studio\n— Visual graph debugger\n— State inspector per node\n— Time-travel replay\n— Thread management UI",
-			"styleAttributes": {},
-			"x": 1270,
-			"y": 890,
-			"width": 260,
-			"height": 90,
-			"color": "#e67e22"
-		},
-		{
-			"id": "c_graphmath",
-			"type": "text",
-			"text": "◈ Graph Theory Basics\n— DAG: Directed Acyclic Graph\n— Cycle detection algorithms\n— Topological sort: O(V+E)\n— State space complexity",
-			"styleAttributes": {},
-			"x": 1270,
-			"y": 1000,
-			"width": 260,
-			"height": 80,
-			"color": "#6c3483"
-		},
-		{
-			"id": "grp_hitl",
-			"type": "group",
-			"x": 1660,
-			"y": -40,
-			"width": 340,
-			"height": 980,
-			"label": "🛑 Human-in-the-Loop Control"
-		},
-		{
-			"id": "d_hub",
-			"type": "text",
-			"text": "🛑 Human-in-the-Loop\n(HITL) Control Flow",
-			"styleAttributes": {},
-			"x": 1700,
-			"y": 0,
-			"width": 260,
-			"height": 90,
-			"color": "#1abc9c"
-		},
-		{
-			"id": "d_checkpoint",
-			"type": "text",
-			"text": "🔷 HITL Checkpoints\n— interrupt_before / interrupt_after\n— Graph pauses at defined nodes\n— State surfaced to reviewer\n— Resume with Command(resume=val)",
-			"styleAttributes": {},
-			"x": 1700,
-			"y": 120,
-			"width": 260,
-			"height": 110,
-			"color": "#1abc9c"
-		},
-		{
-			"id": "d_interrupt",
-			"type": "text",
-			"text": "◈ Manual Interruption\n— Async wait for human input\n— Approval workflow pattern\n— Timeout + escalation logic\n— Partial execution snapshots",
-			"styleAttributes": {},
-			"x": 1700,
-			"y": 260,
-			"width": 260,
-			"height": 100,
-			"color": "#1abc9c"
-		},
-		{
-			"id": "d_tracing",
-			"type": "text",
-			"text": "◈ Execution State Tracing\n— Full state snapshot per node\n— get_state_history() time-travel\n— Replay any execution step\n— Diff states across runs",
-			"styleAttributes": {},
-			"x": 1700,
-			"y": 390,
-			"width": 260,
-			"height": 100,
-			"color": "#1abc9c"
-		},
-		{
-			"id": "d_openai_sdk",
-			"type": "text",
-			"text": "◈ OpenAI Agents SDK\n— Runner.run(agent, input)\n— max_turns control\n— Pre/post step hooks\n— InputGuardrail / OutputGuardrail",
-			"styleAttributes": {},
-			"x": 1700,
-			"y": 520,
-			"width": 260,
-			"height": 100,
-			"color": "#1abc9c"
-		},
-		{
-			"id": "d_approval",
-			"type": "text",
-			"text": "◈ Approval Workflows\n— Slack/email notification\n— Webhook resume endpoint\n— Timeout auto-rejection\n— Audit log of decisions",
-			"styleAttributes": {},
-			"x": 1700,
-			"y": 650,
-			"width": 260,
-			"height": 90,
-			"color": "#1abc9c"
-		},
-		{
-			"id": "d_audit",
-			"type": "text",
-			"text": "◈ Audit & Compliance\n— Immutable execution log\n— LangSmith trace per run\n— Tool call argument logging\n— Regulatory audit exports",
-			"styleAttributes": {},
-			"x": 1700,
-			"y": 770,
-			"width": 260,
-			"height": 90,
-			"color": "#1abc9c"
-		},
-		{
-			"id": "d_rollback",
-			"type": "text",
-			"text": "◈ Rollback & Recovery\n— Restore prior state snapshot\n— Partial execution rollback\n— Compensating transactions\n— Idempotent node design",
-			"styleAttributes": {},
-			"x": 1700,
-			"y": 890,
-			"width": 260,
-			"height": 80,
-			"color": "#1abc9c"
-		},
-		{
-			"id": "grp_multi",
-			"type": "group",
-			"x": 2090,
-			"y": -40,
-			"width": 340,
-			"height": 1140,
-			"label": "👥 Multi-Agent Orchestration"
-		},
-		{
-			"id": "e_hub",
-			"type": "text",
-			"text": "👥 Multi-Agent\nOrchestration & Teams",
-			"styleAttributes": {},
-			"x": 2130,
-			"y": 0,
-			"width": 260,
-			"height": 90,
-			"color": "#9b59b6"
-		},
-		{
-			"id": "e_rolebased",
-			"type": "text",
-			"text": "🔷 Role-Based Orchestration\n— Researcher, Writer, Critic roles\n— Orchestrator decomposes task\n— Assign subtasks by capability\n— Result aggregation pattern",
-			"styleAttributes": {},
-			"x": 2130,
-			"y": 120,
-			"width": 260,
-			"height": 110,
-			"color": "#9b59b6"
-		},
-		{
-			"id": "e_autogen",
-			"type": "text",
-			"text": "🔷 AutoGen (Microsoft)\n— AssistantAgent / UserProxyAgent\n— GroupChat coordination\n— Speaker selection strategies\n— Nested conversation support",
-			"styleAttributes": {},
-			"x": 2130,
-			"y": 260,
-			"width": 260,
-			"height": 110,
-			"color": "#9b59b6"
-		},
-		{
-			"id": "e_crewai",
-			"type": "text",
-			"text": "🔷 CrewAI\n— Agent(role, goal, backstory)\n— Task(description, agent)\n— Process.hierarchical / sequential\n— Crew(agents, tasks, process)",
-			"styleAttributes": {},
-			"x": 2130,
-			"y": 400,
-			"width": 260,
-			"height": 110,
-			"color": "#9b59b6"
-		},
-		{
-			"id": "e_semantic_kernel",
-			"type": "text",
-			"text": "◈ Semantic Kernel\n— Microsoft enterprise SDK\n— Kernel + plugin system\n— Planner: goal→plan decompose\n— .NET / Python / Java support",
-			"styleAttributes": {},
-			"x": 2130,
-			"y": 540,
-			"width": 260,
-			"height": 100,
-			"color": "#9b59b6"
-		},
-		{
-			"id": "e_comm",
-			"type": "text",
-			"text": "◈ Inter-Agent Communication\n— Shared Redis Streams queue\n— Direct in-process function call\n— REST API distributed agents\n— Shared LangGraph state nodes",
-			"styleAttributes": {},
-			"x": 2130,
-			"y": 670,
-			"width": 260,
-			"height": 100,
-			"color": "#9b59b6"
-		},
-		{
-			"id": "e_subgraph",
-			"type": "text",
-			"text": "◈ Sub-Graph Workers\n— Parent spawns child subgraphs\n— Parallel worker execution\n— Map-reduce over state lists\n— Results merged via reducer",
-			"styleAttributes": {},
-			"x": 2130,
-			"y": 800,
-			"width": 260,
-			"height": 90,
-			"color": "#9b59b6"
-		},
-		{
-			"id": "e_supervisor",
-			"type": "text",
-			"text": "◈ Supervisor Pattern\n— Supervisor routes to workers\n— Dynamic worker selection\n— Task completion detection\n— LangGraph supervisor template",
-			"styleAttributes": {},
-			"x": 2130,
-			"y": 920,
-			"width": 260,
-			"height": 90,
-			"color": "#9b59b6"
-		},
-		{
-			"id": "e_math_multi",
-			"type": "text",
-			"text": "◈ Multi-Agent Math\n— Nash equilibrium basics\n— Communication overhead: O(n²)\n— Amdahl's Law for parallelism\n— Coordination cost modeling",
-			"styleAttributes": {},
-			"x": 2130,
-			"y": 1040,
-			"width": 260,
-			"height": 90,
-			"color": "#6c3483"
-		},
-		{
-			"id": "grp_agmem",
-			"type": "group",
-			"x": 2520,
-			"y": -40,
-			"width": 340,
-			"height": 960,
-			"label": "🧠 Agent Memory Integration"
-		},
-		{
-			"id": "f_hub",
-			"type": "text",
-			"text": "🧠 Agent Memory\nIntegration",
-			"styleAttributes": {},
-			"x": 2560,
-			"y": 0,
-			"width": 260,
-			"height": 90,
-			"color": "#27ae60"
-		},
-		{
-			"id": "f_shortterm",
-			"type": "text",
-			"text": "◈ Short-Term (In-Context)\n— Messages array as memory\n— Tool call + result history\n— Scratchpad for reasoning\n— Token budget management",
-			"styleAttributes": {},
-			"x": 2560,
-			"y": 120,
-			"width": 260,
-			"height": 100,
-			"color": "#27ae60"
-		},
-		{
-			"id": "f_longterm",
-			"type": "text",
-			"text": "◈ Long-Term (External Store)\n— Vector DB summary store\n— Entity key-value memory\n— Cross-session persistence\n— Semantic similarity recall",
-			"styleAttributes": {},
-			"x": 2560,
-			"y": 250,
-			"width": 260,
-			"height": 100,
-			"color": "#27ae60"
-		},
-		{
-			"id": "f_episodic",
-			"type": "text",
-			"text": "◈ Episodic Memory\n— Store completed task records\n— Retrieve similar past tasks\n— Few-shot from own history\n— Experience-based learning",
-			"styleAttributes": {},
-			"x": 2560,
-			"y": 380,
-			"width": 260,
-			"height": 100,
-			"color": "#27ae60"
-		},
-		{
-			"id": "f_semantic_mem",
-			"type": "text",
-			"text": "◈ Semantic Memory\n— World knowledge facts\n— Domain expertise store\n— Concept relationship graph\n— Updated via reflection",
-			"styleAttributes": {},
-			"x": 2560,
-			"y": 510,
-			"width": 260,
-			"height": 90,
-			"color": "#27ae60"
-		},
-		{
-			"id": "f_procedural",
-			"type": "text",
-			"text": "◈ Procedural Memory\n— How-to task knowledge\n— Stored as reusable prompts\n— Tool usage patterns\n— Skill library for agent",
-			"styleAttributes": {},
-			"x": 2560,
-			"y": 630,
-			"width": 260,
-			"height": 90,
-			"color": "#27ae60"
-		},
-		{
-			"id": "f_memread",
-			"type": "text",
-			"text": "◈ Memory Read Strategy\n— Always read (prepend to ctx)\n— On-demand retrieval\n— Relevance-threshold read\n— Proactive pre-fetch",
-			"styleAttributes": {},
-			"x": 2560,
-			"y": 750,
-			"width": 260,
-			"height": 90,
-			"color": "#27ae60"
-		},
-		{
-			"id": "f_memwrite",
-			"type": "text",
-			"text": "◈ Memory Write Strategy\n— Write after task completion\n— Continuous streaming write\n— Reflection-triggered write\n— Dedup before storage",
-			"styleAttributes": {},
-			"x": 2560,
-			"y": 870,
-			"width": 260,
-			"height": 90,
-			"color": "#27ae60"
-		},
-		{
-			"id": "grp_mmag",
-			"type": "group",
-			"x": 2950,
-			"y": -40,
-			"width": 340,
-			"height": 960,
-			"label": "🎨 Multimodal Agent Workflows"
-		},
-		{
-			"id": "g_hub",
-			"type": "text",
-			"text": "🎨 Multimodal\nAgent Workflows",
-			"styleAttributes": {},
-			"x": 2990,
-			"y": 0,
-			"width": 260,
-			"height": 90,
-			"color": "#e17055"
-		},
-		{
-			"id": "g_vision",
-			"type": "text",
-			"text": "🔷 Vision Tools\n— GPT-4o image_url content\n— Screenshot analysis\n— Diagram interpretation\n— Chart data extraction",
-			"styleAttributes": {},
-			"x": 2990,
-			"y": 120,
-			"width": 260,
-			"height": 100,
-			"color": "#e17055"
-		},
-		{
-			"id": "g_dalle",
-			"type": "text",
-			"text": "◈ Image Generation\n— DALL-E 3 API\n— images.generate() call\n— quality: standard/hd\n— Revised prompt in response",
-			"styleAttributes": {},
-			"x": 2990,
-			"y": 250,
-			"width": 260,
-			"height": 100,
-			"color": "#e17055"
-		},
-		{
-			"id": "g_whisper",
-			"type": "text",
-			"text": "◈ Audio Processing\n— Whisper transcription API\n— 99-language support\n— Speaker diarization\n— Audio → RAG pipeline",
-			"styleAttributes": {},
-			"x": 2990,
-			"y": 380,
-			"width": 260,
-			"height": 100,
-			"color": "#e17055"
-		},
-		{
-			"id": "g_video",
-			"type": "text",
-			"text": "◈ Video Understanding\n— Frame sampling strategies\n— Gemini 1.5 video input\n— Temporal grounding\n— Video-RAG integration",
-			"styleAttributes": {},
-			"x": 2990,
-			"y": 510,
-			"width": 260,
-			"height": 90,
-			"color": "#e17055"
-		},
-		{
-			"id": "g_multirag",
-			"type": "text",
-			"text": "◈ Multimodal RAG\n— OCR → chunk → embed images\n— Retrieve image patches + text\n— Fuse in generation prompt\n— ColPali: patch-level retrieval",
-			"styleAttributes": {},
-			"x": 2990,
-			"y": 630,
-			"width": 260,
-			"height": 100,
-			"color": "#e17055"
-		},
-		{
-			"id": "g_routing",
-			"type": "text",
-			"text": "◈ Modality Routing\n— Input type detection\n— Route to specialist model\n— Training-free orchestration\n— Modularity + interpretability",
-			"styleAttributes": {},
-			"x": 2990,
-			"y": 760,
-			"width": 260,
-			"height": 90,
-			"color": "#e17055"
-		},
-		{
-			"id": "g_hf_vision",
-			"type": "text",
-			"text": "◈ HF Vision Models\n— LLaVA, InternVL\n— Qwen2-VL (strong OCR)\n— BLIP-2 for captioning\n— Self-hosted multimodal",
-			"styleAttributes": {},
-			"x": 2990,
-			"y": 880,
-			"width": 260,
-			"height": 80,
-			"color": "#e17055"
+	"nodes":[
+		{
+			"id":"p4_root",
+			"type":"text",
+			"text":"🤖 PHASE 4\nAutonomous Agents\n& Cognitive State Graphs",
+			"styleAttributes":{},
+			"x":0,
+			"y":600,
+			"width":260,
+			"height":110,
+			"color":"#e84393"
+		},
+		{"id":"grp_reason","type":"group","x":370,"y":-40,"width":340,"height":1180,"label":"🧩 Agent Reasoning Loops"},
+		{
+			"id":"a_hub",
+			"type":"text",
+			"text":"🧩 Agent Reasoning\nLoops & Cognition",
+			"styleAttributes":{},
+			"x":410,
+			"y":0,
+			"width":260,
+			"height":90,
+			"color":"#3498db"
+		},
+		{
+			"id":"a_react",
+			"type":"text",
+			"text":"🔷 ReAct Framework\n— Thought → Action → Observation\n— Tool-grounded reasoning\n— Iterative refinement cycle\n— Paper: Yao et al. 2022",
+			"styleAttributes":{},
+			"x":410,
+			"y":120,
+			"width":260,
+			"height":110,
+			"color":"#3498db"
+		},
+		{
+			"id":"a_plansolve",
+			"type":"text",
+			"text":"◈ Plan-and-Solve\n— Phase 1: explicit plan generation\n— Phase 2: sequential execution\n— Reduces lost-in-middle failures\n— Plan tracking state variable",
+			"styleAttributes":{},
+			"x":410,
+			"y":260,
+			"width":260,
+			"height":100,
+			"color":"#3498db"
+		},
+		{
+			"id":"a_reflection",
+			"type":"text",
+			"text":"🔷 Reflection & Self-Critique\n— Agent critiques own output\n— Gap identification loop\n— Reflexion paper architecture\n— Score-threshold re-attempt",
+			"styleAttributes":{},
+			"x":410,
+			"y":390,
+			"width":260,
+			"height":100,
+			"color":"#3498db"
+		},
+		{
+			"id":"a_selfcorrect",
+			"type":"text",
+			"text":"◈ Self-Correction\n— LLM-as-judge self-scoring\n— Rewrite below-threshold\n— Max retry ceiling\n— Escalate to human if fail",
+			"styleAttributes":{},
+			"x":410,
+			"y":520,
+			"width":260,
+			"height":100,
+			"color":"#3498db"
+		},
+		{
+			"id":"a_cot_agent",
+			"type":"text",
+			"text":"◈ CoT in Agents\n— Chain-of-thought as scratchpad\n— Internal monologue pattern\n— Structured reasoning traces\n— Tree-of-Thought search",
+			"styleAttributes":{},
+			"x":410,
+			"y":650,
+			"width":260,
+			"height":100,
+			"color":"#3498db"
+		},
+		{
+			"id":"a_phidata",
+			"type":"text",
+			"text":"◈ Phidata Agents\n— Agent(model, tools, storage, memory)\n— Built-in web/file/code tools\n— Declarative agent definition\n— Team orchestration support",
+			"styleAttributes":{},
+			"x":410,
+			"y":780,
+			"width":260,
+			"height":100,
+			"color":"#3498db"
+		},
+		{
+			"id":"a_smolagents",
+			"type":"text",
+			"text":"◈ smolagents (HuggingFace)\n— CodeAgent: code execution\n— ToolCallingAgent: tool use\n— Minimal overhead design\n— Multi-agent support",
+			"styleAttributes":{},
+			"x":410,
+			"y":910,
+			"width":260,
+			"height":90,
+			"color":"#3498db"
+		},
+		{
+			"id":"a_math",
+			"type":"text",
+			"text":"🔷 Agent Math & Theory\n— POMDP: (S,A,T,R,O,Z)\n— Reward maximization loop\n— Belief state over observations\n— Expected utility: EU=ΣP(s)U(s)",
+			"styleAttributes":{},
+			"x":410,
+			"y":1030,
+			"width":260,
+			"height":110,
+			"color":"#6c3483"
+		},
+		{"id":"grp_tools","type":"group","x":800,"y":-40,"width":340,"height":1060,"label":"🔧 Tools & Function Calling"},
+		{
+			"id":"b_hub",
+			"type":"text",
+			"text":"🔧 Tools &\nFunction Calling",
+			"styleAttributes":{},
+			"x":840,
+			"y":0,
+			"width":260,
+			"height":90,
+			"color":"#e74c3c"
+		},
+		{
+			"id":"b_openai_tools",
+			"type":"text",
+			"text":"🔷 OpenAI Tools API\n— tools=[{type:'function', ...}]\n— Structured JSON schema\n— Parallel tool call support\n— tool_choice: auto/required/none",
+			"styleAttributes":{},
+			"x":840,
+			"y":120,
+			"width":260,
+			"height":110,
+			"color":"#e74c3c"
+		},
+		{
+			"id":"b_schema",
+			"type":"text",
+			"text":"◈ Tool Schema Design\n— name, description, parameters\n— JSON Schema for inputs\n— Description quality matters\n— Pydantic → schema auto-gen",
+			"styleAttributes":{},
+			"x":840,
+			"y":260,
+			"width":260,
+			"height":100,
+			"color":"#e74c3c"
+		},
+		{
+			"id":"b_builtin",
+			"type":"text",
+			"text":"◈ Built-in Tool Types\n— Web search (Tavily, Brave)\n— Code interpreter (sandbox)\n— File I/O (read/write)\n— Calculator, calendar, email",
+			"styleAttributes":{},
+			"x":840,
+			"y":390,
+			"width":260,
+			"height":100,
+			"color":"#e74c3c"
+		},
+		{
+			"id":"b_custom",
+			"type":"text",
+			"text":"◈ Custom Tool Creation\n— @tool decorator (LangChain)\n— StructuredTool.from_function()\n— Async tool support\n— Error handling in tools",
+			"styleAttributes":{},
+			"x":840,
+			"y":520,
+			"width":260,
+			"height":90,
+			"color":"#e74c3c"
+		},
+		{
+			"id":"b_mcp",
+			"type":"text",
+			"text":"🔷 Model Context Protocol\n— MCP server/client arch\n— Tool discovery protocol\n— Resource + prompt primitives\n— Anthropic standard (2024)",
+			"styleAttributes":{},
+			"x":840,
+			"y":640,
+			"width":260,
+			"height":100,
+			"color":"#e74c3c"
+		},
+		{
+			"id":"b_toolchoice",
+			"type":"text",
+			"text":"◈ Tool Selection Strategy\n— LLM selects tool by description\n— Routing agent pattern\n— Tool embedding + similarity\n— Confidence-gated tool use",
+			"styleAttributes":{},
+			"x":840,
+			"y":770,
+			"width":260,
+			"height":90,
+			"color":"#e74c3c"
+		},
+		{
+			"id":"b_sandbox",
+			"type":"text",
+			"text":"◈ Code Execution Sandbox\n— Docker-isolated exec\n— Piston engine (multi-lang)\n— Resource limits: CPU/mem\n— Output capture & timeout",
+			"styleAttributes":{},
+			"x":840,
+			"y":890,
+			"width":260,
+			"height":90,
+			"color":"#e74c3c"
+		},
+		{
+			"id":"b_toolmath",
+			"type":"text",
+			"text":"◈ Tool Call Latency\n— Parallel vs sequential calls\n— Expected latency: E[L]=max(Lᵢ) parallel\n— Sequential: E[L]=ΣLᵢ\n— Async gather() pattern",
+			"styleAttributes":{},
+			"x":840,
+			"y":1000,
+			"width":260,
+			"height":70,
+			"color":"#6c3483"
+		},
+		{"id":"grp_graph","type":"group","x":1230,"y":-40,"width":340,"height":1100,"label":"🗺️ LangGraph State Graphs"},
+		{
+			"id":"c_hub",
+			"type":"text",
+			"text":"🗺️ LangGraph &\nState Graph Orchestration",
+			"styleAttributes":{},
+			"x":1270,
+			"y":0,
+			"width":260,
+			"height":90,
+			"color":"#e67e22"
+		},
+		{
+			"id":"c_core",
+			"type":"text",
+			"text":"🔷 LangGraph Core\n— StateGraph class\n— TypedDict state schema\n— add_node(), add_edge()\n— Compiles to Runnable",
+			"styleAttributes":{},
+			"x":1270,
+			"y":120,
+			"width":260,
+			"height":100,
+			"color":"#e67e22"
+		},
+		{
+			"id":"c_state",
+			"type":"text",
+			"text":"◈ Typed State Transitions\n— Annotated[list, operator.add]\n— Custom reducer functions\n— Append vs replace semantics\n— Type safety across nodes",
+			"styleAttributes":{},
+			"x":1270,
+			"y":250,
+			"width":260,
+			"height":100,
+			"color":"#e67e22"
+		},
+		{
+			"id":"c_conditional",
+			"type":"text",
+			"text":"🔷 Conditional Edges\n— add_conditional_edges()\n— Route by state field value\n— Dynamic branching logic\n— Cycle support (loops)",
+			"styleAttributes":{},
+			"x":1270,
+			"y":380,
+			"width":260,
+			"height":100,
+			"color":"#e67e22"
+		},
+		{
+			"id":"c_parallel",
+			"type":"text",
+			"text":"◈ Parallel Node Execution\n— Independent subtask nodes\n— Fan-out then fan-in pattern\n— Merge via reducer function\n— Async parallel execution",
+			"styleAttributes":{},
+			"x":1270,
+			"y":510,
+			"width":260,
+			"height":100,
+			"color":"#e67e22"
+		},
+		{
+			"id":"c_stream",
+			"type":"text",
+			"text":"◈ Streaming & Events\n— graph.stream() token-level\n— astream_events() async\n— Step-level execution stream\n— Real-time UX integration",
+			"styleAttributes":{},
+			"x":1270,
+			"y":640,
+			"width":260,
+			"height":100,
+			"color":"#e67e22"
+		},
+		{
+			"id":"c_subgraph",
+			"type":"text",
+			"text":"◈ Subgraph Composition\n— Compose subgraphs as nodes\n— Modular agent architecture\n— Reusable workflow units\n— Nested state management",
+			"styleAttributes":{},
+			"x":1270,
+			"y":770,
+			"width":260,
+			"height":90,
+			"color":"#e67e22"
+		},
+		{
+			"id":"c_studio",
+			"type":"text",
+			"text":"◈ LangGraph Studio\n— Visual graph debugger\n— State inspector per node\n— Time-travel replay\n— Thread management UI",
+			"styleAttributes":{},
+			"x":1270,
+			"y":890,
+			"width":260,
+			"height":90,
+			"color":"#e67e22"
+		},
+		{
+			"id":"c_graphmath",
+			"type":"text",
+			"text":"◈ Graph Theory Basics\n— DAG: Directed Acyclic Graph\n— Cycle detection algorithms\n— Topological sort: O(V+E)\n— State space complexity",
+			"styleAttributes":{},
+			"x":1270,
+			"y":1000,
+			"width":260,
+			"height":80,
+			"color":"#6c3483"
+		},
+		{"id":"grp_hitl","type":"group","x":1660,"y":-40,"width":340,"height":980,"label":"🛑 Human-in-the-Loop Control"},
+		{
+			"id":"d_hub",
+			"type":"text",
+			"text":"🛑 Human-in-the-Loop\n(HITL) Control Flow",
+			"styleAttributes":{},
+			"x":1700,
+			"y":0,
+			"width":260,
+			"height":90,
+			"color":"#1abc9c"
+		},
+		{
+			"id":"d_checkpoint",
+			"type":"text",
+			"text":"🔷 HITL Checkpoints\n— interrupt_before / interrupt_after\n— Graph pauses at defined nodes\n— State surfaced to reviewer\n— Resume with Command(resume=val)",
+			"styleAttributes":{},
+			"x":1700,
+			"y":120,
+			"width":260,
+			"height":110,
+			"color":"#1abc9c"
+		},
+		{
+			"id":"d_interrupt",
+			"type":"text",
+			"text":"◈ Manual Interruption\n— Async wait for human input\n— Approval workflow pattern\n— Timeout + escalation logic\n— Partial execution snapshots",
+			"styleAttributes":{},
+			"x":1700,
+			"y":260,
+			"width":260,
+			"height":100,
+			"color":"#1abc9c"
+		},
+		{
+			"id":"d_tracing",
+			"type":"text",
+			"text":"◈ Execution State Tracing\n— Full state snapshot per node\n— get_state_history() time-travel\n— Replay any execution step\n— Diff states across runs",
+			"styleAttributes":{},
+			"x":1700,
+			"y":390,
+			"width":260,
+			"height":100,
+			"color":"#1abc9c"
+		},
+		{
+			"id":"d_openai_sdk",
+			"type":"text",
+			"text":"◈ OpenAI Agents SDK\n— Runner.run(agent, input)\n— max_turns control\n— Pre/post step hooks\n— InputGuardrail / OutputGuardrail",
+			"styleAttributes":{},
+			"x":1700,
+			"y":520,
+			"width":260,
+			"height":100,
+			"color":"#1abc9c"
+		},
+		{
+			"id":"d_approval",
+			"type":"text",
+			"text":"◈ Approval Workflows\n— Slack/email notification\n— Webhook resume endpoint\n— Timeout auto-rejection\n— Audit log of decisions",
+			"styleAttributes":{},
+			"x":1700,
+			"y":650,
+			"width":260,
+			"height":90,
+			"color":"#1abc9c"
+		},
+		{
+			"id":"d_audit",
+			"type":"text",
+			"text":"◈ Audit & Compliance\n— Immutable execution log\n— LangSmith trace per run\n— Tool call argument logging\n— Regulatory audit exports",
+			"styleAttributes":{},
+			"x":1700,
+			"y":770,
+			"width":260,
+			"height":90,
+			"color":"#1abc9c"
+		},
+		{
+			"id":"d_rollback",
+			"type":"text",
+			"text":"◈ Rollback & Recovery\n— Restore prior state snapshot\n— Partial execution rollback\n— Compensating transactions\n— Idempotent node design",
+			"styleAttributes":{},
+			"x":1700,
+			"y":890,
+			"width":260,
+			"height":80,
+			"color":"#1abc9c"
+		},
+		{"id":"grp_multi","type":"group","x":2090,"y":-40,"width":340,"height":1140,"label":"👥 Multi-Agent Orchestration"},
+		{
+			"id":"e_hub",
+			"type":"text",
+			"text":"👥 Multi-Agent\nOrchestration & Teams",
+			"styleAttributes":{},
+			"x":2130,
+			"y":0,
+			"width":260,
+			"height":90,
+			"color":"#9b59b6"
+		},
+		{
+			"id":"e_rolebased",
+			"type":"text",
+			"text":"🔷 Role-Based Orchestration\n— Researcher, Writer, Critic roles\n— Orchestrator decomposes task\n— Assign subtasks by capability\n— Result aggregation pattern",
+			"styleAttributes":{},
+			"x":2130,
+			"y":120,
+			"width":260,
+			"height":110,
+			"color":"#9b59b6"
+		},
+		{
+			"id":"e_autogen",
+			"type":"text",
+			"text":"🔷 AutoGen (Microsoft)\n— AssistantAgent / UserProxyAgent\n— GroupChat coordination\n— Speaker selection strategies\n— Nested conversation support",
+			"styleAttributes":{},
+			"x":2130,
+			"y":260,
+			"width":260,
+			"height":110,
+			"color":"#9b59b6"
+		},
+		{
+			"id":"e_crewai",
+			"type":"text",
+			"text":"🔷 CrewAI\n— Agent(role, goal, backstory)\n— Task(description, agent)\n— Process.hierarchical / sequential\n— Crew(agents, tasks, process)",
+			"styleAttributes":{},
+			"x":2130,
+			"y":400,
+			"width":260,
+			"height":110,
+			"color":"#9b59b6"
+		},
+		{
+			"id":"e_semantic_kernel",
+			"type":"text",
+			"text":"◈ Semantic Kernel\n— Microsoft enterprise SDK\n— Kernel + plugin system\n— Planner: goal→plan decompose\n— .NET / Python / Java support",
+			"styleAttributes":{},
+			"x":2130,
+			"y":540,
+			"width":260,
+			"height":100,
+			"color":"#9b59b6"
+		},
+		{
+			"id":"e_comm",
+			"type":"text",
+			"text":"◈ Inter-Agent Communication\n— Shared Redis Streams queue\n— Direct in-process function call\n— REST API distributed agents\n— Shared LangGraph state nodes",
+			"styleAttributes":{},
+			"x":2130,
+			"y":670,
+			"width":260,
+			"height":100,
+			"color":"#9b59b6"
+		},
+		{
+			"id":"e_subgraph",
+			"type":"text",
+			"text":"◈ Sub-Graph Workers\n— Parent spawns child subgraphs\n— Parallel worker execution\n— Map-reduce over state lists\n— Results merged via reducer",
+			"styleAttributes":{},
+			"x":2130,
+			"y":800,
+			"width":260,
+			"height":90,
+			"color":"#9b59b6"
+		},
+		{
+			"id":"e_supervisor",
+			"type":"text",
+			"text":"◈ Supervisor Pattern\n— Supervisor routes to workers\n— Dynamic worker selection\n— Task completion detection\n— LangGraph supervisor template",
+			"styleAttributes":{},
+			"x":2130,
+			"y":920,
+			"width":260,
+			"height":90,
+			"color":"#9b59b6"
+		},
+		{
+			"id":"e_math_multi",
+			"type":"text",
+			"text":"◈ Multi-Agent Math\n— Nash equilibrium basics\n— Communication overhead: O(n²)\n— Amdahl's Law for parallelism\n— Coordination cost modeling",
+			"styleAttributes":{},
+			"x":2130,
+			"y":1040,
+			"width":260,
+			"height":90,
+			"color":"#6c3483"
+		},
+		{"id":"grp_agmem","type":"group","x":2520,"y":-40,"width":340,"height":960,"label":"🧠 Agent Memory Integration"},
+		{
+			"id":"f_hub",
+			"type":"text",
+			"text":"🧠 Agent Memory\nIntegration",
+			"styleAttributes":{},
+			"x":2560,
+			"y":0,
+			"width":260,
+			"height":90,
+			"color":"#27ae60"
+		},
+		{
+			"id":"f_shortterm",
+			"type":"text",
+			"text":"◈ Short-Term (In-Context)\n— Messages array as memory\n— Tool call + result history\n— Scratchpad for reasoning\n— Token budget management",
+			"styleAttributes":{},
+			"x":2560,
+			"y":120,
+			"width":260,
+			"height":100,
+			"color":"#27ae60"
+		},
+		{
+			"id":"f_longterm",
+			"type":"text",
+			"text":"◈ Long-Term (External Store)\n— Vector DB summary store\n— Entity key-value memory\n— Cross-session persistence\n— Semantic similarity recall",
+			"styleAttributes":{},
+			"x":2560,
+			"y":250,
+			"width":260,
+			"height":100,
+			"color":"#27ae60"
+		},
+		{
+			"id":"f_episodic",
+			"type":"text",
+			"text":"◈ Episodic Memory\n— Store completed task records\n— Retrieve similar past tasks\n— Few-shot from own history\n— Experience-based learning",
+			"styleAttributes":{},
+			"x":2560,
+			"y":380,
+			"width":260,
+			"height":100,
+			"color":"#27ae60"
+		},
+		{
+			"id":"f_semantic_mem",
+			"type":"text",
+			"text":"◈ Semantic Memory\n— World knowledge facts\n— Domain expertise store\n— Concept relationship graph\n— Updated via reflection",
+			"styleAttributes":{},
+			"x":2560,
+			"y":510,
+			"width":260,
+			"height":90,
+			"color":"#27ae60"
+		},
+		{
+			"id":"f_procedural",
+			"type":"text",
+			"text":"◈ Procedural Memory\n— How-to task knowledge\n— Stored as reusable prompts\n— Tool usage patterns\n— Skill library for agent",
+			"styleAttributes":{},
+			"x":2560,
+			"y":630,
+			"width":260,
+			"height":90,
+			"color":"#27ae60"
+		},
+		{
+			"id":"f_memread",
+			"type":"text",
+			"text":"◈ Memory Read Strategy\n— Always read (prepend to ctx)\n— On-demand retrieval\n— Relevance-threshold read\n— Proactive pre-fetch",
+			"styleAttributes":{},
+			"x":2560,
+			"y":750,
+			"width":260,
+			"height":90,
+			"color":"#27ae60"
+		},
+		{
+			"id":"f_memwrite",
+			"type":"text",
+			"text":"◈ Memory Write Strategy\n— Write after task completion\n— Continuous streaming write\n— Reflection-triggered write\n— Dedup before storage",
+			"styleAttributes":{},
+			"x":2560,
+			"y":870,
+			"width":260,
+			"height":90,
+			"color":"#27ae60"
+		},
+		{"id":"grp_mmag","type":"group","x":2950,"y":-40,"width":340,"height":960,"label":"🎨 Multimodal Agent Workflows"},
+		{
+			"id":"g_hub",
+			"type":"text",
+			"text":"🎨 Multimodal\nAgent Workflows",
+			"styleAttributes":{},
+			"x":2990,
+			"y":0,
+			"width":260,
+			"height":90,
+			"color":"#e17055"
+		},
+		{
+			"id":"g_vision",
+			"type":"text",
+			"text":"🔷 Vision Tools\n— GPT-4o image_url content\n— Screenshot analysis\n— Diagram interpretation\n— Chart data extraction",
+			"styleAttributes":{},
+			"x":2990,
+			"y":120,
+			"width":260,
+			"height":100,
+			"color":"#e17055"
+		},
+		{
+			"id":"g_dalle",
+			"type":"text",
+			"text":"◈ Image Generation\n— DALL-E 3 API\n— images.generate() call\n— quality: standard/hd\n— Revised prompt in response",
+			"styleAttributes":{},
+			"x":2990,
+			"y":250,
+			"width":260,
+			"height":100,
+			"color":"#e17055"
+		},
+		{
+			"id":"g_whisper",
+			"type":"text",
+			"text":"◈ Audio Processing\n— Whisper transcription API\n— 99-language support\n— Speaker diarization\n— Audio → RAG pipeline",
+			"styleAttributes":{},
+			"x":2990,
+			"y":380,
+			"width":260,
+			"height":100,
+			"color":"#e17055"
+		},
+		{
+			"id":"g_video",
+			"type":"text",
+			"text":"◈ Video Understanding\n— Frame sampling strategies\n— Gemini 1.5 video input\n— Temporal grounding\n— Video-RAG integration",
+			"styleAttributes":{},
+			"x":2990,
+			"y":510,
+			"width":260,
+			"height":90,
+			"color":"#e17055"
+		},
+		{
+			"id":"g_multirag",
+			"type":"text",
+			"text":"◈ Multimodal RAG\n— OCR → chunk → embed images\n— Retrieve image patches + text\n— Fuse in generation prompt\n— ColPali: patch-level retrieval",
+			"styleAttributes":{},
+			"x":2990,
+			"y":630,
+			"width":260,
+			"height":100,
+			"color":"#e17055"
+		},
+		{
+			"id":"g_routing",
+			"type":"text",
+			"text":"◈ Modality Routing\n— Input type detection\n— Route to specialist model\n— Training-free orchestration\n— Modularity + interpretability",
+			"styleAttributes":{},
+			"x":2990,
+			"y":760,
+			"width":260,
+			"height":90,
+			"color":"#e17055"
+		},
+		{
+			"id":"g_hf_vision",
+			"type":"text",
+			"text":"◈ HF Vision Models\n— LLaVA, InternVL\n— Qwen2-VL (strong OCR)\n— BLIP-2 for captioning\n— Self-hosted multimodal",
+			"styleAttributes":{},
+			"x":2990,
+			"y":880,
+			"width":260,
+			"height":80,
+			"color":"#e17055"
 		}
 	],
-	"edges": [
-		{
-			"id": "e0001",
-			"styleAttributes": {},
-			"fromNode": "p4_root",
-			"fromSide": "right",
-			"toNode": "a_hub",
-			"toSide": "left",
-			"color": "#e84393"
-		},
-		{
-			"id": "e0002",
-			"styleAttributes": {},
-			"fromNode": "a_hub",
-			"fromSide": "bottom",
-			"toNode": "a_react",
-			"toSide": "top",
-			"color": "#3498db"
-		},
-		{
-			"id": "e0003",
-			"styleAttributes": {},
-			"fromNode": "a_react",
-			"fromSide": "bottom",
-			"toNode": "a_plansolve",
-			"toSide": "top",
-			"color": "#3498db"
-		},
-		{
-			"id": "e0004",
-			"styleAttributes": {},
-			"fromNode": "a_plansolve",
-			"fromSide": "bottom",
-			"toNode": "a_reflection",
-			"toSide": "top",
-			"color": "#3498db"
-		},
-		{
-			"id": "e0005",
-			"styleAttributes": {},
-			"fromNode": "a_reflection",
-			"fromSide": "bottom",
-			"toNode": "a_selfcorrect",
-			"toSide": "top",
-			"color": "#3498db"
-		},
-		{
-			"id": "e0006",
-			"styleAttributes": {},
-			"fromNode": "a_selfcorrect",
-			"fromSide": "bottom",
-			"toNode": "a_cot_agent",
-			"toSide": "top",
-			"color": "#3498db"
-		},
-		{
-			"id": "e0007",
-			"styleAttributes": {},
-			"fromNode": "a_cot_agent",
-			"fromSide": "bottom",
-			"toNode": "a_phidata",
-			"toSide": "top",
-			"color": "#3498db"
-		},
-		{
-			"id": "e0008",
-			"styleAttributes": {},
-			"fromNode": "a_phidata",
-			"fromSide": "bottom",
-			"toNode": "a_smolagents",
-			"toSide": "top",
-			"color": "#3498db"
-		},
-		{
-			"id": "e0009",
-			"styleAttributes": {},
-			"fromNode": "a_smolagents",
-			"fromSide": "bottom",
-			"toNode": "a_math",
-			"toSide": "top",
-			"color": "#6c3483"
-		},
-		{
-			"id": "e0010",
-			"styleAttributes": {},
-			"fromNode": "a_hub",
-			"fromSide": "right",
-			"toNode": "b_hub",
-			"toSide": "left",
-			"color": "#e74c3c"
-		},
-		{
-			"id": "e0011",
-			"styleAttributes": {},
-			"fromNode": "b_hub",
-			"fromSide": "bottom",
-			"toNode": "b_openai_tools",
-			"toSide": "top",
-			"color": "#e74c3c"
-		},
-		{
-			"id": "e0012",
-			"styleAttributes": {},
-			"fromNode": "b_openai_tools",
-			"fromSide": "bottom",
-			"toNode": "b_schema",
-			"toSide": "top",
-			"color": "#e74c3c"
-		},
-		{
-			"id": "e0013",
-			"styleAttributes": {},
-			"fromNode": "b_schema",
-			"fromSide": "bottom",
-			"toNode": "b_builtin",
-			"toSide": "top",
-			"color": "#e74c3c"
-		},
-		{
-			"id": "e0014",
-			"styleAttributes": {},
-			"fromNode": "b_builtin",
-			"fromSide": "bottom",
-			"toNode": "b_custom",
-			"toSide": "top",
-			"color": "#e74c3c"
-		},
-		{
-			"id": "e0015",
-			"styleAttributes": {},
-			"fromNode": "b_custom",
-			"fromSide": "bottom",
-			"toNode": "b_mcp",
-			"toSide": "top",
-			"color": "#e74c3c"
-		},
-		{
-			"id": "e0016",
-			"styleAttributes": {},
-			"fromNode": "b_mcp",
-			"fromSide": "bottom",
-			"toNode": "b_toolchoice",
-			"toSide": "top",
-			"color": "#e74c3c"
-		},
-		{
-			"id": "e0017",
-			"styleAttributes": {},
-			"fromNode": "b_toolchoice",
-			"fromSide": "bottom",
-			"toNode": "b_sandbox",
-			"toSide": "top",
-			"color": "#e74c3c"
-		},
-		{
-			"id": "e0018",
-			"styleAttributes": {},
-			"fromNode": "b_sandbox",
-			"fromSide": "bottom",
-			"toNode": "b_toolmath",
-			"toSide": "top",
-			"color": "#6c3483"
-		},
-		{
-			"id": "e0019",
-			"styleAttributes": {},
-			"fromNode": "b_hub",
-			"fromSide": "right",
-			"toNode": "c_hub",
-			"toSide": "left",
-			"color": "#e67e22"
-		},
-		{
-			"id": "e0020",
-			"styleAttributes": {},
-			"fromNode": "c_hub",
-			"fromSide": "bottom",
-			"toNode": "c_core",
-			"toSide": "top",
-			"color": "#e67e22"
-		},
-		{
-			"id": "e0021",
-			"styleAttributes": {},
-			"fromNode": "c_core",
-			"fromSide": "bottom",
-			"toNode": "c_state",
-			"toSide": "top",
-			"color": "#e67e22"
-		},
-		{
-			"id": "e0022",
-			"styleAttributes": {},
-			"fromNode": "c_state",
-			"fromSide": "bottom",
-			"toNode": "c_conditional",
-			"toSide": "top",
-			"color": "#e67e22"
-		},
-		{
-			"id": "e0023",
-			"styleAttributes": {},
-			"fromNode": "c_conditional",
-			"fromSide": "bottom",
-			"toNode": "c_parallel",
-			"toSide": "top",
-			"color": "#e67e22"
-		},
-		{
-			"id": "e0024",
-			"styleAttributes": {},
-			"fromNode": "c_parallel",
-			"fromSide": "bottom",
-			"toNode": "c_stream",
-			"toSide": "top",
-			"color": "#e67e22"
-		},
-		{
-			"id": "e0025",
-			"styleAttributes": {},
-			"fromNode": "c_stream",
-			"fromSide": "bottom",
-			"toNode": "c_subgraph",
-			"toSide": "top",
-			"color": "#e67e22"
-		},
-		{
-			"id": "e0026",
-			"styleAttributes": {},
-			"fromNode": "c_subgraph",
-			"fromSide": "bottom",
-			"toNode": "c_studio",
-			"toSide": "top",
-			"color": "#e67e22"
-		},
-		{
-			"id": "e0027",
-			"styleAttributes": {},
-			"fromNode": "c_studio",
-			"fromSide": "bottom",
-			"toNode": "c_graphmath",
-			"toSide": "top",
-			"color": "#6c3483"
-		},
-		{
-			"id": "e0028",
-			"styleAttributes": {},
-			"fromNode": "c_hub",
-			"fromSide": "right",
-			"toNode": "d_hub",
-			"toSide": "left",
-			"color": "#1abc9c"
-		},
-		{
-			"id": "e0029",
-			"styleAttributes": {},
-			"fromNode": "d_hub",
-			"fromSide": "bottom",
-			"toNode": "d_checkpoint",
-			"toSide": "top",
-			"color": "#1abc9c"
-		},
-		{
-			"id": "e0030",
-			"styleAttributes": {},
-			"fromNode": "d_checkpoint",
-			"fromSide": "bottom",
-			"toNode": "d_interrupt",
-			"toSide": "top",
-			"color": "#1abc9c"
-		},
-		{
-			"id": "e0031",
-			"styleAttributes": {},
-			"fromNode": "d_interrupt",
-			"fromSide": "bottom",
-			"toNode": "d_tracing",
-			"toSide": "top",
-			"color": "#1abc9c"
-		},
-		{
-			"id": "e0032",
-			"styleAttributes": {},
-			"fromNode": "d_tracing",
-			"fromSide": "bottom",
-			"toNode": "d_openai_sdk",
-			"toSide": "top",
-			"color": "#1abc9c"
-		},
-		{
-			"id": "e0033",
-			"styleAttributes": {},
-			"fromNode": "d_openai_sdk",
-			"fromSide": "bottom",
-			"toNode": "d_approval",
-			"toSide": "top",
-			"color": "#1abc9c"
-		},
-		{
-			"id": "e0034",
-			"styleAttributes": {},
-			"fromNode": "d_approval",
-			"fromSide": "bottom",
-			"toNode": "d_audit",
-			"toSide": "top",
-			"color": "#1abc9c"
-		},
-		{
-			"id": "e0035",
-			"styleAttributes": {},
-			"fromNode": "d_audit",
-			"fromSide": "bottom",
-			"toNode": "d_rollback",
-			"toSide": "top",
-			"color": "#1abc9c"
-		},
-		{
-			"id": "e0036",
-			"styleAttributes": {},
-			"fromNode": "d_hub",
-			"fromSide": "right",
-			"toNode": "e_hub",
-			"toSide": "left",
-			"color": "#9b59b6"
-		},
-		{
-			"id": "e0037",
-			"styleAttributes": {},
-			"fromNode": "e_hub",
-			"fromSide": "bottom",
-			"toNode": "e_rolebased",
-			"toSide": "top",
-			"color": "#9b59b6"
-		},
-		{
-			"id": "e0038",
-			"styleAttributes": {},
-			"fromNode": "e_rolebased",
-			"fromSide": "bottom",
-			"toNode": "e_autogen",
-			"toSide": "top",
-			"color": "#9b59b6"
-		},
-		{
-			"id": "e0039",
-			"styleAttributes": {},
-			"fromNode": "e_autogen",
-			"fromSide": "bottom",
-			"toNode": "e_crewai",
-			"toSide": "top",
-			"color": "#9b59b6"
-		},
-		{
-			"id": "e0040",
-			"styleAttributes": {},
-			"fromNode": "e_crewai",
-			"fromSide": "bottom",
-			"toNode": "e_semantic_kernel",
-			"toSide": "top",
-			"color": "#9b59b6"
-		},
-		{
-			"id": "e0041",
-			"styleAttributes": {},
-			"fromNode": "e_semantic_kernel",
-			"fromSide": "bottom",
-			"toNode": "e_comm",
-			"toSide": "top",
-			"color": "#9b59b6"
-		},
-		{
-			"id": "e0042",
-			"styleAttributes": {},
-			"fromNode": "e_comm",
-			"fromSide": "bottom",
-			"toNode": "e_subgraph",
-			"toSide": "top",
-			"color": "#9b59b6"
-		},
-		{
-			"id": "e0043",
-			"styleAttributes": {},
-			"fromNode": "e_subgraph",
-			"fromSide": "bottom",
-			"toNode": "e_supervisor",
-			"toSide": "top",
-			"color": "#9b59b6"
-		},
-		{
-			"id": "e0044",
-			"styleAttributes": {},
-			"fromNode": "e_supervisor",
-			"fromSide": "bottom",
-			"toNode": "e_math_multi",
-			"toSide": "top",
-			"color": "#6c3483"
-		},
-		{
-			"id": "e0045",
-			"styleAttributes": {},
-			"fromNode": "e_hub",
-			"fromSide": "right",
-			"toNode": "f_hub",
-			"toSide": "left",
-			"color": "#27ae60"
-		},
-		{
-			"id": "e0046",
-			"styleAttributes": {},
-			"fromNode": "f_hub",
-			"fromSide": "bottom",
-			"toNode": "f_shortterm",
-			"toSide": "top",
-			"color": "#27ae60"
-		},
-		{
-			"id": "e0047",
-			"styleAttributes": {},
-			"fromNode": "f_shortterm",
-			"fromSide": "bottom",
-			"toNode": "f_longterm",
-			"toSide": "top",
-			"color": "#27ae60"
-		},
-		{
-			"id": "e0048",
-			"styleAttributes": {},
-			"fromNode": "f_longterm",
-			"fromSide": "bottom",
-			"toNode": "f_episodic",
-			"toSide": "top",
-			"color": "#27ae60"
-		},
-		{
-			"id": "e0049",
-			"styleAttributes": {},
-			"fromNode": "f_episodic",
-			"fromSide": "bottom",
-			"toNode": "f_semantic_mem",
-			"toSide": "top",
-			"color": "#27ae60"
-		},
-		{
-			"id": "e0050",
-			"styleAttributes": {},
-			"fromNode": "f_semantic_mem",
-			"fromSide": "bottom",
-			"toNode": "f_procedural",
-			"toSide": "top",
-			"color": "#27ae60"
-		},
-		{
-			"id": "e0051",
-			"styleAttributes": {},
-			"fromNode": "f_procedural",
-			"fromSide": "bottom",
-			"toNode": "f_memread",
-			"toSide": "top",
-			"color": "#27ae60"
-		},
-		{
-			"id": "e0052",
-			"styleAttributes": {},
-			"fromNode": "f_memread",
-			"fromSide": "bottom",
-			"toNode": "f_memwrite",
-			"toSide": "top",
-			"color": "#27ae60"
-		},
-		{
-			"id": "e0053",
-			"styleAttributes": {},
-			"fromNode": "f_hub",
-			"fromSide": "right",
-			"toNode": "g_hub",
-			"toSide": "left",
-			"color": "#f39c12"
-		},
-		{
-			"id": "e0054",
-			"styleAttributes": {},
-			"fromNode": "g_hub",
-			"fromSide": "bottom",
-			"toNode": "g_vision",
-			"toSide": "top",
-			"color": "#e17055"
-		},
-		{
-			"id": "e0055",
-			"styleAttributes": {},
-			"fromNode": "g_vision",
-			"fromSide": "bottom",
-			"toNode": "g_dalle",
-			"toSide": "top",
-			"color": "#e17055"
-		},
-		{
-			"id": "e0056",
-			"styleAttributes": {},
-			"fromNode": "g_dalle",
-			"fromSide": "bottom",
-			"toNode": "g_whisper",
-			"toSide": "top",
-			"color": "#e17055"
-		},
-		{
-			"id": "e0057",
-			"styleAttributes": {},
-			"fromNode": "g_whisper",
-			"fromSide": "bottom",
-			"toNode": "g_video",
-			"toSide": "top",
-			"color": "#e17055"
-		},
-		{
-			"id": "e0058",
-			"styleAttributes": {},
-			"fromNode": "g_video",
-			"fromSide": "bottom",
-			"toNode": "g_multirag",
-			"toSide": "top",
-			"color": "#e17055"
-		},
-		{
-			"id": "e0059",
-			"styleAttributes": {},
-			"fromNode": "g_multirag",
-			"fromSide": "bottom",
-			"toNode": "g_routing",
-			"toSide": "top",
-			"color": "#e17055"
-		},
-		{
-			"id": "e0060",
-			"styleAttributes": {},
-			"fromNode": "g_routing",
-			"fromSide": "bottom",
-			"toNode": "g_hf_vision",
-			"toSide": "top",
-			"color": "#e17055"
-		},
-		{
-			"id": "e0061",
-			"styleAttributes": {},
-			"fromNode": "a_react",
-			"fromSide": "right",
-			"toNode": "c_conditional",
-			"toSide": "left",
-			"label": "ReAct needs branching",
-			"color": "#f39c12"
-		},
-		{
-			"id": "e0062",
-			"styleAttributes": {},
-			"fromNode": "c_state",
-			"fromSide": "right",
-			"toNode": "d_checkpoint",
-			"toSide": "left",
-			"label": "state snapshotted",
-			"color": "#f39c12"
-		},
-		{
-			"id": "e0063",
-			"styleAttributes": {},
-			"fromNode": "b_sandbox",
-			"fromSide": "right",
-			"toNode": "e_subgraph",
-			"toSide": "left",
-			"label": "code exec in subgraph",
-			"color": "#f39c12"
-		},
-		{
-			"id": "e0064",
-			"styleAttributes": {},
-			"fromNode": "a_reflection",
-			"fromSide": "right",
-			"toNode": "f_episodic",
-			"toSide": "left",
-			"label": "reflection writes episodic",
-			"color": "#f39c12"
-		},
-		{
-			"id": "e0065",
-			"styleAttributes": {},
-			"fromNode": "g_multirag",
-			"fromSide": "right",
-			"toNode": "f_longterm",
-			"toSide": "left",
-			"label": "multimodal stored long-term",
-			"color": "#f39c12"
+	"edges":[
+		{
+			"id":"e0001",
+			"styleAttributes":{},
+			"fromNode":"p4_root",
+			"fromSide":"right",
+			"toNode":"a_hub",
+			"toSide":"left",
+			"color":"#e84393"
+		},
+		{
+			"id":"e0002",
+			"styleAttributes":{},
+			"fromNode":"a_hub",
+			"fromSide":"bottom",
+			"toNode":"a_react",
+			"toSide":"top",
+			"color":"#3498db"
+		},
+		{
+			"id":"e0003",
+			"styleAttributes":{},
+			"fromNode":"a_react",
+			"fromSide":"bottom",
+			"toNode":"a_plansolve",
+			"toSide":"top",
+			"color":"#3498db"
+		},
+		{
+			"id":"e0004",
+			"styleAttributes":{},
+			"fromNode":"a_plansolve",
+			"fromSide":"bottom",
+			"toNode":"a_reflection",
+			"toSide":"top",
+			"color":"#3498db"
+		},
+		{
+			"id":"e0005",
+			"styleAttributes":{},
+			"fromNode":"a_reflection",
+			"fromSide":"bottom",
+			"toNode":"a_selfcorrect",
+			"toSide":"top",
+			"color":"#3498db"
+		},
+		{
+			"id":"e0006",
+			"styleAttributes":{},
+			"fromNode":"a_selfcorrect",
+			"fromSide":"bottom",
+			"toNode":"a_cot_agent",
+			"toSide":"top",
+			"color":"#3498db"
+		},
+		{
+			"id":"e0007",
+			"styleAttributes":{},
+			"fromNode":"a_cot_agent",
+			"fromSide":"bottom",
+			"toNode":"a_phidata",
+			"toSide":"top",
+			"color":"#3498db"
+		},
+		{
+			"id":"e0008",
+			"styleAttributes":{},
+			"fromNode":"a_phidata",
+			"fromSide":"bottom",
+			"toNode":"a_smolagents",
+			"toSide":"top",
+			"color":"#3498db"
+		},
+		{
+			"id":"e0009",
+			"styleAttributes":{},
+			"fromNode":"a_smolagents",
+			"fromSide":"bottom",
+			"toNode":"a_math",
+			"toSide":"top",
+			"color":"#6c3483"
+		},
+		{
+			"id":"e0010",
+			"styleAttributes":{},
+			"fromNode":"a_hub",
+			"fromSide":"right",
+			"toNode":"b_hub",
+			"toSide":"left",
+			"color":"#e74c3c"
+		},
+		{
+			"id":"e0011",
+			"styleAttributes":{},
+			"fromNode":"b_hub",
+			"fromSide":"bottom",
+			"toNode":"b_openai_tools",
+			"toSide":"top",
+			"color":"#e74c3c"
+		},
+		{
+			"id":"e0012",
+			"styleAttributes":{},
+			"fromNode":"b_openai_tools",
+			"fromSide":"bottom",
+			"toNode":"b_schema",
+			"toSide":"top",
+			"color":"#e74c3c"
+		},
+		{
+			"id":"e0013",
+			"styleAttributes":{},
+			"fromNode":"b_schema",
+			"fromSide":"bottom",
+			"toNode":"b_builtin",
+			"toSide":"top",
+			"color":"#e74c3c"
+		},
+		{
+			"id":"e0014",
+			"styleAttributes":{},
+			"fromNode":"b_builtin",
+			"fromSide":"bottom",
+			"toNode":"b_custom",
+			"toSide":"top",
+			"color":"#e74c3c"
+		},
+		{
+			"id":"e0015",
+			"styleAttributes":{},
+			"fromNode":"b_custom",
+			"fromSide":"bottom",
+			"toNode":"b_mcp",
+			"toSide":"top",
+			"color":"#e74c3c"
+		},
+		{
+			"id":"e0016",
+			"styleAttributes":{},
+			"fromNode":"b_mcp",
+			"fromSide":"bottom",
+			"toNode":"b_toolchoice",
+			"toSide":"top",
+			"color":"#e74c3c"
+		},
+		{
+			"id":"e0017",
+			"styleAttributes":{},
+			"fromNode":"b_toolchoice",
+			"fromSide":"bottom",
+			"toNode":"b_sandbox",
+			"toSide":"top",
+			"color":"#e74c3c"
+		},
+		{
+			"id":"e0018",
+			"styleAttributes":{},
+			"fromNode":"b_sandbox",
+			"fromSide":"bottom",
+			"toNode":"b_toolmath",
+			"toSide":"top",
+			"color":"#6c3483"
+		},
+		{
+			"id":"e0019",
+			"styleAttributes":{},
+			"fromNode":"b_hub",
+			"fromSide":"right",
+			"toNode":"c_hub",
+			"toSide":"left",
+			"color":"#e67e22"
+		},
+		{
+			"id":"e0020",
+			"styleAttributes":{},
+			"fromNode":"c_hub",
+			"fromSide":"bottom",
+			"toNode":"c_core",
+			"toSide":"top",
+			"color":"#e67e22"
+		},
+		{
+			"id":"e0021",
+			"styleAttributes":{},
+			"fromNode":"c_core",
+			"fromSide":"bottom",
+			"toNode":"c_state",
+			"toSide":"top",
+			"color":"#e67e22"
+		},
+		{
+			"id":"e0022",
+			"styleAttributes":{},
+			"fromNode":"c_state",
+			"fromSide":"bottom",
+			"toNode":"c_conditional",
+			"toSide":"top",
+			"color":"#e67e22"
+		},
+		{
+			"id":"e0023",
+			"styleAttributes":{},
+			"fromNode":"c_conditional",
+			"fromSide":"bottom",
+			"toNode":"c_parallel",
+			"toSide":"top",
+			"color":"#e67e22"
+		},
+		{
+			"id":"e0024",
+			"styleAttributes":{},
+			"fromNode":"c_parallel",
+			"fromSide":"bottom",
+			"toNode":"c_stream",
+			"toSide":"top",
+			"color":"#e67e22"
+		},
+		{
+			"id":"e0025",
+			"styleAttributes":{},
+			"fromNode":"c_stream",
+			"fromSide":"bottom",
+			"toNode":"c_subgraph",
+			"toSide":"top",
+			"color":"#e67e22"
+		},
+		{
+			"id":"e0026",
+			"styleAttributes":{},
+			"fromNode":"c_subgraph",
+			"fromSide":"bottom",
+			"toNode":"c_studio",
+			"toSide":"top",
+			"color":"#e67e22"
+		},
+		{
+			"id":"e0027",
+			"styleAttributes":{},
+			"fromNode":"c_studio",
+			"fromSide":"bottom",
+			"toNode":"c_graphmath",
+			"toSide":"top",
+			"color":"#6c3483"
+		},
+		{
+			"id":"e0028",
+			"styleAttributes":{},
+			"fromNode":"c_hub",
+			"fromSide":"right",
+			"toNode":"d_hub",
+			"toSide":"left",
+			"color":"#1abc9c"
+		},
+		{
+			"id":"e0029",
+			"styleAttributes":{},
+			"fromNode":"d_hub",
+			"fromSide":"bottom",
+			"toNode":"d_checkpoint",
+			"toSide":"top",
+			"color":"#1abc9c"
+		},
+		{
+			"id":"e0030",
+			"styleAttributes":{},
+			"fromNode":"d_checkpoint",
+			"fromSide":"bottom",
+			"toNode":"d_interrupt",
+			"toSide":"top",
+			"color":"#1abc9c"
+		},
+		{
+			"id":"e0031",
+			"styleAttributes":{},
+			"fromNode":"d_interrupt",
+			"fromSide":"bottom",
+			"toNode":"d_tracing",
+			"toSide":"top",
+			"color":"#1abc9c"
+		},
+		{
+			"id":"e0032",
+			"styleAttributes":{},
+			"fromNode":"d_tracing",
+			"fromSide":"bottom",
+			"toNode":"d_openai_sdk",
+			"toSide":"top",
+			"color":"#1abc9c"
+		},
+		{
+			"id":"e0033",
+			"styleAttributes":{},
+			"fromNode":"d_openai_sdk",
+			"fromSide":"bottom",
+			"toNode":"d_approval",
+			"toSide":"top",
+			"color":"#1abc9c"
+		},
+		{
+			"id":"e0034",
+			"styleAttributes":{},
+			"fromNode":"d_approval",
+			"fromSide":"bottom",
+			"toNode":"d_audit",
+			"toSide":"top",
+			"color":"#1abc9c"
+		},
+		{
+			"id":"e0035",
+			"styleAttributes":{},
+			"fromNode":"d_audit",
+			"fromSide":"bottom",
+			"toNode":"d_rollback",
+			"toSide":"top",
+			"color":"#1abc9c"
+		},
+		{
+			"id":"e0036",
+			"styleAttributes":{},
+			"fromNode":"d_hub",
+			"fromSide":"right",
+			"toNode":"e_hub",
+			"toSide":"left",
+			"color":"#9b59b6"
+		},
+		{
+			"id":"e0037",
+			"styleAttributes":{},
+			"fromNode":"e_hub",
+			"fromSide":"bottom",
+			"toNode":"e_rolebased",
+			"toSide":"top",
+			"color":"#9b59b6"
+		},
+		{
+			"id":"e0038",
+			"styleAttributes":{},
+			"fromNode":"e_rolebased",
+			"fromSide":"bottom",
+			"toNode":"e_autogen",
+			"toSide":"top",
+			"color":"#9b59b6"
+		},
+		{
+			"id":"e0039",
+			"styleAttributes":{},
+			"fromNode":"e_autogen",
+			"fromSide":"bottom",
+			"toNode":"e_crewai",
+			"toSide":"top",
+			"color":"#9b59b6"
+		},
+		{
+			"id":"e0040",
+			"styleAttributes":{},
+			"fromNode":"e_crewai",
+			"fromSide":"bottom",
+			"toNode":"e_semantic_kernel",
+			"toSide":"top",
+			"color":"#9b59b6"
+		},
+		{
+			"id":"e0041",
+			"styleAttributes":{},
+			"fromNode":"e_semantic_kernel",
+			"fromSide":"bottom",
+			"toNode":"e_comm",
+			"toSide":"top",
+			"color":"#9b59b6"
+		},
+		{
+			"id":"e0042",
+			"styleAttributes":{},
+			"fromNode":"e_comm",
+			"fromSide":"bottom",
+			"toNode":"e_subgraph",
+			"toSide":"top",
+			"color":"#9b59b6"
+		},
+		{
+			"id":"e0043",
+			"styleAttributes":{},
+			"fromNode":"e_subgraph",
+			"fromSide":"bottom",
+			"toNode":"e_supervisor",
+			"toSide":"top",
+			"color":"#9b59b6"
+		},
+		{
+			"id":"e0044",
+			"styleAttributes":{},
+			"fromNode":"e_supervisor",
+			"fromSide":"bottom",
+			"toNode":"e_math_multi",
+			"toSide":"top",
+			"color":"#6c3483"
+		},
+		{
+			"id":"e0045",
+			"styleAttributes":{},
+			"fromNode":"e_hub",
+			"fromSide":"right",
+			"toNode":"f_hub",
+			"toSide":"left",
+			"color":"#27ae60"
+		},
+		{
+			"id":"e0046",
+			"styleAttributes":{},
+			"fromNode":"f_hub",
+			"fromSide":"bottom",
+			"toNode":"f_shortterm",
+			"toSide":"top",
+			"color":"#27ae60"
+		},
+		{
+			"id":"e0047",
+			"styleAttributes":{},
+			"fromNode":"f_shortterm",
+			"fromSide":"bottom",
+			"toNode":"f_longterm",
+			"toSide":"top",
+			"color":"#27ae60"
+		},
+		{
+			"id":"e0048",
+			"styleAttributes":{},
+			"fromNode":"f_longterm",
+			"fromSide":"bottom",
+			"toNode":"f_episodic",
+			"toSide":"top",
+			"color":"#27ae60"
+		},
+		{
+			"id":"e0049",
+			"styleAttributes":{},
+			"fromNode":"f_episodic",
+			"fromSide":"bottom",
+			"toNode":"f_semantic_mem",
+			"toSide":"top",
+			"color":"#27ae60"
+		},
+		{
+			"id":"e0050",
+			"styleAttributes":{},
+			"fromNode":"f_semantic_mem",
+			"fromSide":"bottom",
+			"toNode":"f_procedural",
+			"toSide":"top",
+			"color":"#27ae60"
+		},
+		{
+			"id":"e0051",
+			"styleAttributes":{},
+			"fromNode":"f_procedural",
+			"fromSide":"bottom",
+			"toNode":"f_memread",
+			"toSide":"top",
+			"color":"#27ae60"
+		},
+		{
+			"id":"e0052",
+			"styleAttributes":{},
+			"fromNode":"f_memread",
+			"fromSide":"bottom",
+			"toNode":"f_memwrite",
+			"toSide":"top",
+			"color":"#27ae60"
+		},
+		{
+			"id":"e0053",
+			"styleAttributes":{},
+			"fromNode":"f_hub",
+			"fromSide":"right",
+			"toNode":"g_hub",
+			"toSide":"left",
+			"color":"#f39c12"
+		},
+		{
+			"id":"e0054",
+			"styleAttributes":{},
+			"fromNode":"g_hub",
+			"fromSide":"bottom",
+			"toNode":"g_vision",
+			"toSide":"top",
+			"color":"#e17055"
+		},
+		{
+			"id":"e0055",
+			"styleAttributes":{},
+			"fromNode":"g_vision",
+			"fromSide":"bottom",
+			"toNode":"g_dalle",
+			"toSide":"top",
+			"color":"#e17055"
+		},
+		{
+			"id":"e0056",
+			"styleAttributes":{},
+			"fromNode":"g_dalle",
+			"fromSide":"bottom",
+			"toNode":"g_whisper",
+			"toSide":"top",
+			"color":"#e17055"
+		},
+		{
+			"id":"e0057",
+			"styleAttributes":{},
+			"fromNode":"g_whisper",
+			"fromSide":"bottom",
+			"toNode":"g_video",
+			"toSide":"top",
+			"color":"#e17055"
+		},
+		{
+			"id":"e0058",
+			"styleAttributes":{},
+			"fromNode":"g_video",
+			"fromSide":"bottom",
+			"toNode":"g_multirag",
+			"toSide":"top",
+			"color":"#e17055"
+		},
+		{
+			"id":"e0059",
+			"styleAttributes":{},
+			"fromNode":"g_multirag",
+			"fromSide":"bottom",
+			"toNode":"g_routing",
+			"toSide":"top",
+			"color":"#e17055"
+		},
+		{
+			"id":"e0060",
+			"styleAttributes":{},
+			"fromNode":"g_routing",
+			"fromSide":"bottom",
+			"toNode":"g_hf_vision",
+			"toSide":"top",
+			"color":"#e17055"
+		},
+		{
+			"id":"e0061",
+			"styleAttributes":{},
+			"fromNode":"a_react",
+			"fromSide":"right",
+			"toNode":"c_conditional",
+			"toSide":"left",
+			"label":"ReAct needs branching",
+			"color":"#f39c12"
+		},
+		{
+			"id":"e0062",
+			"styleAttributes":{},
+			"fromNode":"c_state",
+			"fromSide":"right",
+			"toNode":"d_checkpoint",
+			"toSide":"left",
+			"label":"state snapshotted",
+			"color":"#f39c12"
+		},
+		{
+			"id":"e0063",
+			"styleAttributes":{},
+			"fromNode":"b_sandbox",
+			"fromSide":"right",
+			"toNode":"e_subgraph",
+			"toSide":"left",
+			"label":"code exec in subgraph",
+			"color":"#f39c12"
+		},
+		{
+			"id":"e0064",
+			"styleAttributes":{},
+			"fromNode":"a_reflection",
+			"fromSide":"right",
+			"toNode":"f_episodic",
+			"toSide":"left",
+			"label":"reflection writes episodic",
+			"color":"#f39c12"
+		},
+		{
+			"id":"e0065",
+			"styleAttributes":{},
+			"fromNode":"g_multirag",
+			"fromSide":"right",
+			"toNode":"f_longterm",
+			"toSide":"left",
+			"label":"multimodal stored long-term",
+			"color":"#f39c12"
 		}
 	],
-	"metadata": {
-		"version": "1.0-1.0",
-		"frontmatter": {}
+	"metadata":{
+		"version":"1.0-1.0",
+		"frontmatter":{}
 	}
 }
