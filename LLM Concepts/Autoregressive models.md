@@ -81,16 +81,21 @@ def generate(model, prompt_tokens, max_new_tokens=20, temperature=1.0):
         prompt_tokens = torch.cat([prompt_tokens, next_token], dim=-1)
     return prompt_tokens
 ```
-Popular Autoregressive Models
-Model Family	Architecture	Key Features
-GPT‑4 / GPT‑3	Transformer (decoder‑only)	Causal attention, large scale
-Llama 2/3	Transformer (decoder‑only)	RoPE, RMSNorm, grouped‑query attention
-Gemini	Transformer (decoder‑only)	Multi‑modal (text, image, audio)
-CodeLlama	Fine‑tuned Llama	Specialised for code generation
-LLaMA‑GRPO	Transformer	Reinforcement learning from preferences
-Pros and Cons
-Pros ✅	Cons ❌
-Simple, stable training (teacher forcing)	Sequential generation is slow (O(seq_len) passes)
-State‑of‑the‑art for text, code, music	No bidirectional context (unlike BERT)
-Can generate arbitrarily long sequences	Prone to error accumulation (drift)
-Easy to condition on prompts	Less control over global structure
+## Popular Autoregressive Models
+
+| Model Family       | Architecture                  | Key Features                                     |
+|--------------------|-------------------------------|--------------------------------------------------|
+| GPT‑4 / GPT‑3      | Transformer (decoder‑only)    | Causal attention, large scale                    |
+| Llama 2/3          | Transformer (decoder‑only)    | RoPE, RMSNorm, grouped‑query attention           |
+| Gemini             | Transformer (decoder‑only)    | Multi‑modal (text, image, audio)                 |
+| CodeLlama          | Fine‑tuned Llama              | Specialised for code generation                  |
+| LLaMA‑GRPO         | Transformer                   | Reinforcement learning from preferences          |
+
+## Pros and Cons
+
+| Pros ✅                                           | Cons ❌                                                |
+|--------------------------------------------------|-------------------------------------------------------|
+| Simple, stable training (teacher forcing)       | Sequential generation is slow (O(seq_len) passes)    |
+| State‑of‑the‑art for text, code, music          | No bidirectional context (unlike BERT)               |
+| Can generate arbitrarily long sequences         | Prone to error accumulation (drift)                  |
+| Easy to condition on prompts                    | Less control over global structure                   |
