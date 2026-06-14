@@ -37,3 +37,29 @@ This prevents the model from relying solely on [MASK] as a signal and forces it 
 
 # Architecture (Transformer Encoder)
 Unlike autoregressive models (decoder‑only), MLMs use the encoder‑only stack – full bidirectional attention without a causal mask.
+
+                    [CLS]   The   cat   [MASK]   on    the   mat   [SEP]
+                      │       │      │       │      │      │      │       │
+                      ▼       ▼      ▼       ▼      ▼      ▼      ▼       ▼
+              ┌─────────────────────────────────────────────────────────────────┐
+              │                     Multi‑Head Self‑Attention                   │
+              │                        (no mask – full context)                 │
+              └─────────────────────────────────────────────────────────────────┘
+                      │       │      │       │      │      │      │       │
+                      ▼       ▼      ▼       ▼      ▼      ▼      ▼       ▼
+              ┌─────────────────────────────────────────────────────────────────┐
+              │                      Feed‑Forward Network                       │
+              └─────────────────────────────────────────────────────────────────┘
+                      │       │      │       │      │      │      │       │
+                      ▼       ▼      ▼       ▼      ▼      ▼      ▼       ▼
+                  Add & LayerNorm (residual connection)
+                      │       │      │       │      │      │      │       │
+                      (repeat L times – e.g., 12 for BERT‑base)
+                      │       │      │       │      │      │      │       │
+                      ▼       ▼      ▼       ▼      ▼      ▼      ▼       ▼
+                   h_CLS    h1     h2      h3     h4     h5     h6     h_SEP
+                      │                                              │
+                      └──────────────────┬───────────────────────────┘
+                                         ▼
+                              Softmax classifier (over vocabulary)
+                              only at masked positions during training
