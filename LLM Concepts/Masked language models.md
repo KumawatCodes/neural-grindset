@@ -63,3 +63,35 @@ Unlike autoregressive models (decoder‑only), MLMs use the encoder‑only stack
                                          ▼
                               Softmax classifier (over vocabulary)
                               only at masked positions during training
+
+Attention Pattern (Full Bidirectional)
+text
+Tokens:   t1    t2    t3    t4
+t1:       ✔     ✔     ✔     ✔
+t2:       ✔     ✔     ✔     ✔
+t3:       ✔     ✔     ✔     ✔
+t4:       ✔     ✔     ✔     ✔
+Every token attends to every other token – no causal restriction.
+
+## Training Code Example (Hugging Face)
+```python
+from transformers import BertTokenizer, BertForMaskedLM
+import torch
+
+tokenizer = BertTokenizer.from_pretrained('bert-base-uncased')
+model = BertForMaskedLM.from_pretrained('bert-base-uncased')
+
+text = "The cat sat on the [MASK]"
+inputs = tokenizer(text, return_tensors='pt')
+mask_token_index = (inputs.input_ids == tokenizer.mask_token_id).nonzero(as_tuple=True)[1]
+
+with torch.no_grad():
+    outputs = model(**inputs)
+    logits = outputs.logits
+
+mask_logits = logits[0, mask_token_index, :]
+predicted_token_id = torch.argmax(mask_logits, dim=-1)
+predicted_token = tokenizer.decode(predicted_token_id)
+
+print(predicted_token)   # likely "mat"
+```
