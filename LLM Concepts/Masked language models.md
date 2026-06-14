@@ -26,7 +26,7 @@ Target:          –     –     sat     –    –     –      –
 Masked positions (15% of tokens) are predicted using the final hidden states.
 
 
-Training Procedure (Masking Strategy)
+## Training Procedure (Masking Strategy)
 For each masked position with probability 15%:
 
 Action	Probability	Rationale
@@ -35,5 +35,5 @@ Replace with a random token	10%	Reduces mismatch with fine‑tuning
 Keep unchanged	10%	Biases representation towards true token
 This prevents the model from relying solely on [MASK] as a signal and forces it to learn general token representations.
 
-Architecture (Transformer Encoder)
+# Architecture (Transformer Encoder)
 Unlike autoregressive models (decoder‑only), MLMs use the encoder‑only stack – full bidirectional attention without a causal mask.
