@@ -18,3 +18,9 @@ Given an input sequence, a percentage of tokens (typically 15%) are replaced wit
 Input:     [CLS]  The   cat   [MASK]  on   the   mat  [SEP]
 Masked:          ✗     ✗      ✔      ✗    ✗     ✗     ✗
 Target:          –     –     sat     –    –     –      –
+```
+[CLS] – Special token for classification tasks (aggregated output).
+
+[SEP] – Separator for sentence pairs.
+
+Masked positions (15% of tokens) are predicted using the final hidden states.
