@@ -39,3 +39,28 @@ Merge "ca"+"t" → "cat"
 Now: cat s   cat
 Merge "cat"+"s" → "cats"
 Final vocab: c, a, t, s, ca, cat, cats, ...
+```
+# Tokenizer Example (Hugging Face)
+```python
+from transformers import AutoTokenizer
+
+# Load a pretrained tokenizer
+tokenizer = AutoTokenizer.from_pretrained("bert-base-uncased")
+
+text = "I love natural language processing!"
+
+# Tokenize to strings
+tokens = tokenizer.tokenize(text)
+print(tokens)
+# ['i', 'love', 'natural', 'language', 'processing', '!']
+
+# Convert to IDs
+ids = tokenizer.convert_tokens_to_ids(tokens)
+print(ids)
+# [1045, 2293, 3012, 2653, 4722, 999]
+
+# Direct encoding (adds special tokens)
+encoded = tokenizer(text, return_tensors='pt')
+print(encoded['input_ids'])
+# tensor([[  101,  1045,  2293,  3012,  2653,  4722,   999,   102]])
+```
