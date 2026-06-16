@@ -1,0 +1,10 @@
+[project]
+name = "data-structures"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.12"
+dependencies = [
+    "ipykernel>=7.3.0",
+    "numpy>=2.4.6",
+]
