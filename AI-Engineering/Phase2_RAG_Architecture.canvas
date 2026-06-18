@@ -1,6 +1,6 @@
 {
 	"nodes":[
-		{"id":"grp_ingest","type":"group","x":360,"y":-40,"width":350,"height":1270,"color":"4","label":"📥 Ingestion & Document Processing"},
+		{"id":"grp_ingest","type":"group","x":-1440,"y":-880,"width":1340,"height":640,"color":"4","label":"📥 Ingestion & Document Processing"},
 		{"id":"grp_vdb","type":"group","x":1660,"y":-40,"width":340,"height":1200,"label":"🗄️ Vector Databases"},
 		{"id":"grp_emb","type":"group","x":1230,"y":-40,"width":340,"height":1100,"label":"🧮 Embeddings & Vector Space"},
 		{"id":"grp_search","type":"group","x":2090,"y":-40,"width":340,"height":1060,"label":"🔍 Search & Reranking"},
@@ -18,72 +18,6 @@
 			"width":260,
 			"height":90,
 			"color":"#1abc9c"
-		},
-		{
-			"id":"b_fixed",
-			"type":"text",
-			"text":"◈ Fixed-Size Chunking\n— char/token-based splits\n— chunk_size, chunk_overlap\n— Fast, predictable baseline\n— Risk: mid-sentence splits",
-			"styleAttributes":{},
-			"x":840,
-			"y":120,
-			"width":260,
-			"height":100,
-			"color":"#1abc9c"
-		},
-		{
-			"id":"b_semantic",
-			"type":"text",
-			"text":"🔷 Semantic Chunking\n— Embed sentences, compare\n— Split at cosine drop threshold\n— SemanticChunker (LangChain)\n— Preserves topic coherence",
-			"styleAttributes":{},
-			"x":840,
-			"y":250,
-			"width":260,
-			"height":100,
-			"color":"#1abc9c"
-		},
-		{
-			"id":"b_hierarchical",
-			"type":"text",
-			"text":"🔷 Hierarchical / Parent-Child\n— Child (128 tok): precision\n— Parent (512 tok): context fill\n— HierarchicalNodeParser\n— Small-to-big retrieval",
-			"styleAttributes":{},
-			"x":840,
-			"y":380,
-			"width":260,
-			"height":100,
-			"color":"#1abc9c"
-		},
-		{
-			"id":"a_hub",
-			"type":"text",
-			"text":"📥 Ingestion &\nDocument Processing",
-			"styleAttributes":{},
-			"x":410,
-			"y":0,
-			"width":260,
-			"height":90,
-			"color":"#2ecc71"
-		},
-		{
-			"id":"a_formats",
-			"type":"text",
-			"text":"◈ File Format Parsers\n— PDF: pdfplumber layout-aware\n— HTML: BeautifulSoup stripping\n— DOCX: python-docx paragraphs\n— MD: header-aware extraction",
-			"styleAttributes":{},
-			"x":410,
-			"y":250,
-			"width":260,
-			"height":100,
-			"color":"#2ecc71"
-		},
-		{
-			"id":"a_cleaning",
-			"type":"text",
-			"text":"◈ Document Cleaning\n— Strip headers, footers, pg#\n— Unicode normalization\n— Dedup identical paragraphs\n— Language detection/filter",
-			"styleAttributes":{},
-			"x":410,
-			"y":380,
-			"width":260,
-			"height":100,
-			"color":"#2ecc71"
 		},
 		{
 			"id":"b_overlap",
@@ -130,81 +64,323 @@
 			"color":"#1abc9c"
 		},
 		{
-			"id":"a_loaders",
+			"id":"c_models",
 			"type":"text",
-			"text":"◈ Document Loaders\n— PyPDFLoader, WebBaseLoader\n— DirectoryLoader bulk ingestion\n— Notion, Confluence connectors\n— Custom API source loaders",
+			"text":"◈ Embedding Model Selection\n— MTEB leaderboard eval\n— Asymmetric query/passage\n— Domain-specific models\n— Multilingual embeddings",
 			"styleAttributes":{},
-			"x":410,
+			"x":1270,
+			"y":390,
+			"width":260,
+			"height":100,
+			"color":"#9b59b6"
+		},
+		{
+			"id":"c_openai_emb",
+			"type":"text",
+			"text":"◈ OpenAI Embeddings\n— text-embedding-3-small/large\n— Matryoshka repr learning\n— 1536 / 3072 dimensions\n— Native truncation support",
+			"styleAttributes":{},
+			"x":1270,
+			"y":520,
+			"width":260,
+			"height":100,
+			"color":"#9b59b6"
+		},
+		{
+			"id":"c_oss_emb",
+			"type":"text",
+			"text":"◈ Open-Source Embeddings\n— all-MiniLM-L6-v2 (fast)\n— bge-large-en-v1.5 (SOTA)\n— nomic-embed-text (8192 ctx)\n— mxbai-embed-large",
+			"styleAttributes":{},
+			"x":1270,
+			"y":650,
+			"width":260,
+			"height":100,
+			"color":"#9b59b6"
+		},
+		{
+			"id":"c_multimodal_emb",
+			"type":"text",
+			"text":"◈ Multimodal Embeddings\n— CLIP: image-text joint space\n— ImageBind: 6-modality\n— SigLIP: better zero-shot\n— Cross-modal retrieval",
+			"styleAttributes":{},
+			"x":1270,
+			"y":780,
+			"width":260,
+			"height":90,
+			"color":"#9b59b6"
+		},
+		{
+			"id":"b_fixed",
+			"type":"text",
+			"text":"◈ Fixed-Size Chunking\n— char/token-based splits\n— chunk_size, chunk_overlap\n— Fast, predictable baseline\n— Risk: mid-sentence splits",
+			"styleAttributes":{},
+			"x":840,
 			"y":120,
 			"width":260,
 			"height":100,
-			"color":"#2ecc71"
+			"color":"#1abc9c"
 		},
 		{
-			"id":"a_metadata",
+			"id":"b_semantic",
 			"type":"text",
-			"text":"◈ Metadata Enrichment\n— Source URL, doc title\n— Section headers, page numbers\n— Author, creation timestamp\n— Custom taxonomy tagging",
+			"text":"🔷 Semantic Chunking\n— Embed sentences, compare\n— Split at cosine drop threshold\n— SemanticChunker (LangChain)\n— Preserves topic coherence",
 			"styleAttributes":{},
-			"x":410,
-			"y":510,
+			"x":840,
+			"y":250,
 			"width":260,
 			"height":100,
-			"color":"#2ecc71"
+			"color":"#1abc9c"
 		},
 		{
-			"id":"a_ocr",
+			"id":"b_eval",
 			"type":"text",
-			"text":"◈ OCR & Scanned Docs\n— Tesseract integration\n— AWS Textract for tables\n— Layout analysis (Unstructured)\n— Image-to-text preprocessing",
+			"text":"◈ Chunk Quality Evaluation\n— Retrieval precision vs recall\n— Chunk size ablation tests\n— LLM-graded coherence score\n— Math: chunk coverage metric",
 			"styleAttributes":{},
-			"x":410,
-			"y":1020,
+			"x":840,
+			"y":1000,
+			"width":260,
+			"height":80,
+			"color":"#1abc9c"
+		},
+		{
+			"id":"c_hub",
+			"type":"text",
+			"text":"🧮 Embeddings &\nVector Space",
+			"styleAttributes":{},
+			"x":1270,
+			"y":0,
 			"width":260,
 			"height":90,
-			"color":"#2ecc71"
+			"color":"#9b59b6"
 		},
 		{
-			"id":"a_multimodal_ingest",
+			"id":"c_theory",
 			"type":"text",
-			"text":"◈ Multimodal Ingestion\n— Image caption embedding\n— Audio transcript ingestion\n— Table extraction as text\n— Chart data extraction",
+			"text":"◈ Embedding Theory\n— Semantic space representation\n— Distributional hypothesis\n— Context-dependent meaning\n— Dense vs sparse vectors",
 			"styleAttributes":{},
-			"x":410,
-			"y":1140,
-			"width":260,
-			"height":90,
-			"color":"#2ecc71"
-		},
-		{
-			"id":"a_temporal",
-			"type":"text",
-			"text":"◈ Temporal Tagging\n— created_at / updated_at stamps\n— Time-scoped retrieval design\n— Freshness decay weighting\n— TTL-based chunk expiry",
-			"styleAttributes":{},
-			"x":410,
-			"y":640,
+			"x":1270,
+			"y":120,
 			"width":260,
 			"height":100,
-			"color":"#2ecc71"
+			"color":"#9b59b6"
 		},
 		{
-			"id":"a_autosum",
+			"id":"c_cosine",
 			"type":"text",
-			"text":"◈ Auto-Summarization\n— Per-chunk LLM summaries\n— Document-level summaries\n— Summaries as alt retrieval\n— Abstract vs detail retrieval",
+			"text":"🔷 Similarity Math\n— Cosine: A·B/(|A||B|) ✅\n— Dot product: ΣaᵢBᵢ\n— L2: √Σ(aᵢ-bᵢ)²\n— Normalization preprocessing",
 			"styleAttributes":{},
-			"x":410,
-			"y":770,
+			"x":1270,
+			"y":250,
+			"width":260,
+			"height":110,
+			"color":"#6c3483"
+		},
+		{
+			"id":"c_batch",
+			"type":"text",
+			"text":"◈ Batching & Optimization\n— Batch size vs GPU memory\n— Redis embedding cache\n— Async parallel embedding\n— Avoid re-embedding unchanged",
+			"styleAttributes":{},
+			"x":1270,
+			"y":900,
 			"width":260,
 			"height":90,
-			"color":"#2ecc71"
+			"color":"#9b59b6"
 		},
 		{
-			"id":"a_pipeline",
+			"id":"c_dim",
 			"type":"text",
-			"text":"🔷 Ingestion Pipeline\n— Load → Clean → Chunk\n→ Embed → Store flow\n— Idempotent upsert by doc_id\n— Change-detection diffing",
+			"text":"◈ Dimensionality\n— High-dim: curse explained\n— PCA / UMAP reduction\n— MRL: lossless truncation\n— Quantization: float32→int8",
 			"styleAttributes":{},
-			"x":410,
-			"y":890,
+			"x":1270,
+			"y":1010,
+			"width":260,
+			"height":70,
+			"color":"#6c3483"
+		},
+		{
+			"id":"b_hierarchical",
+			"type":"text",
+			"text":"🔷 Hierarchical / Parent-Child\n— Child (128 tok): precision\n— Parent (512 tok): context fill\n— HierarchicalNodeParser\n— Small-to-big retrieval",
+			"styleAttributes":{},
+			"x":840,
+			"y":380,
 			"width":260,
 			"height":100,
-			"color":"#2ecc71"
+			"color":"#1abc9c"
+		},
+		{
+			"id":"f_flare",
+			"type":"text",
+			"text":"◈ FLARE\n— Forward-Looking Active\nRetrieval Augmentation\n— Predict next sentence\n— Retrieve if confidence low",
+			"styleAttributes":{},
+			"x":2560,
+			"y":650,
+			"width":260,
+			"height":100,
+			"color":"#8e44ad"
+		},
+		{
+			"id":"f_ragfusion",
+			"type":"text",
+			"text":"◈ RAG Fusion\n— Multi-query generation\n— Parallel retrieval runs\n— RRF over all result lists\n— Reduces query ambiguity",
+			"styleAttributes":{},
+			"x":2560,
+			"y":780,
+			"width":260,
+			"height":90,
+			"color":"#8e44ad"
+		},
+		{
+			"id":"f_adaptive",
+			"type":"text",
+			"text":"◈ Adaptive Retrieval\n— Query uncertainty scoring\n— Skip retrieval: factual Q\n— Trigger: knowledge-intensive\n— Dynamic retrieval threshold",
+			"styleAttributes":{},
+			"x":2560,
+			"y":260,
+			"width":260,
+			"height":100,
+			"color":"#8e44ad"
+		},
+		{
+			"id":"f_hub",
+			"type":"text",
+			"text":"🚀 Next-Gen RAG\nParadigms",
+			"styleAttributes":{},
+			"x":2560,
+			"y":0,
+			"width":260,
+			"height":90,
+			"color":"#8e44ad"
+		},
+		{
+			"id":"f_crag",
+			"type":"text",
+			"text":"🔷 Corrective RAG (CRAG)\n— Confidence-scored retrieval\n— Web search fallback trigger\n— Below-threshold: web search\n— Combine retrieved + web",
+			"styleAttributes":{},
+			"x":2560,
+			"y":390,
+			"width":260,
+			"height":100,
+			"color":"#8e44ad"
+		},
+		{
+			"id":"f_agentic",
+			"type":"text",
+			"text":"🔷 Agentic RAG / PlanRAG\n— LLM plans retrieval steps\n— Decomposes complex queries\n— Iterates until evidence full\n— Tool-calling retrieval loop",
+			"styleAttributes":{},
+			"x":2560,
+			"y":520,
+			"width":260,
+			"height":100,
+			"color":"#8e44ad"
+		},
+		{
+			"id":"f_selfrag",
+			"type":"text",
+			"text":"🔷 Self-RAG\n— Retrieval tokens (ISRET)\n— Relevance tokens (ISREL)\n— Support tokens (ISSUP)\n— End-to-end trained model",
+			"styleAttributes":{},
+			"x":2560,
+			"y":120,
+			"width":260,
+			"height":110,
+			"color":"#8e44ad"
+		},
+		{
+			"id":"e_bge",
+			"type":"text",
+			"text":"◈ BGE-Reranker\n— bge-reranker-v2-m3 (BAAI)\n— Open-source cross-encoder\n— BEIR benchmark competitive\n— Self-hosted option",
+			"styleAttributes":{},
+			"x":2130,
+			"y":790,
+			"width":260,
+			"height":90,
+			"color":"#c0392b"
+		},
+		{
+			"id":"e_queryrew",
+			"type":"text",
+			"text":"◈ Query Rewriting\n— LLM-based reformulation\n— Step-back prompting\n— Query decomposition\n— Sub-query generation",
+			"styleAttributes":{},
+			"x":2130,
+			"y":910,
+			"width":260,
+			"height":90,
+			"color":"#c0392b"
+		},
+		{
+			"id":"f_raft",
+			"type":"text",
+			"text":"◈ RAFT\n— Retrieval-Augmented Fine-Tuning\n— Trained on distractor docs\n— Combines RAG + fine-tune\n— Domain-specific robustness",
+			"styleAttributes":{},
+			"x":2560,
+			"y":900,
+			"width":260,
+			"height":90,
+			"color":"#8e44ad"
+		},
+		{
+			"id":"f_cag",
+			"type":"text",
+			"text":"◈ CAG\n— Cache-Augmented Generation\n— Pre-load docs into KV-cache\n— Zero retrieval latency\n— High memory cost tradeoff",
+			"styleAttributes":{},
+			"x":2560,
+			"y":1000,
+			"width":260,
+			"height":80,
+			"color":"#8e44ad"
+		},
+		{
+			"id":"e_hyde",
+			"type":"text",
+			"text":"◈ HyDE\n— Generate hypothetical answer\n— Embed the hypothesis\n— Retrieve similar docs\n— Bridges query-doc gap",
+			"styleAttributes":{},
+			"x":2130,
+			"y":1000,
+			"width":260,
+			"height":80,
+			"color":"#c0392b"
+		},
+		{
+			"id":"e_hub",
+			"type":"text",
+			"text":"🔍 Search Algorithms\n& Reranking Pipeline",
+			"styleAttributes":{},
+			"x":2130,
+			"y":0,
+			"width":260,
+			"height":90,
+			"color":"#c0392b"
+		},
+		{
+			"id":"e_bm25",
+			"type":"text",
+			"text":"◈ BM25 Sparse Retrieval\n— Best Match 25 algorithm\n— TF-IDF variant with saturation\n— Math: Σ IDF·(tf·(k+1))/(tf+k·(1-b+b·dl/avgdl))\n— Keyword exact match strength",
+			"styleAttributes":{},
+			"x":2130,
+			"y":120,
+			"width":260,
+			"height":120,
+			"color":"#6c3483"
+		},
+		{
+			"id":"e_dense",
+			"type":"text",
+			"text":"◈ Dense Retrieval\n— ANN over embedding index\n— bi-encoder architecture\n— DPR (Dense Passage Retrieval)\n— FAISS / Qdrant backend",
+			"styleAttributes":{},
+			"x":2130,
+			"y":270,
+			"width":260,
+			"height":100,
+			"color":"#c0392b"
+		},
+		{
+			"id":"e_rrf",
+			"type":"text",
+			"text":"🔷 Reciprocal Rank Fusion\n— RRF(d) = Σ 1/(k+rank(d))\n— k=60 default constant\n— Merges sparse + dense lists\n— Parameter-free fusion",
+			"styleAttributes":{},
+			"x":2130,
+			"y":400,
+			"width":260,
+			"height":110,
+			"color":"#6c3483"
 		},
 		{
 			"id":"d_hub",
@@ -284,15 +460,26 @@
 			"color":"#2980b9"
 		},
 		{
-			"id":"b_eval",
+			"id":"e_cohere",
 			"type":"text",
-			"text":"◈ Chunk Quality Evaluation\n— Retrieval precision vs recall\n— Chunk size ablation tests\n— LLM-graded coherence score\n— Math: chunk coverage metric",
+			"text":"◈ Cohere Rerank API\n— co.rerank() endpoint\n— rerank-english-v3.0 model\n— Returns relevance scores\n— Drop-in reranker layer",
 			"styleAttributes":{},
-			"x":840,
-			"y":1000,
+			"x":2130,
+			"y":670,
 			"width":260,
-			"height":80,
-			"color":"#1abc9c"
+			"height":90,
+			"color":"#c0392b"
+		},
+		{
+			"id":"e_crossenc",
+			"type":"text",
+			"text":"🔷 Cross-Encoder Reranking\n— Full attention: query+chunk\n— bi-directional relevance\n— 2nd-stage precision filter\n— Slower: used post-ANN",
+			"styleAttributes":{},
+			"x":2130,
+			"y":540,
+			"width":260,
+			"height":100,
+			"color":"#c0392b"
 		},
 		{
 			"id":"d_pinecone",
@@ -326,105 +513,6 @@
 			"width":260,
 			"height":70,
 			"color":"#2980b9"
-		},
-		{
-			"id":"c_hub",
-			"type":"text",
-			"text":"🧮 Embeddings &\nVector Space",
-			"styleAttributes":{},
-			"x":1270,
-			"y":0,
-			"width":260,
-			"height":90,
-			"color":"#9b59b6"
-		},
-		{
-			"id":"c_theory",
-			"type":"text",
-			"text":"◈ Embedding Theory\n— Semantic space representation\n— Distributional hypothesis\n— Context-dependent meaning\n— Dense vs sparse vectors",
-			"styleAttributes":{},
-			"x":1270,
-			"y":120,
-			"width":260,
-			"height":100,
-			"color":"#9b59b6"
-		},
-		{
-			"id":"c_models",
-			"type":"text",
-			"text":"◈ Embedding Model Selection\n— MTEB leaderboard eval\n— Asymmetric query/passage\n— Domain-specific models\n— Multilingual embeddings",
-			"styleAttributes":{},
-			"x":1270,
-			"y":390,
-			"width":260,
-			"height":100,
-			"color":"#9b59b6"
-		},
-		{
-			"id":"c_openai_emb",
-			"type":"text",
-			"text":"◈ OpenAI Embeddings\n— text-embedding-3-small/large\n— Matryoshka repr learning\n— 1536 / 3072 dimensions\n— Native truncation support",
-			"styleAttributes":{},
-			"x":1270,
-			"y":520,
-			"width":260,
-			"height":100,
-			"color":"#9b59b6"
-		},
-		{
-			"id":"c_oss_emb",
-			"type":"text",
-			"text":"◈ Open-Source Embeddings\n— all-MiniLM-L6-v2 (fast)\n— bge-large-en-v1.5 (SOTA)\n— nomic-embed-text (8192 ctx)\n— mxbai-embed-large",
-			"styleAttributes":{},
-			"x":1270,
-			"y":650,
-			"width":260,
-			"height":100,
-			"color":"#9b59b6"
-		},
-		{
-			"id":"c_multimodal_emb",
-			"type":"text",
-			"text":"◈ Multimodal Embeddings\n— CLIP: image-text joint space\n— ImageBind: 6-modality\n— SigLIP: better zero-shot\n— Cross-modal retrieval",
-			"styleAttributes":{},
-			"x":1270,
-			"y":780,
-			"width":260,
-			"height":90,
-			"color":"#9b59b6"
-		},
-		{
-			"id":"c_cosine",
-			"type":"text",
-			"text":"🔷 Similarity Math\n— Cosine: A·B/(|A||B|) ✅\n— Dot product: ΣaᵢBᵢ\n— L2: √Σ(aᵢ-bᵢ)²\n— Normalization preprocessing",
-			"styleAttributes":{},
-			"x":1270,
-			"y":250,
-			"width":260,
-			"height":110,
-			"color":"#6c3483"
-		},
-		{
-			"id":"c_batch",
-			"type":"text",
-			"text":"◈ Batching & Optimization\n— Batch size vs GPU memory\n— Redis embedding cache\n— Async parallel embedding\n— Avoid re-embedding unchanged",
-			"styleAttributes":{},
-			"x":1270,
-			"y":900,
-			"width":260,
-			"height":90,
-			"color":"#9b59b6"
-		},
-		{
-			"id":"c_dim",
-			"type":"text",
-			"text":"◈ Dimensionality\n— High-dim: curse explained\n— PCA / UMAP reduction\n— MRL: lossless truncation\n— Quantization: float32→int8",
-			"styleAttributes":{},
-			"x":1270,
-			"y":1010,
-			"width":260,
-			"height":70,
-			"color":"#6c3483"
 		},
 		{
 			"id":"h_hub",
@@ -592,50 +680,6 @@
 			"color":"#16a085"
 		},
 		{
-			"id":"e_bge",
-			"type":"text",
-			"text":"◈ BGE-Reranker\n— bge-reranker-v2-m3 (BAAI)\n— Open-source cross-encoder\n— BEIR benchmark competitive\n— Self-hosted option",
-			"styleAttributes":{},
-			"x":2130,
-			"y":790,
-			"width":260,
-			"height":90,
-			"color":"#c0392b"
-		},
-		{
-			"id":"f_flare",
-			"type":"text",
-			"text":"◈ FLARE\n— Forward-Looking Active\nRetrieval Augmentation\n— Predict next sentence\n— Retrieve if confidence low",
-			"styleAttributes":{},
-			"x":2560,
-			"y":650,
-			"width":260,
-			"height":100,
-			"color":"#8e44ad"
-		},
-		{
-			"id":"f_ragfusion",
-			"type":"text",
-			"text":"◈ RAG Fusion\n— Multi-query generation\n— Parallel retrieval runs\n— RRF over all result lists\n— Reduces query ambiguity",
-			"styleAttributes":{},
-			"x":2560,
-			"y":780,
-			"width":260,
-			"height":90,
-			"color":"#8e44ad"
-		},
-		{
-			"id":"f_adaptive",
-			"type":"text",
-			"text":"◈ Adaptive Retrieval\n— Query uncertainty scoring\n— Skip retrieval: factual Q\n— Trigger: knowledge-intensive\n— Dynamic retrieval threshold",
-			"styleAttributes":{},
-			"x":2560,
-			"y":260,
-			"width":260,
-			"height":100,
-			"color":"#8e44ad"
-		},
-		{
 			"id":"g_refrag",
 			"type":"text",
 			"text":"◈ REFRAG\n— Reference-Filtered RAG\n— Pre-filter by citation quality\n— Trusted source weighting\n— Provenance-aware retrieval",
@@ -647,166 +691,111 @@
 			"color":"#16a085"
 		},
 		{
-			"id":"f_hub",
+			"id":"a_loaders",
 			"type":"text",
-			"text":"🚀 Next-Gen RAG\nParadigms",
+			"text":"◈ Document Loaders\n— PyPDFLoader, WebBaseLoader\n— DirectoryLoader bulk ingestion\n— Notion, Confluence connectors\n— Custom API source loaders",
 			"styleAttributes":{},
-			"x":2560,
-			"y":0,
-			"width":260,
-			"height":90,
-			"color":"#8e44ad"
-		},
-		{
-			"id":"f_crag",
-			"type":"text",
-			"text":"🔷 Corrective RAG (CRAG)\n— Confidence-scored retrieval\n— Web search fallback trigger\n— Below-threshold: web search\n— Combine retrieved + web",
-			"styleAttributes":{},
-			"x":2560,
-			"y":390,
+			"x":-1390,
+			"y":-840,
 			"width":260,
 			"height":100,
-			"color":"#8e44ad"
+			"color":"#2ecc71"
 		},
 		{
-			"id":"f_agentic",
+			"id":"a_autosum",
 			"type":"text",
-			"text":"🔷 Agentic RAG / PlanRAG\n— LLM plans retrieval steps\n— Decomposes complex queries\n— Iterates until evidence full\n— Tool-calling retrieval loop",
+			"text":"◈ Auto-Summarization\n— Per-chunk LLM summaries\n— Document-level summaries\n— Summaries as alt retrieval\n— Abstract vs detail retrieval",
 			"styleAttributes":{},
-			"x":2560,
-			"y":520,
+			"x":-1390,
+			"y":-640,
+			"width":260,
+			"height":90,
+			"color":"#2ecc71"
+		},
+		{
+			"id":"a_pipeline",
+			"type":"text",
+			"text":"🔷 Ingestion Pipeline\n— Load → Clean → Chunk\n→ Embed → Store flow\n— Idempotent upsert by doc_id\n— Change-detection diffing",
+			"styleAttributes":{},
+			"x":-1390,
+			"y":-455,
 			"width":260,
 			"height":100,
-			"color":"#8e44ad"
+			"color":"#2ecc71"
 		},
 		{
-			"id":"f_selfrag",
+			"id":"a_formats",
 			"type":"text",
-			"text":"🔷 Self-RAG\n— Retrieval tokens (ISRET)\n— Relevance tokens (ISREL)\n— Support tokens (ISSUP)\n— End-to-end trained model",
+			"text":"◈ File Format Parsers\n— PDF: pdfplumber layout-aware\n— HTML: BeautifulSoup stripping\n— DOCX: python-docx paragraphs\n— MD: header-aware extraction",
 			"styleAttributes":{},
-			"x":2560,
-			"y":120,
+			"x":-880,
+			"y":-840,
 			"width":260,
-			"height":110,
-			"color":"#8e44ad"
+			"height":160,
+			"color":"#2ecc71"
 		},
 		{
-			"id":"e_cohere",
+			"id":"a_temporal",
 			"type":"text",
-			"text":"◈ Cohere Rerank API\n— co.rerank() endpoint\n— rerank-english-v3.0 model\n— Returns relevance scores\n— Drop-in reranker layer",
+			"text":"◈ Temporal Tagging\n— created_at / updated_at stamps\n— Time-scoped retrieval design\n— Freshness decay weighting\n— TTL-based chunk expiry",
 			"styleAttributes":{},
-			"x":2130,
-			"y":670,
-			"width":260,
-			"height":90,
-			"color":"#c0392b"
-		},
-		{
-			"id":"e_queryrew",
-			"type":"text",
-			"text":"◈ Query Rewriting\n— LLM-based reformulation\n— Step-back prompting\n— Query decomposition\n— Sub-query generation",
-			"styleAttributes":{},
-			"x":2130,
-			"y":910,
-			"width":260,
-			"height":90,
-			"color":"#c0392b"
-		},
-		{
-			"id":"f_raft",
-			"type":"text",
-			"text":"◈ RAFT\n— Retrieval-Augmented Fine-Tuning\n— Trained on distractor docs\n— Combines RAG + fine-tune\n— Domain-specific robustness",
-			"styleAttributes":{},
-			"x":2560,
-			"y":900,
-			"width":260,
-			"height":90,
-			"color":"#8e44ad"
-		},
-		{
-			"id":"f_cag",
-			"type":"text",
-			"text":"◈ CAG\n— Cache-Augmented Generation\n— Pre-load docs into KV-cache\n— Zero retrieval latency\n— High memory cost tradeoff",
-			"styleAttributes":{},
-			"x":2560,
-			"y":1000,
-			"width":260,
-			"height":80,
-			"color":"#8e44ad"
-		},
-		{
-			"id":"e_hyde",
-			"type":"text",
-			"text":"◈ HyDE\n— Generate hypothetical answer\n— Embed the hypothesis\n— Retrieve similar docs\n— Bridges query-doc gap",
-			"styleAttributes":{},
-			"x":2130,
-			"y":1000,
-			"width":260,
-			"height":80,
-			"color":"#c0392b"
-		},
-		{
-			"id":"e_hub",
-			"type":"text",
-			"text":"🔍 Search Algorithms\n& Reranking Pipeline",
-			"styleAttributes":{},
-			"x":2130,
-			"y":0,
-			"width":260,
-			"height":90,
-			"color":"#c0392b"
-		},
-		{
-			"id":"e_bm25",
-			"type":"text",
-			"text":"◈ BM25 Sparse Retrieval\n— Best Match 25 algorithm\n— TF-IDF variant with saturation\n— Math: Σ IDF·(tf·(k+1))/(tf+k·(1-b+b·dl/avgdl))\n— Keyword exact match strength",
-			"styleAttributes":{},
-			"x":2130,
-			"y":120,
-			"width":260,
-			"height":120,
-			"color":"#6c3483"
-		},
-		{
-			"id":"e_dense",
-			"type":"text",
-			"text":"◈ Dense Retrieval\n— ANN over embedding index\n— bi-encoder architecture\n— DPR (Dense Passage Retrieval)\n— FAISS / Qdrant backend",
-			"styleAttributes":{},
-			"x":2130,
-			"y":270,
+			"x":-880,
+			"y":-640,
 			"width":260,
 			"height":100,
-			"color":"#c0392b"
+			"color":"#2ecc71"
 		},
 		{
-			"id":"e_rrf",
+			"id":"a_ocr",
 			"type":"text",
-			"text":"🔷 Reciprocal Rank Fusion\n— RRF(d) = Σ 1/(k+rank(d))\n— k=60 default constant\n— Merges sparse + dense lists\n— Parameter-free fusion",
+			"text":"◈ OCR & Scanned Docs\n— Tesseract integration\n— AWS Textract for tables\n— Layout analysis (Unstructured)\n— Image-to-text preprocessing",
 			"styleAttributes":{},
-			"x":2130,
-			"y":400,
+			"x":-880,
+			"y":-455,
 			"width":260,
-			"height":110,
-			"color":"#6c3483"
+			"height":90,
+			"color":"#2ecc71"
 		},
 		{
-			"id":"e_crossenc",
+			"id":"a_cleaning",
 			"type":"text",
-			"text":"🔷 Cross-Encoder Reranking\n— Full attention: query+chunk\n— bi-directional relevance\n— 2nd-stage precision filter\n— Slower: used post-ANN",
+			"text":"◈ Document Cleaning\n— Strip headers, footers, pg#\n— Unicode normalization\n— Dedup identical paragraphs\n— Language detection/filter",
 			"styleAttributes":{},
-			"x":2130,
-			"y":540,
+			"x":-400,
+			"y":-840,
 			"width":260,
 			"height":100,
-			"color":"#c0392b"
+			"color":"#2ecc71"
+		},
+		{
+			"id":"a_metadata",
+			"type":"text",
+			"text":"◈ Metadata Enrichment\n— Source URL, doc title\n— Section headers, page numbers\n— Author, creation timestamp\n— Custom taxonomy tagging",
+			"styleAttributes":{},
+			"x":-400,
+			"y":-650,
+			"width":260,
+			"height":100,
+			"color":"#2ecc71"
+		},
+		{
+			"id":"a_multimodal_ingest",
+			"type":"text",
+			"text":"◈ Multimodal Ingestion\n— Image caption embedding\n— Audio transcript ingestion\n— Table extraction as text\n— Chart data extraction",
+			"styleAttributes":{},
+			"x":-400,
+			"y":-455,
+			"width":260,
+			"height":90,
+			"color":"#2ecc71"
 		},
 		{
 			"id":"p2_root",
 			"type":"text",
 			"text":"📚 PHASE 2\nAdvanced Retrieval\n& RAG Architectures",
 			"styleAttributes":{},
-			"x":-80,
-			"y":370,
+			"x":-2960,
+			"y":150,
 			"width":260,
 			"height":110,
 			"color":"#e67700"
@@ -814,39 +803,25 @@
 	],
 	"edges":[
 		{
-			"id":"e0001",
-			"styleAttributes":{},
-			"fromNode":"p2_root",
-			"fromSide":"right",
-			"toNode":"a_hub",
-			"toSide":"left",
-			"color":"#e67700"
-		},
-		{
-			"id":"e0002",
-			"styleAttributes":{},
-			"fromNode":"a_hub",
-			"fromSide":"bottom",
-			"toNode":"a_loaders",
-			"toSide":"top",
-			"color":"#2ecc71"
-		},
-		{
 			"id":"e0003",
 			"styleAttributes":{},
+			"toFloating":false,
+			"fromFloating":false,
 			"fromNode":"a_loaders",
-			"fromSide":"bottom",
+			"fromSide":"right",
 			"toNode":"a_formats",
-			"toSide":"top",
+			"toSide":"left",
 			"color":"#2ecc71"
 		},
 		{
 			"id":"e0004",
 			"styleAttributes":{},
+			"toFloating":false,
+			"fromFloating":false,
 			"fromNode":"a_formats",
-			"fromSide":"bottom",
+			"fromSide":"right",
 			"toNode":"a_cleaning",
-			"toSide":"top",
+			"toSide":"left",
 			"color":"#2ecc71"
 		},
 		{
@@ -861,19 +836,23 @@
 		{
 			"id":"e0006",
 			"styleAttributes":{},
+			"toFloating":false,
+			"fromFloating":false,
 			"fromNode":"a_metadata",
-			"fromSide":"bottom",
+			"fromSide":"left",
 			"toNode":"a_temporal",
-			"toSide":"top",
+			"toSide":"right",
 			"color":"#2ecc71"
 		},
 		{
 			"id":"e0007",
 			"styleAttributes":{},
+			"toFloating":false,
+			"fromFloating":false,
 			"fromNode":"a_temporal",
-			"fromSide":"bottom",
+			"fromSide":"left",
 			"toNode":"a_autosum",
-			"toSide":"top",
+			"toSide":"right",
 			"color":"#2ecc71"
 		},
 		{
@@ -888,25 +867,30 @@
 		{
 			"id":"e0009",
 			"styleAttributes":{},
+			"toFloating":false,
+			"fromFloating":false,
 			"fromNode":"a_pipeline",
-			"fromSide":"bottom",
+			"fromSide":"right",
 			"toNode":"a_ocr",
-			"toSide":"top",
+			"toSide":"left",
 			"color":"#2ecc71"
 		},
 		{
 			"id":"e0010",
 			"styleAttributes":{},
+			"fromFloating":false,
+			"toFloating":false,
 			"fromNode":"a_ocr",
-			"fromSide":"bottom",
+			"fromSide":"right",
 			"toNode":"a_multimodal_ingest",
-			"toSide":"top",
+			"toSide":"left",
 			"color":"#2ecc71"
 		},
 		{
 			"id":"e0011",
 			"styleAttributes":{},
-			"fromNode":"a_hub",
+			"fromFloating":false,
+			"fromNode":"grp_ingest",
 			"fromSide":"right",
 			"toNode":"b_hub",
 			"toSide":"left",
@@ -1520,6 +1504,18 @@
 			"toSide":"left",
 			"color":"#f39c12",
 			"label":"agents traverse graphs"
+		},
+		{
+			"id":"e0001",
+			"styleAttributes":{
+				"pathfindingMethod":null
+			},
+			"toFloating":false,
+			"fromNode":"p2_root",
+			"fromSide":"right",
+			"toNode":"grp_ingest",
+			"toSide":"left",
+			"color":"#e67700"
 		}
 	],
 	"metadata":{

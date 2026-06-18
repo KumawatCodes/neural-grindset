@@ -7,832 +7,444 @@ status: empty
 created: 2026-06-07
 ---
 # Transformer Architecture
-**AI Engineering Knowledge Base · June 2026**
+
+## 1. Executive Summary
+
+The Transformer is the engine inside every model you call through an API — GPT, Claude, Gemini, Llama. It is a neural network design built around one trick: every token looks at every other token directly, instead of passing information step-by-step like older models did. That one trick is why these models can be trained on thousands of GPUs in parallel, and it's also the reason long context is expensive (cost grows quadratically with sequence length).
+
+You'll hit this topic the moment you ask "why is my 50K-token prompt 4x slower than my 25K-token prompt" or "why does this model need so much GPU memory just sitting idle." Everything downstream in this knowledge base — KV-cache, context windows, pricing — is a direct consequence of how the Transformer is built.
+
+### 30-Second Interview Answer
+
+"A Transformer processes a sequence using self-attention: every token computes a relevance score against every other token, and uses that to build a context-aware representation. This replaced RNNs because it can be parallelized across GPUs and captures long-range dependencies more effectively. The catch is that attention costs grow quadratically with sequence length, which is why production systems now layer on tricks like FlashAttention, KV-caching, and Mixture-of-Experts on top of the base design."
+
+### 2-Minute Interview Answer
+
+"Before Transformers, sequence models (RNNs/LSTMs) processed tokens one at a time, so training couldn't be parallelized and long-range dependencies decayed. The 2017 'Attention Is All You Need' paper replaced recurrence with self-attention: for each token, compute Query, Key, and Value vectors, then score every token against every other token using QK^T, scale it, softmax it, and use that to weight the Value vectors. Stack this with feed-forward layers, residual connections, and layer normalization, and you get a block you can stack N times.
+
+What changed since 2017: positional encoding moved from fixed sine waves to RoPE (rotary embeddings), which lets models extrapolate to much longer contexts. The feed-forward activation moved from GELU to SwiGLU for better training stability. Normalization moved before the sub-layer (Pre-LN) instead of after, for stability at scale. And at the system level, nobody runs a single dense Transformer anymore — production models use Mixture-of-Experts (only 2 of 16 experts active per token), FlashAttention kernels to make the O(n²) attention cheaper in practice, and KV-caching so you don't recompute attention for tokens you've already processed. The core math hasn't changed; the engineering around it has."
 
 ---
 
-## Table of Contents
+## 2. The Real Engineering Problem
 
-1. [The Core Problem](#1-the-core-problem)
-2. [Evolution Timeline](#2-evolution-timeline)
-3. [Vocabulary Map](#3-vocabulary-map)
-4. [First-Principles Explanation](#4-first-principles-explanation)
-5. [Basic Architecture](#5-basic-architecture)
-6. [Intermediate Architecture](#6-intermediate-architecture)
-7. [Advanced Production Architecture](#7-advanced-production-architecture)
-8. [Internal Working — Data Flow Trace](#8-internal-working--data-flow-trace)
-9. [Component Deep Dive](#9-component-deep-dive)
-10. [Design Decisions](#10-design-decisions)
-11. [Alternatives and Competing Approaches](#11-alternatives-and-competing-approaches)
-12. [Failure Modes](#12-failure-modes)
-13. [Optimization Techniques](#13-optimization-techniques)
-14. [Production Reality](#14-production-reality)
-15. [Topic Connections](#15-topic-connections)
-16. [Current Industry State (2025–2026)](#16-current-industry-state-20252026)
-17. [Current Problems (Unsolved)](#17-current-problems-unsolved)
-18. [Future Evolution](#18-future-evolution)
-19. [Engineer's Mental Model — If You Remember Only 10 Things](#19-engineers-mental-model--if-you-remember-only-10-things)
-20. [Knowledge Graph](#20-knowledge-graph)
+Picture trying to train a translation model in 2016 using an RNN. To process word 50 in a sentence, the model first has to process words 1 through 49, in order, one at a time. You cannot parallelize this across GPUs the way you parallelize matrix multiplications — the computation for token 50 literally depends on the output for token 49.
+
+This creates two pains for engineers: training is slow because GPUs sit underutilized waiting for sequential steps, and long sentences lose information because signal from early tokens fades by the time it reaches token 50 (the "vanishing gradient" problem in long sequences). Attempts to patch this (LSTMs, GRUs, attention bolted onto RNNs) helped but didn't remove the sequential bottleneck.
+
+Google needed a model that could be trained on machine translation at a scale where GPU parallelism was the only way to make the economics work. They needed every token to be computable independently, with the relationships between tokens captured through math rather than through sequential passing.
 
 ---
 
-## 1. The Core Problem
+## 3. Why This Exists
 
-The year is 2017. You want to translate a long sentence from English to French. The best tools you have are RNNs (Recurrent Neural Networks) and LSTMs (Long Short-Term Memory networks). Here's the problem: they read tokens one at a time, left to right. Token 1 produces a hidden state. Token 2 reads that hidden state and produces the next. And so on. This means:
+Self-attention exists to solve the parallelization problem and the long-range dependency problem at the same time. If every token computes its relationship to every other token through a matrix multiplication (instead of a sequential loop), you can compute the entire layer in one parallel operation on a GPU. And because every token has a direct path to every other token (not a 50-step relay), long-range dependencies don't decay.
 
-- **You can't parallelize**. Token 50 can't be processed until token 49 is done. Training is slow.
-- **Long-range dependencies break**. By the time the model reaches token 100, the "hidden state" that encoded token 1 has been overwritten 99 times. The model forgets the beginning of the sentence.
-- **GPUs are wasted**. GPUs excel at doing thousands of operations simultaneously (matrix multiplications). Sequential processing uses maybe 5% of GPU capacity.
-
-> **The Crisis:** Language is not sequential in how it carries meaning. In the sentence "The trophy didn't fit in the suitcase because **it** was too big" — what does "it" refer to? You need to look at "trophy" and "suitcase" simultaneously, not sequentially. RNNs couldn't do this reliably.
-
-**What breaks without Transformers:**
-
-- Training a language model on a book takes weeks instead of hours
-- Models forget context after ~50 tokens
-- Multi-language translation degrades catastrophically on long sentences
-- GPUs are nearly idle during training — you're paying for parallel hardware and using it serially
-
-The 2017 paper "Attention Is All You Need" (Vaswani et al., Google Brain) answered: what if you threw away the recurrence entirely and let every token attend to every other token simultaneously?
+If self-attention disappeared tomorrow, the field would partially regress to recurrent or convolutional architectures, which scale worse on modern GPU hardware. That's also exactly why State Space Models (Mamba) and other alternatives are now being explored — not because attention is "wrong," but because its O(n²) cost is becoming the new bottleneck once you've solved the parallelization problem.
 
 ---
 
-## 2. Evolution Timeline
+## 4. Mental Model
+
+Think of a Transformer layer as a room full of people at a conference, where everyone needs to update their understanding of the conversation by listening to everyone else, simultaneously, in one round.
+
+- Each person (token) has three things: a **Query** ("what am I looking for?"), a **Key** ("what do I represent so others can find me?"), and a **Value** ("what information do I actually carry?").
+- Every person compares their Query against everyone else's Key to get a relevance score. High relevance means "I should pay attention to you."
+- Those scores get turned into weights (via softmax) and used to blend everyone's Values into a new, context-aware representation for each person.
+
+This entire exchange happens in one parallel "round," not a chain. Stack 32-96 of these rounds (layers), and each round refines everyone's understanding a bit further.
+
+### How To Visualize It
 
 ```
-Pre-2013 — N-gram language models
-  Count word co-occurrences. No understanding of semantics.
-  Break on any sentence structure they haven't seen before.
-  ↓
-2013–2015 — Word2Vec + RNNs
-  Distributed word representations (embeddings). RNNs process
-  sequences. Major step forward but sequential bottleneck remains.
-  ↓
-2015–2016 — LSTMs + Attention (first form)
-  Bahdanau Attention: let the decoder "look back" at encoder
-  hidden states. First attention mechanism. Still RNN-based.
-  Partial fix — still sequential; attention was an add-on, not the core.
-  ↓
-2017 — "Attention Is All You Need" (the rupture)
-  Vaswani et al. discard recurrence entirely.
-  Self-Attention: every token attends to every other token in parallel.
-  Positional Encoding added to compensate for lost order info.
-  GPUs now fully utilized. Training speed jumps 10–100×.
-  ↓
-2018–2019 — BERT + GPT (Transformer at scale)
-  BERT: encoder-only Transformer for understanding tasks.
-  GPT: decoder-only Transformer for generation tasks.
-  Transfer learning: pretrain once, fine-tune everywhere.
-  ↓
-2020–2022 — Scale + Efficiency innovations
-  GPT-3 (175B params) proves scale = capability.
-  FlashAttention: optimized GPU kernel — same result, 2–5× faster.
-  KV Caching: don't recompute what you've already computed.
-  ↓
-2022–2023 — MoE + Long Context
-  Mixtral, GPT-4 use Mixture of Experts: 1T parameters total,
-  only 50B activated per token. Scale without proportional compute cost.
-  RoPE (Rotary Positional Embeddings): extrapolate to 1M+ token contexts.
-  ↓
-2023–2024 — SSMs challenge begins
-  Mamba (State Space Models): linear O(n) scaling vs Transformer's O(n²).
-  Outperforms Transformers on Long Range Arena benchmarks.
-  Not yet in frontier models but proven alternative.
-  ↓
-2025–2026 — Current State of the Art
-  Modern stack: MoE + FlashAttention-3 + RoPE + KV Cache +
-  INT8/FP4 quantization + SwiGLU + Pre-LN.
-  1M+ token context windows. Hybrid architectures emerging.
-  ↓
-Future Direction
-  SSMs replacing attention layers in hybrid models.
-  Attention + Recurrence + Memory hybrid architectures.
-  Transformer limits proven mathematically — AI searching for own replacement.
+Input tokens:      [The]  [cat]  [sat]  [on]  [mat]
+                      |      |      |      |     |
+              Each token computes Q, K, V vectors
+                      |      |      |      |     |
+        Attention:  every token's Q is compared to every token's K
+                      (this is the n × n matrix — the O(n²) cost)
+                      |      |      |      |     |
+              Weighted blend of all Values → new representation
+                      |      |      |      |     |
+                  Feed-forward layer (per-token, independent)
+                      |      |      |      |     |
+                 Output: context-aware token representations
 ```
 
-> **Why each transition happened:** Every shift was forced by a scaling wall. RNNs couldn't parallelize → Transformers. Transformers were memory-bound → FlashAttention. Transformers were expensive to scale → MoE. Transformers hit quadratic cost on long context → SSMs and Sparse Attention. The pattern is consistent: new architecture emerges when the current one hits a mathematical ceiling.
+Stack this block N times. Each stack lets information travel further and combine in more complex ways — by the last layer, "sat" knows it relates to "cat" (subject) and "mat" (location), without ever having been told that explicitly.
 
 ---
 
-## 3. Vocabulary Map
-
-| Term | Meaning + Why it exists | Aliases |
-|---|---|---|
-| **Self-Attention** | A mechanism where every token in a sequence computes a score against every other token simultaneously. Lets the model ask: "which other words are relevant to understanding me?" | Attention mechanism, scaled dot-product attention |
-| **Multi-Head Attention** | Running self-attention multiple times in parallel with different learned weight matrices (heads), then concatenating results. Different heads capture different relationship types. | MHA, attention heads |
-| **Query (Q)** | What a token is "asking for" — a learned projection of the token embedding used to score against keys. | Q matrix |
-| **Key (K)** | What a token "offers" — a learned projection used to compute attention scores against queries. | K matrix |
-| **Value (V)** | The actual content a token contributes when attended to. After scoring Q against K, you retrieve V. | V matrix |
-| **Attention Score** | `softmax(QKᵀ / √d_k)` — the weight assigned to each token's value. High score = high influence on the output. | Attention weight |
-| **d_k** | Dimension of the key/query vectors. Dividing by `√d_k` prevents vanishing gradients from dot products growing too large in high dimensions. | Head dimension |
-| **Positional Encoding** | Added to token embeddings to inject position information, since self-attention itself is position-agnostic (a permutation of tokens gives the same attention scores). | PE, position embedding |
-| **RoPE** | Rotary Positional Embeddings — encodes position by rotating Q and K vectors in complex space. Generalizes to unseen sequence lengths (extrapolation beyond training length). | Rotary embeddings |
-| **ALiBi** | Attention with Linear Biases — adds a position-dependent penalty to attention scores. Cheaper than RoPE, also extrapolates well. | — |
-| **FFN** | Feed-Forward Network — a two-layer MLP applied to each token position independently after attention. Captures non-linear features attention can't. | Feed-forward layer, MLP sublayer |
-| **SwiGLU** | An activation function (Swish × GLU gate) used in modern FFN layers instead of GELU/ReLU. Better gradient flow; used in Llama, PaLM, Mistral. | — |
-| **LayerNorm** | Layer Normalization — normalizes activations to have zero mean and unit variance. Stabilizes training. | LN, normalization |
-| **Pre-LN** | LayerNorm applied before (not after) each sub-layer. Modern practice — more stable training at scale than Post-LN. | Pre-layer normalization |
-| **Residual Connection** | Adding the input of a sub-layer directly to its output (`x + sublayer(x)`). Allows gradients to flow through deep networks without vanishing. | Skip connection |
-| **KV Cache** | Storing the computed Key and Value tensors from previous tokens during autoregressive generation. Avoids recomputing the entire context on every new token. | Key-Value cache |
-| **MoE** | Mixture of Experts — replaces the FFN in each Transformer layer with N expert FFNs. A learned router selects K of them (e.g., 2 of 16) for each token. | Mixture of Experts, sparse MoE |
-| **Router** | The learned gate network in MoE that decides which experts each token goes to. Usually a linear layer + softmax/top-k selection. | Gating network |
-| **FlashAttention** | A memory-efficient GPU kernel for computing attention that avoids materializing the full N×N attention matrix. Same math, dramatically less HBM memory usage and faster on GPU. | FA, FlashAttention-2/3 |
-| **Sparse Attention** | Attention where each token only attends to a subset of other tokens (local window, strided, or learned patterns) instead of all N tokens. Reduces O(n²) to O(n log n). | Local attention, sparse transformer |
-| **Ring Attention** | Distributes attention computation across multiple GPUs in a ring topology. Enables training on million-token sequences that wouldn't fit on a single GPU. | — |
-| **SSM** | State Space Model — a sequence model based on linear dynamical systems. Mamba is the dominant example. Linear O(n) scaling; no quadratic attention bottleneck. | State Space Model, Mamba |
-| **Quantization** | Reducing model weight precision from FP32/FP16 to INT8, FP8, or FP4. Smaller model, faster inference, slight accuracy trade-off. Standard in production. | INT8, FP4, model compression |
-| **Encoder** | Transformer stack that processes input bidirectionally (every token attends to all others). Used in understanding tasks. BERT is encoder-only. | — |
-| **Decoder** | Transformer stack that generates output autoregressively (each token only attends to previous tokens — causal masking). GPT and Claude are decoder-only. | Causal LM |
-| **Causal Masking** | A mask applied during training to prevent a token from attending to future tokens. Required for autoregressive generation to work. | Attention mask, upper triangular mask |
-
----
-
-## 4. First-Principles Explanation
-
-**Why does Transformer exist?**
-
-Language understanding requires relating any word to any other word, regardless of distance. "The bank near the river" vs "the bank that holds money" — the word "bank" changes meaning based on its relationship to distant words. You need global context. RNNs encoded this globally but serially (one token at a time). Transformers do it globally and in parallel.
-
-**The core insight:** Attention is a learned, differentiable lookup. Given a query token, compute how relevant every other token is (via dot product with their keys), normalize those scores (softmax), then blend all their values weighted by those scores. This operation is a single matrix multiplication — exactly what GPUs do best.
-
-**Why is it needed now specifically?**
-
-Large language models require:
-1. Seeing billions of training examples — needs fast training → parallelism
-2. Understanding long documents — needs global context → attention not RNN
-3. Running inference on demand — needs efficient generation → KV caching
-
-**What would happen if Transformers disappeared today?**
-
-Every frontier model (GPT-4, Claude, Gemini, Llama) would need to be rebuilt from scratch. There is no production-ready replacement at scale. SSMs (Mamba) show promise but are not yet used in frontier models. The entire ecosystem of libraries (HuggingFace, vLLM, TensorRT-LLM), fine-tuning pipelines, and serving infrastructure is built for Transformers.
-
-> **The formula that changed everything:**
-> ```
-> Attention(Q, K, V) = softmax(QKᵀ / √d_k) × V
-> ```
-> Three matrices. One formula. The foundation of all frontier AI.
-
----
-
-## 5. Basic Architecture
+## 5. Engineering Evolution
 
 ```
-Input Text: "The cat sat"
-      │
-      ▼
-┌─────────────────────┐
-│   Tokenizer         │  "The" → 464, "cat" → 3797, "sat" → 3290
-└─────────┬───────────┘
-          │
-      ▼
-┌─────────────────────┐
-│   Token Embeddings  │  Each ID → dense vector (d_model = 512/768/4096)
-│ + Positional Enc.   │  + position info (RoPE or fixed sinusoidal)
-└─────────┬───────────┘
-          │
-      ▼  (repeated N times — "N layers")
-┌─────────────────────────────────────────────────┐
-│              Transformer Block                  │
-│                                                 │
-│  ┌─────────────────────────────────────────┐   │
-│  │         Multi-Head Self-Attention       │   │
-│  │  Q = x·Wq,  K = x·Wk,  V = x·Wv       │   │
-│  │  scores = softmax(QKᵀ/√d_k)            │   │
-│  │  output = scores × V                   │   │
-│  └──────────────────┬──────────────────────┘   │
-│                     │                          │
-│              + Residual (x + output)           │
-│              LayerNorm                         │
-│                     │                          │
-│  ┌──────────────────▼──────────────────────┐   │
-│  │         Feed-Forward Network (FFN)      │   │
-│  │  FFN(x) = SwiGLU(x·W1) · W2            │   │
-│  └──────────────────┬──────────────────────┘   │
-│                     │                          │
-│              + Residual (x + output)           │
-│              LayerNorm                         │
-└─────────────────────┬───────────────────────────┘
-          │
-      ▼
-┌─────────────────────┐
-│   Linear + Softmax  │  Project back to vocabulary size
-│   (LM Head)         │  → probability over next token
-└─────────────────────┘
-          │
-      ▼
-Next token prediction
+Problem: Sequential models (RNN/LSTM) can't parallelize, decay over long sequences
+↓
+Old Solution: RNN + attention bolted on (Bahdanau attention, 2014)
+↓
+Limitation: Still sequential at its core, attention helped but didn't remove the bottleneck
+↓
+New Solution: Pure self-attention, no recurrence (Transformer, 2017)
+↓
+Current Best Practice: Transformer + RoPE + SwiGLU + Pre-LN + FlashAttention + MoE + KV-cache + quantization
+↓
+Current Limitation: Attention is O(n²) — cost and memory explode past ~1M tokens
+↓
+Future Direction: Sparse attention, hybrid attention+recurrence, State Space Models (Mamba) for linear-time scaling
 ```
 
-**Every component explained:**
+---
 
-- **Token Embeddings** — convert integer token IDs into continuous dense vectors. These are learned during training.
-- **Positional Encoding** — since attention is order-agnostic, we add position information. Modern: RoPE (rotation-based). Classic: sinusoidal fixed patterns.
-- **Self-Attention** — the core operation. Every token produces Q, K, V. Attention scores determine how much each token "borrows" from every other.
-- **Residual Connection** — `x + sublayer(x)`. Keeps gradients flowing through many layers. Without this, deep networks fail to train.
-- **LayerNorm** — normalizes each token's representation to prevent scale explosion. Modern: Pre-LN (applied before the sublayer).
-- **FFN** — a per-token MLP. Attention mixes information across tokens; FFN transforms each token's representation independently. Think of it as the "memory" that stores factual knowledge.
-- **LM Head** — a linear layer that maps the final hidden state back to vocabulary-size logits. Softmax converts to probabilities.
+## 6. Vocabulary Map
+
+|Term|Meaning|Why It Exists|Where Used|Aliases|
+|---|---|---|---|---|
+|Self-Attention|Each token scores relevance against every other token|Removes sequential bottleneck, captures long-range deps|Every Transformer layer|Scaled dot-product attention|
+|Query/Key/Value (Q/K/V)|Three learned projections of each token|Splits "what I want" from "what I offer" from "what I carry"|Inside attention computation|QKV|
+|Multi-Head Attention|Run attention several times in parallel with different learned projections|One attention pattern can't capture all relationship types (syntax, semantics, position)|Every attention layer|MHA|
+|Positional Encoding|Injects token order info, since attention itself is order-blind|Without it, "cat sat on mat" = "mat on sat cat" to the model|Input embeddings or inside attention|RoPE, ALiBi|
+|RoPE|Rotary Positional Embedding — encodes position as a rotation in vector space|Lets models extrapolate to far longer contexts than they were trained on|Llama, most modern open models|Rotary embeddings|
+|FFN (Feed-Forward Network)|Per-token MLP applied after attention|Attention mixes information between tokens; FFN processes it per-token|Every Transformer block|MLP block|
+|SwiGLU|Activation function used in modern FFNs|More stable training than GELU at scale|GPT, Llama, most 2024+ models|Swish-Gated Linear Unit|
+|LayerNorm / Pre-LN|Normalization applied before each sub-layer|Keeps training stable as models get deeper|Every Transformer block|Pre-normalization|
+|FlashAttention|GPU kernel that computes attention without materializing the full n×n matrix in memory|Standard attention is memory-bound; this makes it I/O-efficient|All production inference engines|FA, FA-2, FA-3|
+|KV-Cache|Stored Key/Value vectors from previous tokens|Avoids recomputing attention for tokens already processed|Every autoregressive generation step|(see KV-cache note)|
+|MoE (Mixture of Experts)|Multiple FFN "experts" per layer; a router activates only a few per token|Lets you scale parameter count without scaling compute per token|GPT-4, Mixtral, Claude (reportedly)|Sparse MoE|
+|Sparse Attention|Each token attends to a subset of tokens, not all|Reduces O(n²) cost for long sequences|Long-context models|Sliding window attention|
+|SSM (State Space Model)|Alternative to attention; processes sequence with linear-time recurrence|Avoids O(n²) cost entirely|Mamba, hybrid models|Mamba|
 
 ---
 
-## 6. Intermediate Architecture
-
-Real production models extend the basic Transformer with several critical additions:
+## 7. System Placement
 
 ```
-Input tokens
-    │
-    ▼
-┌──────────────────────────────────────────────────────┐
-│  Embeddings + RoPE (applied inside attention, not    │
-│  added to embeddings — rotates Q and K vectors)      │
-└─────────────────────┬────────────────────────────────┘
-                      │
-    ▼  (×N layers)
-┌──────────────────────────────────────────────────────┐
-│                Transformer Block (Modern)            │
-│                                                      │
-│  Pre-LN → Multi-Head Attention                       │
-│           ├── Grouped Query Attention (GQA)          │
-│           │   (fewer K,V heads → less KV cache RAM)  │
-│           └── FlashAttention kernel (hardware opt.)  │
-│  + Residual                                          │
-│                                                      │
-│  Pre-LN → FFN (SwiGLU activation)                    │
-│           OR                                         │
-│           MoE Layer (router → top-2 of 16 experts)   │
-│  + Residual                                          │
-└─────────────────────┬────────────────────────────────┘
-                      │
-    ▼
-┌──────────────────────────────────────────────────────┐
-│              KV Cache (inference only)               │
-│  Stores K,V from all previous tokens.                │
-│  New token only computes its own Q; attends to       │
-│  cached K,V from position 0 to current pos.          │
-└──────────────────────────────────────────────────────┘
-                      │
-    ▼
-LM Head → next token
+User prompt
+   ↓
+Tokenizer (text → token IDs)
+   ↓
+Embedding layer (token IDs → vectors)
+   ↓
+Transformer stack (N layers of: Self-Attention → FFN, with residuals + norm)
+   ↓
+Final LayerNorm + output projection (vector → vocabulary logits)
+   ↓
+Sampling/decoding (logits → next token)
+   ↓
+Detokenizer (token IDs → text)
+   ↓
+Response to user
 ```
 
-**Why each addition exists:**
-
-- **RoPE inside attention** — applied to Q and K during attention computation via rotation matrices. Encodes relative positions, not absolute. Generalizes beyond training length.
-- **Grouped Query Attention (GQA)** — instead of one K,V pair per Q head, share K,V across groups of Q heads. Llama 3, Mistral use this. Reduces KV cache memory by 4–8× with minimal quality loss.
-- **FlashAttention** — rewrites the attention kernel to avoid reading/writing the N×N attention matrix to GPU HBM (high-bandwidth memory). Fuses operations into SRAM, which is faster. Same math, 2–5× faster, uses far less memory.
-- **MoE layer** — replaces the FFN with N expert FFNs. A router selects 2 (or K) of them per token. Total params = N × FFN size. Active params = K × FFN size. Scale knowledge without scaling compute.
-- **KV Cache** — during autoregressive generation, you recompute Q,K,V for every token at every step without this. With it, you cache K,V and only compute Q for the new token. Reduces inference compute from O(n²) per step to O(n).
+The Transformer block sits at the heart of this pipeline. Everything before it (tokenization, embeddings) prepares input; everything after it (sampling, decoding) decides what to do with its output.
 
 ---
 
-## 7. Advanced Production Architecture
+## 8. Internal Working
 
-```
-User Request (text/image/audio)
-    │
-    ▼
-┌──────────────────────────────────────────────────────────┐
-│              Tokenizer + Multimodal Encoder              │
-│  Text → BPE tokens                                       │
-│  Image → patch embeddings (ViT-style)                    │
-│  Audio → spectrogram tokens                              │
-└───────────────────────┬──────────────────────────────────┘
-                        │
-    ▼
-┌──────────────────────────────────────────────────────────┐
-│          Quantized Model (INT8/FP4 weights)              │
-│  Loaded across multiple GPUs (tensor parallelism)        │
-│                                                          │
-│  Layer 1–N:                                              │
-│  ├── Pre-LN                                              │
-│  ├── GQA + FlashAttention-3 + RoPE                       │
-│  ├── Residual                                            │
-│  ├── Pre-LN                                              │
-│  └── MoE (2/16 experts, router per token)                │
-│       Residual                                           │
-└───────────────────────┬──────────────────────────────────┘
-                        │
-    ▼
-┌──────────────────────────────────────────────────────────┐
-│              KV Cache (paged, compressed)                │
-│  PagedAttention (vLLM): divide KV cache into pages.      │
-│  Serves multiple concurrent requests from shared cache.  │
-│  Quantized KV cache (INT8) for long contexts.            │
-└───────────────────────┬──────────────────────────────────┘
-                        │
-    ▼
-┌──────────────────────────────────────────────────────────┐
-│         Speculative Decoding (inference acceleration)    │
-│  Small draft model generates N tokens quickly.           │
-│  Large model verifies in parallel.                       │
-│  Effectively multiplies generation speed.                │
-└───────────────────────┬──────────────────────────────────┘
-                        │
-    ▼
-┌──────────────────────────────────────────────────────────┐
-│    Observability: token latency, TTFT, MoE expert load   │
-│    Cost tracking: tokens in/out × price per token        │
-└──────────────────────────────────────────────────────────┘
-                        │
-    ▼
-Streaming response tokens → user
-```
+Trace one token, "cat," through a single Transformer layer:
 
-**Design decisions at this scale:**
-
-- **Tensor parallelism** — model weights split across GPUs. Each GPU holds a shard of each weight matrix. All-reduce operations synchronize during forward pass.
-- **PagedAttention** — KV cache managed in pages like OS virtual memory. Different requests share GPU memory efficiently. Enables higher batch sizes = more throughput.
-- **INT8/FP4 quantization** — weights stored in low-precision. Activations computed in higher precision. Minimal accuracy drop (<1% on most benchmarks) with 2–4× memory reduction.
-- **Speculative decoding** — the large model (oracle) verifies multiple tokens at once using a smaller draft model. Reduces number of sequential forward passes needed.
-- **MoE expert load balancing** — router must distribute tokens evenly across experts. Imbalanced routing → some experts overtaxed, others idle. Solved via auxiliary load-balancing loss during training.
+1. **Embedding**: "cat" is converted to a vector, e.g. `[0.2, -0.4, 0.1, ...]`, of size `d_model` (e.g. 4096 for a mid-size model).
+2. **Positional info added**: RoPE rotates this vector based on "cat"'s position in the sequence (position 2 of 5).
+3. **Q/K/V projection**: Three separate learned weight matrices transform this vector into a Query vector, a Key vector, and a Value vector.
+4. **Attention scores**: "cat"'s Query is dot-producted against every other token's Key (including its own), producing one raw score per token. These scores are scaled by `1/√d_k` to keep gradients stable.
+5. **Softmax**: Scores are turned into a probability distribution — e.g., "cat" might end up attending 60% to itself, 25% to "sat," 10% to "The," 5% to others.
+6. **Weighted sum**: "cat"'s new representation is the weighted sum of all tokens' Value vectors, using those attention weights.
+7. **Multi-head repeat**: Steps 3-6 happen in parallel across 8-128 "heads," each with its own learned Q/K/V projections, capturing different relationship types. Results are concatenated.
+8. **Residual + Norm**: The original "cat" vector is added back (residual connection) and normalized.
+9. **FFN**: The result passes through a per-token feed-forward network (expand → SwiGLU activation → contract).
+10. **Residual + Norm again**: Add and normalize.
+11. **Repeat for N layers**: This entire process repeats 32-96+ times, each layer refining "cat"'s representation further using increasingly abstract relationships.
+12. **Output**: After the final layer, "cat"'s vector is projected onto the vocabulary to produce logits — a score for every possible next token, if "cat" happens to be the last token being decoded.
 
 ---
 
-## 8. Internal Working — Data Flow Trace
+## 9. Core Components
 
-Trace a single token through one Transformer layer, step by step:
+**Self-Attention**
 
-```
-Input: token "cat" at position 2 in the sequence.
-Hidden state: x ∈ ℝ^4096 (a 4096-dimensional vector)
+- Purpose: build context-aware representations by mixing information across tokens.
+- Input: Q, K, V vectors for all tokens.
+- Output: new vector per token, blended from all tokens' Values.
+- Internal logic: scaled dot-product + softmax weighting.
+- Failure case: if sequence is too long, attention either truncates (losing info) or costs explode (O(n²) compute and memory).
 
-Step 1 — Pre-LayerNorm
-  x_norm = LayerNorm(x)
-  → normalize to zero mean, unit variance
-  → prevents attention scores from exploding
+**Multi-Head Attention**
 
-Step 2 — Linear projections (Q, K, V)
-  Q = x_norm · W_Q    (shape: d_model → d_head × n_heads)
-  K = x_norm · W_K
-  V = x_norm · W_V
-  → "cat" now has a query (what it's looking for),
-     a key (what it offers), and a value (its content)
+- Purpose: capture multiple types of relationships simultaneously (e.g., syntactic vs. semantic).
+- Input: same as self-attention, split across heads.
+- Output: concatenated per-head outputs, projected back to `d_model`.
+- Internal logic: parallel independent attention computations.
+- Failure case: too few heads can't capture relationship diversity; too many heads add overhead without benefit past a point.
 
-Step 3 — Apply RoPE to Q and K
-  Rotate Q and K vectors according to position index (pos=2)
-  → encodes relative position without changing V
-  → "cat" at pos 2 attends differently to "The" at pos 0
-     than "cat" at pos 0 would
+**Feed-Forward Network (FFN)**
 
-Step 4 — Attention Score computation (for one head)
-  scores = Q · Kᵀ / √d_k
-  → dot product of "cat"'s query against all tokens' keys
-  → result: [score_The, score_cat, score_sat] = [0.3, 0.6, 0.1]
-     (cat attends most to itself, some to "The")
-  scores = softmax(scores) → [0.27, 0.63, 0.10]
+- Purpose: per-token non-linear transformation, independent of other tokens.
+- Input: attention output for one token.
+- Output: transformed vector, same dimensionality.
+- Internal logic: expand to a larger hidden dimension, apply SwiGLU, contract back down.
+- Failure case: this is where most of a dense model's parameters live — undersized FFNs limit model capacity; this is also the part MoE replaces with multiple sparse "experts."
 
-Step 5 — Weighted sum of Values
-  output = scores × V
-  → blend all tokens' value vectors weighted by attention scores
-  → "cat"'s new representation contains info from "The" and "sat"
+**Positional Encoding (RoPE)**
 
-Step 6 — Multi-head concatenation
-  Repeat steps 4–5 for all 32 heads (different W_Q, W_K, W_V)
-  Concatenate all head outputs
-  Project with W_O → back to d_model shape
+- Purpose: inject order information since attention has no inherent sense of sequence.
+- Input: token position index.
+- Output: a rotation applied to Q/K vectors.
+- Internal logic: rotates vectors by an angle proportional to position, so relative position is encoded in the dot product.
+- Failure case: extrapolating far beyond the trained context length degrades quality — this is part of why "advertised" context windows often underperform near their limit.
 
-Step 7 — Residual + LayerNorm
-  x = x + attention_output   (residual: add original input back)
-  x_norm = LayerNorm(x)
+**Residual Connections + LayerNorm**
 
-Step 8 — FFN (SwiGLU)
-  h = SwiGLU(x_norm · W1) · W2
-  → per-token nonlinear transformation
-  → this is where factual knowledge is stored
-     (ablation studies show FFN layers encode facts)
+- Purpose: keep gradients flowing through very deep networks; stabilize training.
+- Input: sub-layer output + the input that went into the sub-layer.
+- Output: normalized sum.
+- Internal logic: `output = LayerNorm(input + SubLayer(input))`.
+- Failure case: without these, deep Transformers (50+ layers) become untrainable — gradients vanish or explode.
 
-Step 9 — Residual
-  x = x + h
-  → "cat"'s final hidden state for this layer
+---
 
-Step 10 — Pass to next layer (repeat N times)
-  After all layers: x → LM Head (linear) → softmax
-  → probability distribution over next token
-  → sample or argmax → "on" (next word)
+## 10. Practical Usage
+
+### Installation
+
+```bash
+pip install torch transformers --break-system-packages
 ```
 
-> **Key Insight:** Every token runs through steps 1–10 in parallel for all tokens simultaneously. That's the power — a sequence of length N doesn't take N times longer; it takes the same time as a sequence of length 1 (up to memory limits).
+### Imports
+
+```python
+from transformers import AutoModelForCausalLM, AutoTokenizer
+import torch
+```
+
+### Basic Example
+
+```python
+tokenizer = AutoTokenizer.from_pretrained("gpt2")
+model = AutoModelForCausalLM.from_pretrained("gpt2")
+
+inputs = tokenizer("The cat sat on the", return_tensors="pt")
+outputs = model.generate(**inputs, max_new_tokens=5)
+print(tokenizer.decode(outputs[0]))
+```
+
+This loads a small Transformer (GPT-2), tokenizes a prompt, and generates 5 more tokens autoregressively — internally running the exact attention/FFN steps from Section 8 once per generated token.
+
+### Real Example (inspecting attention)
+
+```python
+outputs = model(**inputs, output_attentions=True)
+attn = outputs.attentions[0]  # layer 0 attention weights
+print(attn.shape)  # [batch, heads, seq_len, seq_len]
+```
+
+This pulls out the raw attention weight matrix for layer 0 — the actual n×n scores from step 5 above. Useful for debugging "why did the model focus on the wrong part of my prompt."
+
+### Common Libraries
+
+- `transformers` (HuggingFace) — model loading, tokenization, generation
+- `vllm` — production-grade inference serving with PagedAttention/KV-cache management
+- `flash-attn` — FlashAttention CUDA kernels
+- `deepspeed` / `megatron-lm` — training-scale Transformer infrastructure
+
+### Common APIs
+
+- OpenAI Chat Completions / Responses API
+- Anthropic Messages API
+- HuggingFace `model.generate()`
+
+### Configuration Options
+
+- `num_attention_heads`, `hidden_size`, `num_hidden_layers` — architecture size
+- `rope_theta` — controls RoPE's extrapolation behavior
+- `attn_implementation="flash_attention_2"` — use FlashAttention kernel instead of naive attention
+
+### Expected Output
+
+A generated continuation of your prompt, token by token, each one produced by one full forward pass through the entire Transformer stack.
 
 ---
 
-## 9. Component Deep Dive
+## 11. Production Usage
 
-### Self-Attention
+OpenAI's GPT-4o and Anthropic's Claude both run on Mixture-of-Experts Transformer variants — a 1-trillion-parameter model with only ~50B parameters active per token, giving the knowledge capacity of a huge model with the inference cost of a much smaller one. Google's Gemini 1.5 Pro pairs the same core architecture with FlashAttention-3 and RoPE to reach million-token context windows. Meta ships Llama 3 as a dense (non-MoE) Transformer with RoPE, which is part of why it's a popular self-hosting choice — dense models are simpler to deploy and reason about than MoE.
 
-- **Purpose:** Let every token access information from every other token simultaneously
-- **Input:** Token embeddings matrix X ∈ ℝ^(n × d_model)
-- **Output:** Contextualized representations of same shape
-- **Mechanism:** Q=XWq, K=XWk, V=XWv → softmax(QKᵀ/√d_k) × V
-- **Failure cases:** O(n²) memory — a 1M token context needs 1M × 1M attention matrix. Without FlashAttention, this is impossible. With FlashAttention, it's tiled and computed block by block.
-
-### Multi-Head Attention
-
-- **Purpose:** Capture multiple types of relationships simultaneously (syntactic, semantic, coreference, positional)
-- **Input:** Same as self-attention
-- **Output:** Concatenated outputs of all heads, projected down to d_model
-- **Mechanism:** Run H independent attention heads with different W_Q, W_K, W_V matrices
-- **Failure cases:** Head collapse — all heads learn the same pattern. Solved via attention dropout during training.
-
-### Feed-Forward Network (FFN)
-
-- **Purpose:** Non-linear per-token transformation. Stores factual knowledge (proven by neuron ablation studies — specific neurons respond to specific facts)
-- **Input:** Token hidden state ∈ ℝ^d_model
-- **Output:** Transformed token hidden state ∈ ℝ^d_model
-- **Mechanism:** `FFN(x) = SwiGLU(xW₁) · W₂` where W₁ expands to 4× d_model and W₂ projects back
-- **Failure cases:** The FFN is 2/3 of the model's parameters. In MoE, most experts are idle per token — expert under-utilization if router is poorly trained.
-
-### KV Cache
-
-- **Purpose:** Avoid recomputing Key and Value tensors for already-processed tokens during generation
-- **Input:** New token's query; cached K,V from all previous tokens
-- **Output:** Attention output for the new token only
-- **Mechanism:** Append new K,V to cache; attend new Q against all cached K,V
-- **Failure cases:** Memory grows linearly with sequence length. A 1M-token conversation requires massive GPU memory for KV cache alone. Solutions: quantized KV cache (INT8), sliding window attention, eviction policies.
-
-### MoE Layer
-
-- **Purpose:** Scale parameter count (= knowledge capacity) without scaling compute
-- **Input:** Token hidden state; router scores
-- **Output:** Weighted combination of selected expert outputs
-- **Mechanism:** Router computes scores for all N experts; top-K selected; token processed by K experts; outputs weighted by router scores and summed
-- **Failure cases:** Load imbalance — if router always selects the same 2 experts, others are wasted parameters. Auxiliary load-balancing loss penalizes imbalance during training. Expert collapse is a known training instability.
-
-### RoPE (Rotary Positional Embeddings)
-
-- **Purpose:** Encode token positions in a way that generalizes beyond training sequence length
-- **Input:** Query and Key vectors; position indices
-- **Output:** Rotated Q and K vectors
-- **Mechanism:** Multiplies Q and K by complex rotation matrices `e^(imθ)` where m is position. Relative position between tokens is captured as a rotation angle difference — this is position-invariant geometry.
-- **Failure cases:** Still degrades at very long contexts if training distribution didn't include long sequences. Mitigated by YaRN (interpolation technique) or long-context fine-tuning.
+At production scale, nobody runs FP16 weights anymore — INT8 or FP4 quantization is standard, trading a small accuracy hit for major memory and speed wins. Reliability at this scale depends heavily on FlashAttention-class kernels: without them, attention's memory bandwidth requirements alone would make serving million-token contexts uneconomical.
 
 ---
 
-## 10. Design Decisions
+## 12. Design Decisions
 
-### Why self-attention over recurrence?
+**Why self-attention over recurrence?** Parallelizability. RNNs are simpler conceptually but can't use GPU parallelism across the sequence dimension. The tradeoff is O(n²) cost vs. RNN's O(n) — Transformers pay more per token at long lengths but gain massively in training throughput at moderate lengths.
 
-Recurrence forces sequential processing: token N can't run until token N-1 finishes. Self-attention is a single batch matrix multiplication — all tokens in parallel. On a GPU with 10,000 CUDA cores, sequential processing uses 1 core. Parallel attention uses all 10,000. Training speed improvement: roughly proportional to sequence length. For 512-token sequences: ~500× faster parallelization.
+**Why Pre-LN over Post-LN?** Pre-LN (normalize before the sub-layer) gives more stable gradients in very deep networks, at a very slight cost to final performance ceiling. Post-LN can outperform at small scale but becomes unstable past ~20 layers without careful learning rate warmup.
 
-> **Trade-off:** Attention is O(n²) in memory and compute. For a 1,000-token sequence, that's 1M attention scores. For 1M tokens, that's 10¹² scores. This is the fundamental scaling problem of Transformers. RNNs are O(n) but sequential.
+**Why RoPE over learned absolute positional embeddings?** RoPE encodes relative position implicitly in the attention dot product, which generalizes to sequence lengths longer than what the model was trained on. Learned absolute embeddings have a hard length cutoff — the model has literally never seen position 50,001 if it was trained at 50,000.
 
-### Why d_k scaling (dividing by √d_k)?
-
-As d_k grows, dot products Q·K grow in magnitude. Softmax of large values has near-zero gradients everywhere except the maximum — the network stops learning. Dividing by √d_k keeps dot products in a reasonable range and softmax gradients informative. This is why removing the scaling causes training instability.
-
-### Why Pre-LN over Post-LN?
-
-Original Transformer used Post-LN (normalize after residual). This causes the residual stream to have different scales at different layers, making deep models unstable to train without careful learning rate warmup. Pre-LN normalizes the input to each sublayer, making each sublayer's input consistently scaled. Allows larger learning rates, more stable training at 70B+ params.
-
-### Why SwiGLU over GELU/ReLU?
-
-SwiGLU = Swish(xW₁) × (xW₂). The gating mechanism (element-wise multiplication of two projections) gives the network more expressive control over which information flows through. Empirically discovered (not theoretically proven) to improve perplexity across model scales. Used in PaLM, Llama, Mistral, Gemini.
-
-### Why MoE over Dense FFN?
-
-A 1T-parameter dense model can't fit on any realistic hardware for inference. MoE with 1T total params but 50B active params fits in a cluster and runs at 50B-equivalent speed while having 1T-equivalent knowledge. The trade-off: routing overhead, training instability, and load balancing complexity. But the knowledge-per-FLOP ratio is dramatically better.
-
-### Why KV Cache instead of recomputing?
-
-Without KV cache, generating token 1,000 requires a full forward pass of 1,000 tokens. Token 1,001 requires another full forward pass of 1,001 tokens. Generating 100 tokens from a 1,000-token prompt requires 100,000 to 100,100 token-forward-passes total. With KV cache: each new token only requires one new token forward pass + a lookup into cached K,V. Dramatically reduces inference compute.
+**Why MoE over a bigger dense model?** A dense model with 1T parameters costs 1T-parameters-worth of compute per token. An MoE with 1T total parameters but only 2 of 16 experts active per token costs roughly 1/8th that — you get to store more "knowledge" without paying for it on every single token. The cost is routing complexity and harder, less stable training.
 
 ---
 
-## 11. Alternatives and Competing Approaches
+## 13. Tradeoff Matrix
 
-| Approach | Pros | Cons | Best for |
-|---|---|---|---|
-| **Transformer (Dense)** | Proven at scale, massive ecosystem, best reasoning | O(n²) attention, memory bottleneck, high compute | General NLP tasks, frontier models |
-| **MoE Transformer** | 1T knowledge at 50B compute; scales efficiently | Router overhead, load imbalance risk, training complexity | Frontier scale models (GPT-4, Mixtral) |
-| **SSM / Mamba** | Linear O(n) scaling, infinite context, no attention matrix | Less established, not yet in frontier models, weaker in-context learning | Long-sequence tasks (genomics, audio) |
-| **Hybrid (Attention + SSM)** | Best of both: SSM for long context, Attention for in-context learning | Research phase, no dominant production implementation yet | Future architecture path |
-| **LSTM / GRU** | Simple, interpretable, fast on short sequences | Quadratic in practice for long sequences, weaker than Transformers | Legacy systems, edge deployment |
-| **RWKV** | RNN architecture trained like a Transformer; linear inference | Not yet competitive at frontier scale | Research, inference-efficient models |
-
-> **Key question for 2026:** Can SSMs match Transformer's in-context learning at scale? Mamba-2 shows promise, but the pretraining ecosystem (data pipelines, fine-tuning tools, RLHF) is all Transformer-native. Switching has enormous switching costs even if SSMs are architecturally superior.
+|Decision|Speed|Cost|Memory|Complexity|Scalability|Reliability|
+|---|---|---|---|---|---|---|
+|Dense Transformer|Baseline|Baseline|Baseline|Low|Limited by compute per token|High (well understood)|
+|MoE Transformer|Lower latency per token|Lower per-token cost|Higher (stores all experts)|High (routing)|High (scales params cheaply)|Medium (routing instability risk)|
+|FlashAttention vs naive attention|2-5x faster|Lower (less GPU time)|Much lower|Medium (custom kernel)|Higher (longer contexts feasible)|High|
+|RoPE vs learned absolute PE|Same|Same|Same|Medium|Higher (extrapolates)|High|
+|Sparse attention vs full attention|Faster at long context|Lower|Lower|High|Higher|Medium (can miss distant dependencies)|
 
 ---
 
-## 12. Failure Modes
+## 14. Cost Impact
 
-### 1. Attention sink (lost in the middle)
+- **Compute**: attention cost scales as O(n²) with sequence length — doubling your prompt length quadruples attention compute specifically (though total cost growth is less extreme once you account for the FFN, which scales linearly).
+- **Memory**: every layer's Q/K/V intermediate tensors and the KV-cache (Section covered in its own note) consume GPU memory proportional to sequence length × number of layers × hidden size.
+- **GPU/Cloud cost**: MoE lets you serve a "smarter" model without proportionally higher GPU cost per request — this is the main lever providers use to keep frontier-model pricing from exploding as model size grows.
+- **Engineering complexity**: every optimization in this note (FlashAttention, MoE, quantization) adds real implementation and debugging surface area. A naive from-scratch Transformer is ~200 lines; a production-grade one with all these optimizations is a multi-team effort.
 
-**Symptom:** Model performs well on the beginning and end of a long context, but information in the middle is effectively ignored.
-
-**Cause:** Attention scores concentrate on the first few tokens (attention sinks — "The", "[BOS]") and the most recent tokens. Middle tokens receive near-zero attention weights.
-
-**Fix:** Sliding window attention, positional interpolation (YaRN), or architectures that explicitly don't use full attention (Sparse Attention, SSMs).
-
-### 2. KV Cache memory explosion
-
-**Symptom:** GPU OOM errors on long conversations. Inference slows as context grows.
-
-**Cause:** KV cache grows as O(n × n_layers × d_model × 2). A 1M-token context in a 70B model requires hundreds of GB of KV cache memory.
-
-**Fix:** Grouped Query Attention (GQA) reduces K,V heads. Quantized KV cache (INT8). PagedAttention (vLLM) for efficient memory management. Sliding window attention (Mistral) discards old tokens.
-
-### 3. MoE load imbalance
-
-**Symptom:** Some experts receive 90% of tokens; others receive <1%. Expert underutilization. Training instability.
-
-**Cause:** The router learns to always prefer a few experts (rich-get-richer dynamics). Without correction, this collapses to a near-dense model.
-
-**Fix:** Auxiliary load balancing loss (Mixtral paper). Expert capacity limits. Token dropping for over-capacity experts.
-
-### 4. Positional extrapolation failure
-
-**Symptom:** Model trained on 4K tokens fails completely at 8K tokens — repeating text, incoherent output.
-
-**Cause:** Standard positional encodings don't generalize to unseen positions. The model has never seen position 5000 during training.
-
-**Fix:** RoPE with YaRN interpolation. ALiBi. Long-context fine-tuning. Ring Attention for very long sequence training.
-
-### 5. Repetition and degeneration
-
-**Symptom:** Model repeats the same phrase in loops. "The the the the..." or "... and so on and so forth and so on..."
-
-**Cause:** During greedy or beam search decoding, the model assigns high probability to recently seen tokens due to attention pattern feedback loops.
-
-**Fix:** Repetition penalty, frequency penalty, top-p sampling (nucleus sampling), temperature scaling.
-
-### 6. Gradient vanishing in deep models (Pre-LN solved this)
-
-**Symptom:** Very deep Transformers (100+ layers) fail to train — loss doesn't decrease.
-
-**Cause:** Post-LN architectures have inconsistent activation scales across layers. Gradients vanish before reaching early layers.
-
-**Fix:** Pre-LN (normalize before each sublayer). Residual scaling. Learning rate warmup. This is why all modern models use Pre-LN.
+Practical example: if you're building something like your CodeRed or CodeSentinel platforms on top of an API, the architecture choices here are invisible to you — but they directly explain why a 100K-token codebase review costs noticeably more and takes longer than a 2K-token code snippet review, and why that cost doesn't scale linearly.
 
 ---
 
-## 13. Optimization Techniques
+## 15. Failure Modes
 
-### Latency (inference speed)
+**Technical Failure: Attention memory blowup**
 
-- **FlashAttention-3** — 2–5× faster attention via GPU kernel fusion. Use TensorRT-LLM or vLLM which include it by default.
-- **Speculative decoding** — draft model generates K tokens; large model verifies all K in one forward pass. Typical speedup: 2–4× generation speed.
-- **KV Cache** — always enabled in production. Turns O(n) per-step compute into O(1). Non-negotiable.
-- **Continuous batching** — serve multiple requests in one forward pass, dynamically adding new requests as others finish. Dramatically increases GPU utilization.
+- Cause: naive attention materializes the full n×n score matrix.
+- Symptoms: CUDA out-of-memory errors at long context lengths.
+- Fix: use FlashAttention or a serving engine (vLLM) that implements memory-efficient attention.
 
-### Memory
+**Scaling Failure: Quality degradation near advertised context limit**
 
-- **INT8/FP4 quantization** — 2–4× weight memory reduction. Near-zero accuracy loss on most tasks. Standard in production (bitsandbytes, GPTQ, AWQ).
-- **GQA (Grouped Query Attention)** — fewer KV heads = smaller KV cache. Llama 3 8B uses GQA with 8 KV heads for 32 Q heads.
-- **PagedAttention** — KV cache stored in non-contiguous memory pages, like OS virtual memory. vLLM's core innovation. Enables higher batch sizes.
+- Cause: models are often unreliable well before their advertised max context (a 200K model can degrade noticeably by ~130K).
+- Symptoms: model "forgets" details from the middle of a long prompt ("lost in the middle").
+- Fix: don't trust the advertised number — test retrieval at your actual expected context length; use RAG to keep prompts shorter when possible.
 
-### Throughput (tokens/second)
+**Operational Failure: MoE routing collapse**
 
-- **Tensor parallelism** — split weight matrices across GPUs. All-reduce on each layer. Scales to 8–16 GPUs effectively.
-- **Pipeline parallelism** — different layers on different GPUs. Good for very deep models (100B+).
-- **Batch size tuning** — larger batches = better GPU utilization. Balance with latency requirements.
+- Cause: during training, a router can learn to send almost all tokens to the same few experts, wasting the rest.
+- Symptoms: model behaves like a much smaller dense model than its parameter count suggests.
+- Fix: load-balancing losses during training (not something you control at inference time, but worth knowing why some MoE models underperform their parameter count).
 
-### Accuracy preservation during quantization
+**Production Failure: Position extrapolation breakdown**
 
-- **GPTQ** — post-training quantization that minimizes quantization error layer by layer. Better than naive rounding.
-- **AWQ** — protects the 1% of weights with highest activation magnitude from quantization. Salient weight-aware quantization.
-- **QLoRA** — fine-tune a quantized model via LoRA adapters in higher precision. 4-bit base model + 16-bit LoRA = full fine-tuning quality at fraction of memory.
-
----
-
-## 14. Production Reality
-
-| Company | Model | Architecture Details |
-|---|---|---|
-| **OpenAI** | GPT-4, GPT-4o | MoE with ~1T total params, ~50B active. FlashAttention. RoPE. INT8 inference. Multimodal via unified attention over image patches + text tokens. |
-| **Anthropic** | Claude | MoE + Sparse Attention (confirmed indirectly). Constitutional AI training layer on top. Very long context windows (200K+). Emphasis on safe generation via training, not architecture changes. |
-| **Google** | Gemini 1.5 Pro | FlashAttention-3. RoPE. 1M token context via Ring Attention for training. MoE for scale. Multimodal from ground up — not text-then-vision bolted on. |
-| **Mistral** | Mistral Large / Mixtral | Open MoE: 8 experts, 2 activated per token (Mixtral 8×7B). Sliding Window Attention for long context. GQA. Most transparent architecture of the frontier models. |
-| **Meta** | Llama 3 | Dense Transformer. RoPE. GQA. SwiGLU. Pre-LN. 8K–128K context. Open weights — the most studied architecture in the research community. |
-
-> **The Production Stack:** Every frontier model in production uses: Pre-LN + GQA + FlashAttention + RoPE + KV Cache + INT8/FP4 quantization + SwiGLU. The "vanilla Transformer" from the 2017 paper exists only in tutorials.
+- Cause: pushing RoPE-based models far beyond their trained context length without scaling tricks.
+- Symptoms: coherence collapses past a certain length even though the model "supports" longer context.
+- Fix: use models with explicitly validated long-context training (not just architectural support for long RoPE), and verify with your own long-context tests.
 
 ---
 
-## 15. Topic Connections
+## 16. Optimization Techniques
+
+- **FlashAttention**: rewrite attention to avoid materializing the full score matrix, cutting memory bandwidth usage and increasing throughput 2-5x.
+- **Quantization (INT8/FP4)**: reduce weight precision to shrink memory footprint and speed up matrix multiplications, at a small accuracy cost.
+- **MoE**: scale parameter count (knowledge capacity) without scaling per-token compute.
+- **KV-caching**: avoid recomputing attention for already-processed tokens (own note covers this in depth).
+- **Sparse/sliding-window attention**: limit each token's attention to a local window or a fixed pattern, cutting O(n²) toward O(n log n) or O(n).
+- **Ring Attention**: split a single very-long-sequence attention computation across multiple GPUs, enabling training/inference contexts that don't fit on one device.
+
+---
+
+## 17. Interview Preparation
+
+### Beginner Questions
+
+**Q: What problem does self-attention solve that RNNs couldn't?** A: Parallelization and long-range dependency capture. RNNs process tokens sequentially, so you can't parallelize across the sequence and information decays over long distances. Self-attention lets every token directly attend to every other token in one parallel step. _Reasoning expected_: understanding the sequential bottleneck, not just naming attention.
+
+**Q: What are Q, K, and V?** A: Three learned projections of each token's embedding — Query (what I'm looking for), Key (what I offer for others to match against), Value (what information I actually carry if matched). _Reasoning expected_: not just definitions, but why three separate vectors instead of one.
+
+### Intermediate Questions
+
+**Q: Why is attention O(n²)?** A: Because every token computes a score against every other token — n tokens × n tokens = n² score computations, each one a dot product over the head dimension. _Reasoning expected_: derive it, don't just recite it.
+
+**Q: Why do modern models use RoPE instead of the original sinusoidal positional encoding?** A: RoPE encodes position as a rotation baked into the Q/K dot product itself, which generalizes better to sequence lengths beyond training, whereas absolute positional embeddings have a hard length ceiling. _Reasoning expected_: connect to long-context capability.
+
+### Advanced Questions
+
+**Q: How does MoE reduce inference cost without reducing parameter count?** A: A router selects a small subset of expert FFNs (e.g., 2 of 16) per token. Total parameters stored = sum across all experts, but compute per token = only the active experts' compute. This decouples "knowledge capacity" from "per-token compute cost." _Reasoning expected_: candidate should explain the routing mechanism and the train/inference cost split.
+
+**Q: Why might Mamba/SSMs eventually replace attention for some workloads?** A: SSMs process sequences with linear-time recurrence instead of pairwise attention, giving O(n) instead of O(n²) scaling, which matters most at very long context lengths. The tradeoff is that SSMs are newer, less battle-tested, and not yet used in any frontier production model as of mid-2026. _Reasoning expected_: candidate should not overclaim — SSMs are promising, not proven at frontier scale yet.
+
+---
+
+## 18. Common Mistakes
+
+**Mistake**: thinking attention "understands" language the way RNNs do, token by token. _Why it happens_: people picture attention as a sequential read of the text. _Correct understanding_: attention computes all token relationships in parallel in one matrix operation — there's no "left to right" intrinsic to the math itself (positional encoding is what gives it order awareness).
+
+**Mistake**: assuming bigger context window = model can use all of it equally well. _Why it happens_: providers market context window size as the main spec. _Correct understanding_: "lost in the middle" is real — effective usable context is often well below the advertised max.
+
+**Mistake**: confusing MoE with ensembling multiple full models. _Why it happens_: "multiple experts" sounds like multiple separate models. _Correct understanding_: MoE experts are just multiple FFN blocks within the same layer, sharing the same attention mechanism, with a router picking a few per token — it's one model, not an ensemble.
+
+---
+
+## 19. Current Industry State
+
+As of mid-2026, every frontier model (GPT-4o family, Claude, Gemini, Llama) is built on a Transformer foundation, but the "vanilla" 2017 design is essentially never deployed as-is. The de facto production stack layers RoPE for positions, SwiGLU for activations, Pre-LN for stability, FlashAttention-3 for efficient compute, MoE for scaling parameter count cheaply, and INT8/FP4 quantization for deployment efficiency. OpenAI and Mistral both run MoE variants; Google leans on FlashAttention-3 plus RoPE to push toward million-token contexts; Meta's Llama stays dense, favoring deployment simplicity for the open-weight ecosystem.
+
+What's becoming obsolete: FP16 inference (replaced by lower-precision quantization), and naive full attention without a memory-efficient kernel.
+
+---
+
+## 20. Current Problems & Research
+
+The unresolved core issue is still the O(n²) attention cost — doubling context length quadruples the attention-specific compute, and KV-cache memory grows with it too, which is why long-context serving is so much more expensive and slower than short-context serving. Research is split across three fronts: making attention itself cheaper (sparse attention, FlashAttention-class kernels, Ring Attention for distributed long-context), replacing attention for parts of the stack (State Space Models like Mamba, which scale linearly and reportedly outperform Transformers on certain long-range benchmarks), and hybrid designs that combine attention with recurrence and external memory for better reasoning over very long contexts. None of the SSM or hybrid approaches have displaced attention in a frontier production model yet — they remain promising but unproven at that scale as of this writing.
+
+The foundational papers worth knowing: "Attention Is All You Need" (2017, introduced the architecture), "Mamba: Linear-Time Sequence Modeling" (2023, the leading SSM alternative), and the FlashAttention line of papers (2022-2024, the efficiency breakthrough that made long-context serving practical at all).
+
+---
+
+## 21. Future Evolution
+
+The most likely near-term path is not "Transformers get replaced" but "Transformers get hybridized" — combining attention layers (good at precise retrieval over context) with SSM-style layers (good at cheap long-range summarization) within the same model. Sparse and dynamic attention patterns (where the model learns which tokens matter enough to attend to fully) are likely to become standard rather than exotic. A pure SSM frontier model replacing attention entirely is possible but not yet demonstrated at the scale and quality of current frontier Transformers.
+
+---
+
+## 22. Engineer Checklist
+
+[ ] Explain self-attention and why it replaced RNNs [ ] Explain Q/K/V and the attention formula from memory [ ] Explain why attention is O(n²) and what that costs in production [ ] Explain RoPE, SwiGLU, Pre-LN and why each replaced its predecessor [ ] Explain MoE and how it decouples parameter count from per-token compute [ ] Use HuggingFace `transformers` to load and run a model, inspect attention weights [ ] Discuss FlashAttention's role in production serving [ ] Recognize "lost in the middle" as a real production bottleneck, not a tutorial footnote [ ] Discuss tradeoffs between dense and MoE architectures [ ] Connect this topic to KV-cache, context windows, and inference cost (the rest of this knowledge base)
+
+---
+
+## 23. Knowledge Graph
 
 ```
 Transformer Architecture
-│
-├── Tokenization
-│   ├── BPE/WordPiece tokenizers feed integer token IDs into embeddings
-│   └── Vocabulary size determines embedding matrix size (d_model × vocab_size)
-│
-├── Embeddings
-│   ├── Token embedding table: learned lookup (input to first layer)
-│   ├── Positional embeddings: RoPE applied inside each attention layer
-│   └── Output of final layer = contextualized embeddings (used in RAG, search)
-│
-├── LLMs (Large Language Models)
-│   ├── LLMs are Transformer decoders stacked N times
-│   ├── Scale: more layers + wider d_model + more heads = stronger model
-│   └── Emergent abilities appear at scale (chain-of-thought, in-context learning)
-│
-├── RAG (Retrieval-Augmented Generation)
-│   ├── Retrieval: encode query with Transformer encoder → vector similarity
-│   ├── Context injection: retrieved docs added to Transformer input tokens
-│   └── Long context = Transformer must attend across retrieved + original text
-│
-├── Fine-tuning
-│   ├── LoRA: add low-rank adapter matrices to attention weight matrices W_Q, W_V
-│   ├── QLoRA: quantize base Transformer weights + train LoRA in FP16
-│   └── Full fine-tune: update all Transformer weights (expensive, rare)
-│
-├── Agents
-│   ├── Agent reasoning = multiple Transformer forward passes in a loop
-│   ├── Tool calls: Transformer generates structured output → tool → result injected into context
-│   └── MoE efficiency: agent loops with many steps benefit from MoE's cost efficiency
-│
-├── Vector Databases
-│   ├── Encoder Transformers produce dense embeddings stored in vector DBs
-│   └── Same architecture that does generation also produces retrieval embeddings
-│
-├── Memory Systems
-│   ├── In-context memory: KV cache — Transformer remembers within its context window
-│   ├── External memory: retrieved from vector DB and injected into context
-│   └── KV cache compression = extending effective in-context memory
-│
-├── Inference / Serving
-│   ├── vLLM: PagedAttention + continuous batching for Transformer serving
-│   ├── TensorRT-LLM: NVIDIA's optimized kernels for Transformer inference
-│   └── Quantization: INT8/FP4 to fit Transformer weights on available hardware
-│
-├── Training
-│   ├── Next-token prediction loss on massive text corpora
-│   ├── FlashAttention reduces memory during training (enables larger batch sizes)
-│   └── Ring Attention enables very long sequence training across multiple GPUs
-│
-└── Evaluation
-    ├── Perplexity: how surprised the model is by held-out text (lower = better)
-    ├── Benchmarks: MMLU, HumanEval, GSM8k — all test Transformer capabilities
-    └── Long Range Arena: where SSMs currently outperform Transformers
-```
-
----
-
-## 16. Current Industry State (2025–2026)
-
-### What is considered best practice today:
-
-- The "modern Transformer" means: Pre-LN + GQA + FlashAttention-3 + RoPE + SwiGLU + MoE at scale + INT8/FP4 inference. The 2017 original architecture is legacy.
-- MoE is the standard for frontier-scale models. No major lab is training a 1T+ dense model — the compute cost is not justified.
-- FlashAttention is mandatory for production training and inference. Using standard attention is like writing Python without NumPy — technically possible, practically obsolete.
-- KV Cache is always on. PagedAttention (vLLM) is the standard serving pattern for open-weight models.
-- INT8 quantization is the minimum bar for serving large models. FP4 (via GPTQ, AWQ) is increasingly common with negligible accuracy drop.
-
-### What is changing:
-
-- Context windows extending rapidly: 200K (Claude), 1M (Gemini 1.5 Pro), with demand for multi-million token contexts growing
-- SSMs (Mamba) being integrated into hybrid models — not replacing Transformers yet, but being added alongside attention layers
-- Multimodal as default: treating images, audio, and video as tokenized inputs to the same Transformer
-
-### What companies are moving toward:
-
-- Hybrid Attention + SSM architectures (Jamba by AI21 Labs is an early example)
-- Longer KV cache with better compression strategies
-- Self-designed architectures via neural architecture search rather than hand-designed Transformers
-
----
-
-## 17. Current Problems (Unsolved)
-
-### 1. Quadratic attention is the fundamental bottleneck
-
-The O(n²) attention cost isn't just slow — it's mathematically bounded. Doubling context length quadruples compute and memory. At 10M tokens, full attention is physically impossible on any hardware. FlashAttention reduces the constant factor but doesn't change the O(n²) complexity. Only Sparse Attention or SSMs offer a real solution.
-
-### 2. KV cache memory at very long contexts
-
-A 70B model with 1M token context requires ~100GB of KV cache memory alone — more than the model weights. Quantizing the KV cache (INT8) helps but introduces errors. Eviction strategies risk losing critical context. No perfect solution exists.
-
-### 3. Lost-in-the-middle attention distribution
-
-Even with 1M token context windows, models systematically underperform on information in the middle of the context. Attention distributions show the model attends primarily to recent tokens and a few "sink" tokens. The architecture naturally creates this bias; overcoming it requires new attention mechanisms.
-
-### 4. MoE training instability
-
-Expert collapse, load imbalance, and training instability remain open research problems. The auxiliary load-balancing loss is a partial fix but adds a hyperparameter that requires careful tuning. At very large scales (hundreds of experts), routing quality degrades.
-
-### 5. Mechanistic interpretability
-
-We don't know what individual attention heads compute. We don't know which FFN neurons store which facts. We can't reliably intervene in the model's internal computation to fix errors. This limits debugging, safety verification, and systematic capability improvement.
-
-### 6. Theoretical limits proven
-
-Mathematically, Transformers can't solve certain computational problems regardless of scale (e.g., tasks requiring more than O(log n) depth). These limits are being identified but no architectural solution that preserves Transformer's parallelism has been found.
-
----
-
-## 18. Future Evolution
-
-### 3–5 year outlook:
-
-- **SSM + Attention hybrids will dominate** — models like Jamba (Mamba layers interleaved with Transformer layers) combine SSM's O(n) long-context efficiency with Transformer's powerful in-context learning. Expect this pattern to become the new standard at frontier labs within 2–3 years.
-- **Self-designed architectures** — AI systems designing their own architectures via neural architecture search and evolutionary methods. The 2026 prediction: within 5 years, the dominant architecture was not designed by a human. The Transformer may be the last hand-designed frontier architecture.
-- **Free-threaded / parallelism improvements** — as hardware evolves (beyond A100/H100), architectures will co-evolve. SSMs may benefit more from next-generation memory bandwidth improvements.
-- **Infinite effective context** — KV cache compression + hierarchical attention + SSM layers working together to enable effectively unbounded context without O(n²) cost.
-- **Multimodal Transformers as default** — text-only models will be a niche. The standard model will natively process text, image, audio, video, code, and structured data via a single unified attention mechanism.
-
-> **What probably won't change:** The attention mechanism as a building block will survive — even in hybrid models, Transformer layers handle in-context learning and reasoning. The debate is not "Transformer vs nothing" but "full Transformer vs Transformer + something better for long sequences."
-
----
-
-## 19. Engineer's Mental Model — If You Remember Only 10 Things
-
-1. **Self-attention = global context in one matrix multiply.** Every token attends to every other token simultaneously. This is why Transformers replaced RNNs: parallel compute, not sequential.
-
-2. **Attention(Q,K,V) = softmax(QKᵀ/√d_k) × V.** This formula runs billions of times per second in every frontier AI system. Know it deeply — Q asks, K answers, V provides, scores weight.
-
-3. **The FFN stores knowledge; attention routes it.** Factual recall happens in FFN neurons. Attention decides which tokens' information to mix. They do fundamentally different jobs.
-
-4. **KV Cache is what makes inference affordable.** Without it, generating each token requires a full recompute of the entire context. With it: O(1) per new token. Always enabled in production.
-
-5. **O(n²) is the original sin.** Doubling context = 4× compute and memory. Every major attention innovation (FlashAttention, Sparse Attention, MoE, SSMs) is ultimately a response to this quadratic bottleneck.
-
-6. **Modern Transformers use Pre-LN, RoPE, GQA, SwiGLU, and FlashAttention.** The "vanilla" 2017 Transformer exists only in tutorials. Know what each modern component replaced and why.
-
-7. **MoE = 1T parameters, 50B compute.** Mixture of Experts scales knowledge capacity without proportionally scaling inference cost. The router selects a few experts per token. This is how GPT-4 is both huge and fast.
-
-8. **FlashAttention doesn't change the math — it changes where computation happens.** Standard attention writes the N×N matrix to slow HBM memory. FlashAttention tiles the computation and keeps intermediate results in fast SRAM. Same result, dramatically less memory I/O.
-
-9. **INT8/FP4 quantization is production standard.** FP16 is for training. Production serving uses quantized weights. The quality drop is negligible on most tasks. Not doing this means your model is 2–4× larger than it needs to be.
-
-10. **Transformers are being replaced — just slowly.** SSMs offer linear scaling and have outperformed Transformers on long-range benchmarks. Hybrid architectures are entering production. The Transformer's architectural monopoly is ending, but the ecosystem lock-in means it will remain dominant for years.
-
----
-
-## 20. Knowledge Graph
-
-```
-Transformer Architecture
-│
-├── Core Mechanism
-│   ├── Self-Attention
-│   │   ├── Query (Q) — what the token is looking for
-│   │   ├── Key (K) — what the token offers
-│   │   ├── Value (V) — what the token contributes
-│   │   ├── Scaled Dot-Product: softmax(QKᵀ/√d_k) × V
-│   │   └── Causal Mask (decoder-only: attend only to past tokens)
-│   └── Multi-Head Attention (MHA)
-│       ├── H parallel attention heads
-│       └── Grouped Query Attention (GQA) — fewer K,V heads
-│
+├── Self-Attention
+│   ├── Q/K/V projections
+│   ├── Multi-Head Attention
+│   └── Scaled dot-product formula
 ├── Positional Encoding
-│   ├── Sinusoidal (original, fixed) — legacy
-│   ├── Learned absolute embeddings — early BERT/GPT
-│   ├── RoPE (Rotary) — current standard, enables extrapolation
-│   └── ALiBi — linear bias alternative to RoPE
-│
-├── Feed-Forward Network (FFN)
-│   ├── SwiGLU activation (modern standard)
-│   ├── GELU (older; BERT, GPT-2)
-│   └── MoE (Mixture of Experts)
-│       ├── Router (top-K selection)
-│       ├── N Expert FFNs
-│       └── Load Balancing Loss
-│
-├── Normalization
-│   ├── Pre-LN (modern standard)
-│   └── Post-LN (original 2017; unstable at scale)
-│
-├── Residual Connections
-│   └── x + sublayer(x) — gradient highway through layers
-│
-├── Efficiency Innovations
-│   ├── FlashAttention (1/2/3) — GPU kernel optimization
-│   ├── KV Cache — inference acceleration
-│   │   └── PagedAttention (vLLM) — memory management
-│   ├── Sparse Attention — O(n log n) cost
-│   ├── Ring Attention — multi-GPU long sequences
-│   └── Quantization
-│       ├── INT8 (weight + activation)
-│       ├── FP4 / GPTQ / AWQ
-│       └── QLoRA (quantized fine-tuning)
-│
-├── Architecture Variants
-│   ├── Encoder-only (BERT, RoBERTa) — understanding tasks
-│   ├── Decoder-only (GPT, Claude, Llama) — generation
-│   └── Encoder-Decoder (T5, BART) — translation, summarization
-│
-├── Alternatives / Competitors
-│   ├── SSM / Mamba — O(n) linear scaling
-│   ├── RWKV — RNN-like linear inference
-│   └── Hybrid (Attention + SSM) — Jamba, Zamba
-│
-├── Production Stack
-│   ├── vLLM (PagedAttention + continuous batching)
-│   ├── TensorRT-LLM (NVIDIA inference kernels)
-│   ├── Tensor Parallelism (multi-GPU)
-│   └── Speculative Decoding
-│
-└── AI Engineering Connections
-    ├── Tokenization → feeds integer IDs into embedding layer
-    ├── Embeddings → output of encoder used in vector DBs / RAG
-    ├── Fine-tuning → LoRA adapters on W_Q, W_V matrices
-    ├── Agents → multiple Transformer forward passes in a loop
-    ├── Inference → KV Cache + quantization + PagedAttention
-    ├── Training → FlashAttention + Ring Attention + MoE
-    └── Evaluation → perplexity, MMLU, Long Range Arena
+│   ├── Original sinusoidal (historical)
+│   └── RoPE (current standard)
+├── Feed-Forward Network
+│   ├── SwiGLU activation
+│   └── MoE (sparse experts)
+├── Stabilization
+│   ├── Residual connections
+│   └── Pre-LN normalization
+├── Efficiency Layer (system-level, not architecture-level)
+│   ├── FlashAttention
+│   ├── KV-Cache
+│   └── Quantization (INT8/FP4)
+└── Alternatives / Future
+    ├── Sparse Attention
+    ├── Ring Attention (distributed long-context)
+    └── State Space Models (Mamba)
 ```
 
 ---
 
-*AI Engineering Knowledge Base · Transformer Architecture · June 2026*
+## 24. If You Remember Only 10 Things
+
+1. Self-attention lets every token directly relate to every other token, in parallel — that's why Transformers train fast on GPUs.
+2. Q/K/V: Query asks, Key offers, Value delivers. The dot product of Q and K decides how much of V you get.
+3. Attention cost is O(n²) — this single fact explains most long-context pricing and latency behavior in this whole knowledge base.
+4. Multi-head attention runs several attention "views" in parallel to capture different relationship types.
+5. RoPE encodes position as a rotation, which is why modern models can (somewhat) extrapolate beyond their trained length.
+6. SwiGLU and Pre-LN are the modern, more stable replacements for GELU and Post-LN — small tweaks, big stability gains at scale.
+7. MoE lets a model store huge knowledge (trillions of parameters) while only paying compute for a small active subset per token.
+8. FlashAttention doesn't change the math — it changes how attention is computed on the GPU to avoid memory bottlenecks.
+9. "Lost in the middle" is real: advertised context length ≠ effective usable context length.
+10. The field's bottleneck has shifted from "can we parallelize training" (solved by attention in 2017) to "can we make O(n²) cheap enough for million-token contexts" (the active research frontier today: sparse attention, SSMs, hybrids).
