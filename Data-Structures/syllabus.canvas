@@ -1,0 +1,41 @@
+{
+	"nodes":[
+		{
+			"id":"center",
+			"type":"text",
+			"text":"# 🐍PYTHON DS",
+			"styleAttributes":{"textAlign":"center"},
+			"x":1000,
+			"y":600,
+			"width":240,
+			"height":80,
+			"color":"6"
+		},
+		{"id":"arrays","type":"text","text":"Arrays","x":1000,"y":250,"width":180,"height":80},
+		{"id":"strings","type":"text","text":"Strings","x":1350,"y":350,"width":180,"height":80},
+		{"id":"linkedlist","type":"text","text":"Linked List","x":1500,"y":600,"width":180,"height":80},
+		{"id":"stackqueue","type":"text","text":"Stack & Queue","x":1350,"y":850,"width":180,"height":80},
+		{"id":"trees","type":"text","text":"Trees","x":1000,"y":950,"width":180,"height":80},
+		{"id":"graphs","type":"text","text":"Graphs","x":650,"y":850,"width":180,"height":80},
+		{"id":"recursion","type":"text","text":"Recursion","x":650,"y":350,"width":180,"height":80},
+		{"id":"heap","type":"text","text":"Heap","x":1180,"y":170,"width":180,"height":80},
+		{"id":"bit","type":"text","text":"Bit Manipulation","x":390,"y":430,"width":220,"height":80},
+		{"id":"hashing","type":"text","text":"Hashing","x":430,"y":640,"width":180,"height":80}
+	],
+	"edges":[
+		{"id":"e1","fromNode":"center","fromSide":"top","toNode":"arrays","toSide":"bottom"},
+		{"id":"e2","fromNode":"center","fromSide":"top","toNode":"strings","toSide":"bottom"},
+		{"id":"e3","fromNode":"center","fromSide":"right","toNode":"linkedlist","toSide":"left"},
+		{"id":"e4","fromNode":"center","fromSide":"bottom","toNode":"stackqueue","toSide":"top"},
+		{"id":"e5","fromNode":"center","fromSide":"bottom","toNode":"trees","toSide":"top"},
+		{"id":"e6","fromNode":"center","fromSide":"left","toNode":"graphs","toSide":"right"},
+		{"id":"e7","fromNode":"center","fromSide":"left","toNode":"hashing","toSide":"right"},
+		{"id":"e8","fromNode":"center","fromSide":"top","toNode":"recursion","toSide":"bottom"},
+		{"id":"e9","fromNode":"center","fromSide":"top","toNode":"heap","toSide":"bottom"},
+		{"id":"e10","fromNode":"center","fromSide":"left","toNode":"bit","toSide":"bottom"}
+	],
+	"metadata":{
+		"version":"1.0-1.0",
+		"frontmatter":{}
+	}
+}

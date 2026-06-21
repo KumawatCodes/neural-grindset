@@ -51,14 +51,16 @@ A 1M-token context window is like extending that meeting to a week long, with a 
 ### How To Visualize It
 
 ```
-Context window (e.g. 128K tokens):
+Context Window (128K tokens example)
 
-[ System prompt ] [ Early conversation ] [ ... middle ... ] [ Recent turns ] [ Current question ]
-      ↑ strong recall                          ↑ weak recall            ↑ strong recall
-   (start of window)                      ("lost in the middle")    (end of window, closest
-                                                                      to where generation begins)
+┌──────────────────────────────────────────────────────────────────────────┐
+│ System Prompt │ Early Chat │ ... Middle Content ... │ Recent Turns │ Q │
+└──────────────────────────────────────────────────────────────────────────┘
 
-                    U-shaped retrieval accuracy across the window
+      ↑ Strong Recall                ↓ Weak Recall             ↑ Strong Recall
+   (Beginning)                   (Lost in Middle)               (End)
+
+                    U-Shaped Retrieval Accuracy
 ```
 
 ---
