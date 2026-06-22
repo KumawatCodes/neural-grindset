@@ -38,3 +38,13 @@ During training, the model sees the true previous tokens (teacher forcing). Duri
 ```text
 Training:  [The] [capital] [of] [France] → [is] [Paris] (true)
 Inference: [The] [capital] [of] [France] → [is] [London?] (drifts)
+
+```
+
+4. Softmax Temperature
+Higher temperature → more random sampling → higher chance of hallucination. Lower temperature → more deterministic but still can hallucinate if the top‑1 is wrong.
+
+5. "Lost in the Middle"
+In long contexts, the model forgets information in the middle of the context window, leading to hallucinated answers that ignore critical facts.
+
+How Hallucination Propagates (ASCII Diagram)
