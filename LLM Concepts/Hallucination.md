@@ -85,3 +85,5 @@ User Prompt
 │  (Confident, articulate, wrong!)    │
 └─────────────────────────────────────┘
 ```
+Code Example: Detecting Hallucinations with SelfCheckGPT
+SelfCheckGPT uses stochastic consistency – if the model gives different answers when sampled multiple times, the original is likely a hallucination.
