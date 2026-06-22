@@ -87,3 +87,29 @@ User Prompt
 ```
 Code Example: Detecting Hallucinations with SelfCheckGPT
 SelfCheckGPT uses stochastic consistency – if the model gives different answers when sampled multiple times, the original is likely a hallucination.
+
+```
+import numpy as np
+from transformers import AutoModelForCausalLM, AutoTokenizer
+
+model = AutoModelForCausalLM.from_pretrained("gpt2")
+tokenizer = AutoTokenizer.from_pretrained("gpt2")
+
+def generate_samples(prompt, n=5):
+    samples = []
+    for _ in range(n):
+        inputs = tokenizer(prompt, return_tensors='pt')
+        outputs = model.generate(**inputs, max_new_tokens=50, do_sample=True, temperature=0.8)
+        text = tokenizer.decode(outputs[0], skip_special_tokens=True)
+        samples.append(text)
+    return samples
+
+# Example
+prompt = "The tallest mountain in the world is"
+samples = generate_samples(prompt, n=5)
+
+for i, s in enumerate(samples):
+    print(f"Sample {i+1}: {s}")
+
+# Check consistency: if answers vary wildly, hallucination risk is high.
+```
