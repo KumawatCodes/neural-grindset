@@ -59,8 +59,8 @@ Research shows that LLMs exhibit **U‑shaped performance** across context windo
 ```text
 Relevance
   │
-  │  ██████                    ██████
-  │  ██████                    ██████
+  │  ██████                   ██████
+  │  ██████                   ██████
   │  ██████  ██  ██  ██  ██   ██████
   │  ██████  ██  ██  ██  ██   ██████
   │  ██████  ██  ██  ██  ██   ██████
@@ -68,3 +68,70 @@ Relevance
   └─────────────────────────────────────────── Position
      Start    │     Middle     │      End
               (Lowest recall)
+
+
+```
+## How Models Handle Long Contexts
+1. FlashAttention (Core optimisation)
+IO‑aware attention that minimises reads/writes to slow HBM (GPU memory). Reduces memory bottleneck without changing the model.
+
+```text
+Standard Attention:  read Q,K,V from HBM → write O to HBM (many round trips)
+FlashAttention:      loads in tiles, computes on‑chip, writes only the final output
+                     → 2–4× faster, 5–20× more memory efficient.
+```
+2. KV Caching
+During autoregressive generation, the keys (K) and values (V) for previous tokens are cached. Only the new token's K, V are computed for each step.
+
+```text
+Without KV cache:   O(n²) per step → O(n³) total for sequence length n.
+With KV cache:      O(n) per step after the first pass (prefill) → O(n²) total.
+```
+3. Ring Attention (Distributed)
+Splits the context window across multiple GPUs in a ring topology. Each GPU handles a chunk of the sequence, communicating only its neighbours. Enables millions of tokens (Gemini 1.5).
+
+4. RoPE Extrapolation / Positional Interpolation
+Techniques to extend the context length without retraining (or with minimal fine‑tuning):
+
+Linear Scaling – Stretch position indices.
+
+NTK‑aware scaling – Interpolate high frequencies less, low frequencies more (better for extending).
+
+YaRN (Yet another RoPE extensioN) – Combines scaling with temperature adjustments.
+
+```python
+# Example: Llama 3 8B base is 8k, but fine‑tuned to 128k with YaRN.
+# In code, this often just involves setting:
+model.config.max_position_embeddings = 128000
+# and using a scaling factor in RoPE.
+```
+5. Sliding Window Attention (Longformer, Mistral)
+Each token only attends to a fixed window of neighbouring tokens (e.g., 4,096) rather than all tokens. Combine with global tokens for full coverage.
+
+Practical Code: Counting Tokens for Context
+Using tiktoken (OpenAI)
+```python
+import tiktoken
+
+# GPT‑4 tokenizer (cl100k_base)
+enc = tiktoken.get_encoding("cl100k_base")
+
+prompt = "This is a long document..." * 1000
+num_tokens = len(enc.encode(prompt))
+
+if num_tokens > 128000:
+    print(f"Too long! {num_tokens} tokens exceeds 128k limit.")
+else:
+    print(f"Context used: {num_tokens} tokens.")
+```
+Using Hugging Face Tokenizer
+```python
+from transformers import AutoTokenizer
+
+tokenizer = AutoTokenizer.from_pretrained("meta-llama/Llama-2-7b-chat-hf")
+
+text = "Your long document here"
+num_tokens = len(tokenizer.encode(text))
+
+print(f"Tokens: {num_tokens} / {tokenizer.model_max_length}")
+```
