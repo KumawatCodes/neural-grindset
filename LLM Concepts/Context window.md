@@ -13,3 +13,6 @@ The context window (or context length) is the maximum number of tokens a languag
 ## Attention Complexity: The Bottleneck
 
 In standard Transformer self‑attention, the computational and memory complexity scales **quadratically** with sequence length:
+
+Complexity = O(n² × d)
+
