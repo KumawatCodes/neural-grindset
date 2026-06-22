@@ -48,3 +48,40 @@ Higher temperature → more random sampling → higher chance of hallucination. 
 In long contexts, the model forgets information in the middle of the context window, leading to hallucinated answers that ignore critical facts.
 
 How Hallucination Propagates (ASCII Diagram)
+
+```
+User Prompt
+    │
+    ▼
+┌─────────────────────────────────────┐
+│  Model receives query               │
+│  "What is the tallest mountain?"    │
+└─────────────────────────────────────┘
+    │
+    ▼
+┌─────────────────────────────────────┐
+│  Retrieves/attends to relevant      │
+│  patterns (but misses Mount Everest │
+│  due to weak signal / bad attention)│
+└─────────────────────────────────────┘
+    │
+    ▼
+┌─────────────────────────────────────┐
+│  Softmax over vocabulary:           │
+│  "K2" = 0.48, "Everest" = 0.45,     │
+│  "Denali" = 0.07                    │
+└─────────────────────────────────────┘
+    │
+    ▼
+┌─────────────────────────────────────┐
+│  Sampling (e.g., temperature=1.0)   │
+│  picks "K2" (wrong!)                │
+└─────────────────────────────────────┘
+    │
+    ▼
+┌─────────────────────────────────────┐
+│  Fluently generates:                │
+│  "The tallest mountain is K2."      │
+│  (Confident, articulate, wrong!)    │
+└─────────────────────────────────────┘
+```
