@@ -284,15 +284,3 @@ outputs = model.generate(..., repetition_penalty=1.1)
 # frequency_penalty: reduces repetition based on token frequency.
 # presence_penalty: penalises tokens that have already appeared at least once.
 ```
-Summary Table of Parameters
-Parameter	Type	Range	Purpose	Common Default
-Temperature	Float	0.0 – 2.0	Controls randomness (0 = greedy)	0.7 / 1.0
-Top‑k	Integer	1 – vocab_size	Limits vocab to top k tokens	40 – 50
-Top‑p	Float	0.0 – 1.0	Dynamic vocab cutoff (cumulative mass)	0.9 – 0.95
-do_sample	Boolean	True / False	Enables sampling (False = greedy)	True (for chat)
-repetition_penalty	Float	1.0 – 2.0	Penalises repeated tokens	1.0 (disabled)
-When to Tune Which Parameter
-Scenario	Tune This
-Output is too random / nonsensical	Lower temperature (e.g., 0.5) or lower top‑p (0.8)
-Output is too repetitive / boring	Increase temperature (0.9) or increase top‑p (0.95)
-Output includes rare/weird tokens	Lower top‑k (e.g., 40) or lower top‑p (0.85)
