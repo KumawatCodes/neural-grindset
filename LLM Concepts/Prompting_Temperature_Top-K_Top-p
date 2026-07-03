@@ -1,0 +1,55 @@
+# Prompting & Decoding Parameters (Temperature, Top‑k, Top‑p)
+
+This guide covers two essential aspects of working with LLMs:
+1. **Prompting** – How to structure inputs to get the desired output.
+2. **Decoding Parameters** – How to control randomness, diversity, and coherence during generation.
+
+---
+
+## Part 1: Prompting
+
+Prompting is the art and science of crafting input text to guide a language model toward a specific output. The model doesn't "understand" intent – it predicts the most probable continuation based on the prompt.
+
+### Basic Prompt Structure
+
+```text
+[System] → [User] → [Assistant] → (generation)
+
+System:   Sets the behaviour, tone, and persona.
+User:     The actual question or instruction.
+Assistant: The model's response (or start of it).
+
+                    ┌─────────────────┐
+                    │   Model Logits  │
+                    │  (raw scores)   │
+                    └────────┬────────┘
+                             │
+                             ▼
+               ┌───────────────────────────┐
+               │  Temperature Scaling       │
+               │  logits = logits / T       │
+               └────────────┬──────────────┘
+                            │
+                            ▼
+               ┌────────────────────────────┐
+               │      Softmax               │
+               │  probs = softmax(logits)   │
+               └────────────┬───────────────┘
+                            │
+                            ▼
+               ┌────────────────────────────┐
+               │  Top‑k Filter              │
+               │  (keep only top k tokens)  │
+               └────────────┬───────────────┘
+                            │
+                            ▼
+               ┌────────────────────────────┐
+               │  Top‑p (nucleus) Filter    │
+               │  (keep cumulative prob ≥ p)│
+               └────────────┬───────────────┘
+                            │
+                            ▼
+               ┌────────────────────────────┐
+               │  Sample (or Argmax)        │
+               │  Select final token        │
+               └────────────────────────────┘
