@@ -15,3 +15,9 @@ This guide covers two essential aspects of working with LLMs:
 Prompting is the art and science of crafting input text to guide a language model toward a specific output. The model doesn't "understand" intent – it predicts the most probable continuation based on the prompt.
 
 ### Basic Prompt Structure
+
+[System] → [User] → [Assistant] → (generation)
+
+System: Sets the behaviour, tone, and persona.
+User: The actual question or instruction.
+Assistant: The model's response (or start of it).
