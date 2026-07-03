@@ -53,3 +53,16 @@ Assistant: The model's response (or start of it).
                │  Sample (or Argmax)        │
                │  Select final token        │
                └────────────────────────────┘
+
+
+
+
+> **Note:** Order matters. Most implementations apply **Temperature → Softmax → Top‑k → Top‑p → Sample**.
+
+---
+
+## Temperature (T)
+
+Temperature scales the logits **before** the softmax. It controls the "sharpness" of the probability distribution.
+
+### Formula
