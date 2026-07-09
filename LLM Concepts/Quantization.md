@@ -26,3 +26,67 @@ Quantization is the process of reducing the numerical precision of a model's wei
 ### 1. Post‑Training Quantization (PTQ)
 
 **Process:** Quantize a pre‑trained model **without** retraining. Uses a small calibration dataset to determine optimal scale factors.
+
+Pre‑trained FP16 model → Calibrate on sample data → Quantize weights → INT8/INT4 model
+
+text
+
+| Pros ✅                                     | Cons ❌                                         |
+|--------------------------------------------|------------------------------------------------|
+| Fast (hours, not days)                     | Quality loss is more noticeable at low bits    |
+| No training infrastructure needed          | Struggles with outliers (activation spikes)    |
+| Works for most open‑source models          | May need GPTQ/AWQ for 4‑bit quality            |
+
+### 2. Quantization‑Aware Training (QAT)
+
+**Process:** Simulate quantization during training (or fine‑tuning). The model learns to adapt to low‑precision constraints.
+Train / Fine‑tune with simulated quantization (fake quantization) → Final quantized model
+
+text
+
+| Pros ✅                                     | Cons ❌                                         |
+|--------------------------------------------|------------------------------------------------|
+| Higher quality at low bits (4‑bit)         | Requires training infrastructure               |
+| Model learns to be robust to rounding      | Slower (takes days)                            |
+| Best for production models                 | Often overkill for most use cases              |
+
+### Quantization Pipeline (ASCII)
+┌─────────────────┐ ┌─────────────────┐ ┌─────────────────┐
+│ Full‑precision │ ──→ │ Calibration │ ──→ │ Quantized │
+│ Model (FP32) │ │ (scale/zero) │ │ Model (INT4) │
+└─────────────────┘ └─────────────────┘ └─────────────────┘
+│ │ │
+│ │ │
+▼ ▼ ▼
+Memory: 28GB Computes min/max Memory: 3.5GB
+(7B params) per channel / tensor (~8× smaller)
+
+text
+
+## Popular Quantization Methods
+
+| Method        | Bit Width | How It Works                                | Best For                     |
+|---------------|-----------|---------------------------------------------|------------------------------|
+| **GPTQ**      | 4, 3, 2   | Layer‑wise quantization with optimal rounding | NVIDIA GPUs, high quality 4‑bit |
+| **AWQ**       | 4         | Protects 1% of salient weights (per‑channel scaling) | Faster than GPTQ, similar quality |
+| **GGUF**      | 2–8       | CPU‑first format with block quantisation    | llama.cpp, CPU/Apple Silicon |
+| **bitsandbytes (NF4)** | 4 | Non‑uniform 4‑bit (normal‑float)            | QLoRA fine‑tuning (HF ecosystem) |
+| **SqueezeLLM**| 4         | Dense vs. sparse separation (outliers kept high‑precision) | Very low bits (3‑bit) |
+
+### GPTQ vs. AWQ vs. GGUF – Quick Reference
+
+| Feature        | GPTQ                         | AWQ                         | GGUF                       |
+|----------------|------------------------------|-----------------------------|----------------------------|
+| **Target hardware** | NVIDIA GPU (CUDA)          | NVIDIA GPU                  | CPU / Apple Silicon / GPU  |
+| **Quality**        | Excellent at 4‑bit          | Slightly better than GPTQ 4‑bit | Good, but typically slightly lower than GPTQ/AWQ |
+| **Speed**          | Fast on GPUs                | Very fast on GPUs           | Optimised for CPU/ARM      |
+| **File format**    | `.safetensors` (HF)         | `.safetensors`              | `.gguf`                    |
+| **Common tool**    | `auto_gptq` / `ExLlama`     | `llm-awq`                   | `llama.cpp` / `ollama`     |
+
+## How Quantization Works (The Math)
+
+For **symmetric quantization** (no zero‑point):
+q = round(x / scale)
+x_quant = q * scale
+
+where scale = max(|x|) / (2^(bits-1) - 1)
