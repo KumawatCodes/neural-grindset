@@ -157,7 +157,7 @@ print(tokenizer.decode(outputs[0]))
 python
 from llama_cpp import Llama
 ```
-# Load a GGUF quantized model (e.g., Q4_K_M)
+# 2. Load a GGUF quantized model (e.g., Q4_K_M)
 ```
 llm = Llama(
     model_path="./llama-2-7b-chat.Q4_K_M.gguf",
@@ -169,7 +169,7 @@ llm = Llama(
 output = llm("What is quantization?", max_tokens=100)
 print(output["choices"][0]["text"])
 ```
-3. GPTQ with auto_gptq
+# 3. GPTQ with auto_gptq
 ```python
 from transformers import AutoTokenizer
 from auto_gptq import AutoGPTQForCausalLM
