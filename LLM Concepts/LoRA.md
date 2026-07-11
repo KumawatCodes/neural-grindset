@@ -11,3 +11,5 @@ LoRA (Low‑Rank Adaptation) is a parameter‑efficient fine‑tuning (PEFT) tec
 The key insight behind LoRA is that **the weight updates during fine‑tuning also have a low "intrinsic rank"** – meaning the changes to the weights can be represented using far fewer dimensions than the full weight matrix.
 
 During full fine‑tuning, a pre‑trained weight matrix `W₀` (size `d × k`) is updated to `W₀ + ΔW`. In LoRA, we constrain `ΔW` to be a low‑rank decomposition:
+
+ΔW = A × B
