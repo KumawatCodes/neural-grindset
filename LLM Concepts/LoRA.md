@@ -34,3 +34,8 @@ Pre‑trained weight W₀ (d×k) LoRA update ΔW = A·B (d×k)
 Forward pass: h = x · W₀ + x · (A·B)
 ↑ ↑
 frozen base trainable adapter
+
+
+## Why LoRA Works (The Math)
+
+For a linear layer with weight `W ∈ ℝ^{d × k}`, the forward pass is:
