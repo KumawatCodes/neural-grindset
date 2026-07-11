@@ -181,4 +181,23 @@ outputs = model.generate(**inputs, max_new_tokens=200, temperature=0.7)
 print(tokenizer.decode(outputs[0], skip_special_tokens=True))
 ```
 # QLoRA (4‑bit + LoRA) – The Most Popular Hybrid
+```
+from transformers import BitsAndBytesConfig
 
+bnb_config = BitsAndBytesConfig(
+    load_in_4bit=True,
+    bnb_4bit_quant_type="nf4",
+    bnb_4bit_use_double_quant=True,
+    bnb_4bit_compute_dtype=torch.bfloat16
+)
+
+model = AutoModelForCausalLM.from_pretrained(
+    "meta-llama/Llama-2-7b-hf",
+    quantization_config=bnb_config,
+    device_map="auto"
+)
+
+# Then apply LoRA as usual
+model = prepare_model_for_kbit_training(model)
+model = get_peft_model(model, lora_config)
+```
