@@ -13,3 +13,24 @@ The key insight behind LoRA is that **the weight updates during fine‑tuning al
 During full fine‑tuning, a pre‑trained weight matrix `W₀` (size `d × k`) is updated to `W₀ + ΔW`. In LoRA, we constrain `ΔW` to be a low‑rank decomposition:
 
 ΔW = A × B
+
+
+Where:
+
+- `A` is `d × r` (trainable)
+- `B` is `r × k` (trainable)
+- `r` (rank) is very small: `r << min(d, k)`, typically 4, 8, 16, or 32
+
+The forward pass becomes:
+
+Pre‑trained weight W₀ (d×k) LoRA update ΔW = A·B (d×k)
+┌──────────────────────┐ ┌────────┐ ┌────────┐
+│ │ │ A (d×r)│ │ B (r×k)│
+│ W₀ │ + │ (train)│ │ (train)│
+│ (frozen) │ └────────┘ └────────┘
+└──────────────────────┘ └──────────┬──────────┘
+ΔW
+
+Forward pass: h = x · W₀ + x · (A·B)
+↑ ↑
+frozen base trainable adapter
