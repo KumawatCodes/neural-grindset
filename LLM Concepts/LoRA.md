@@ -159,3 +159,24 @@ merged_model = model.merge_and_unload()
 merged_model.save_pretrained("./llama2-finetuned-full")
 ```
 # Code Example: Inference with LoRA Adapter
+```
+from peft import PeftModel
+from transformers import AutoModelForCausalLM, AutoTokenizer
+
+# Load base model
+base_model = AutoModelForCausalLM.from_pretrained(
+    "meta-llama/Llama-2-7b-hf",
+    device_map="auto"
+)
+tokenizer = AutoTokenizer.from_pretrained("meta-llama/Llama-2-7b-hf")
+
+# Load LoRA adapter
+model = PeftModel.from_pretrained(base_model, "./lora-llama2-adapter")
+model.eval()
+
+# Generate
+prompt = "Explain LoRA in simple terms."
+inputs = tokenizer(prompt, return_tensors="pt").to("cuda")
+outputs = model.generate(**inputs, max_new_tokens=200, temperature=0.7)
+print(tokenizer.decode(outputs[0], skip_special_tokens=True))
+```
