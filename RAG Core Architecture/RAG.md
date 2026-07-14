@@ -33,3 +33,6 @@ LLMs are frozen at their training date. A model trained in 2023 has **zero knowl
 LLMs are next-token predictors, not fact-checkers. When unsure, they **generate plausible-sounding but incorrect information** – complete with convincing citations that don't exist.
 
 **Example:**
+
+User: "What was Acme Corp's revenue in Q3 2025?"
+LLM: "Acme Corp reported $12.4 billion in Q3 2025." (Completely fabricated)
