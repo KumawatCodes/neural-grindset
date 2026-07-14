@@ -9,3 +9,9 @@ Retrieve → Augment → Generate
 Search Inject LLM produces
 external retrieved answer with
 data context citations
+
+Retrieve → Augment → Generate
+↓ ↓ ↓
+Search Inject LLM produces
+external retrieved answer with
+data context citations
