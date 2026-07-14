@@ -54,3 +54,16 @@ Without RAG, you cannot verify *why* the model gave a particular answer. In regu
 
 Before users ask questions, you must prepare your knowledge base:
 
+Raw Documents (PDFs, Wikis, DBs)
+│
+▼
+Split into chunks
+(e.g., 500 tokens each)
+│
+▼
+Generate Embeddings
+(vector representations)
+│
+▼
+Store in Vector Database
+(e.g., Pinecone, Weaviate, FAISS)
