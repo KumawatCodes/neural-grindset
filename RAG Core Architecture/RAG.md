@@ -89,3 +89,20 @@ Return Top‑k chunks (e.g., top 5)
 text
 
 ### Step 3: Augmentation & Generation
+
+Original Prompt: "What is LoRA?"
+Retrieved Context:
+
+"LoRA is Low-Rank Adaptation..."
+
+"It reduces trainable parameters..."
+
+"Commonly used with QLoRA..."
+
+Augmented Prompt:
+"Based on the following context, answer the question.
+Context: [retrieved chunks]
+Question: What is LoRA?
+Answer:"
+
+LLM generates a grounded, cited answer.
