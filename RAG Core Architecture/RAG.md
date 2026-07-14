@@ -36,3 +36,21 @@ LLMs are next-token predictors, not fact-checkers. When unsure, they **generate 
 
 User: "What was Acme Corp's revenue in Q3 2025?"
 LLM: "Acme Corp reported $12.4 billion in Q3 2025." (Completely fabricated)
+
+
+**RAG fix:** The model never invents numbers – it reads them directly from the retrieved financial report. If the report doesn't exist, the model can say "I don't know" instead of hallucinating.
+
+### 3. No Traceability (Black Box)
+
+Without RAG, you cannot verify *why* the model gave a particular answer. In regulated industries (healthcare, finance, law), **auditability is non-negotiable**.
+
+**RAG fix:** Every claim can be traced back to a specific source document, paragraph, or even sentence.
+
+---
+
+## How RAG Works (The Pipeline)
+
+### Step 1: Indexing (Offline / Pre-processing)
+
+Before users ask questions, you must prepare your knowledge base:
+
