@@ -170,3 +170,39 @@ result = qa_chain({"query": "What is LoRA?"})
 print(result["result"])
 print("Sources:", [doc.metadata for doc in result["source_documents"]])
 ```
+
+Code Example: RAG from Scratch (Minimal)
+```python
+import numpy as np
+from sentence_transformers import SentenceTransformer
+from sklearn.metrics.pairwise import cosine_similarity
+
+# Sample documents
+docs = [
+    "LoRA is Low-Rank Adaptation for efficient fine-tuning.",
+    "RAG stands for Retrieval-Augmented Generation.",
+    "QLoRA combines 4-bit quantization with LoRA.",
+    "Fine-tuning updates all model weights."
+]
+
+# 1. Embed
+embedder = SentenceTransformer('all-MiniLM-L6-v2')
+doc_embeddings = embedder.encode(docs)
+
+# 2. Query
+query = "What is LoRA?"
+query_emb = embedder.encode([query])
+
+# 3. Retrieve
+similarities = cosine_similarity(query_emb, doc_embeddings)[0]
+top_k_idx = np.argsort(similarities)[-2:][::-1]  # top 2
+
+retrieved_docs = [docs[i] for i in top_k_idx]
+
+# 4. Augment + Generate (simulate)
+context = "\n".join(retrieved_docs)
+prompt = f"Context:\n{context}\n\nQuestion: {query}\nAnswer based only on context:"
+
+# In reality, you'd call an LLM here:
+# response = llm.generate(prompt)
+print(prompt)
