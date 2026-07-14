@@ -106,3 +106,67 @@ Question: What is LoRA?
 Answer:"
 
 LLM generates a grounded, cited answer.
+
+
+---
+
+## RAG vs. Fine‑tuning (The Critical Decision)
+
+| Aspect               | RAG                                          | Fine‑tuning / LoRA                          |
+|----------------------|----------------------------------------------|---------------------------------------------|
+| **Knowledge freshness** | Instant – update the vector DB              | Slow – must retrain the model               |
+| **Data required**    | Documents (PDFs, wikis, text)                | 1k–100k+ labelled examples                  |
+| **Training cost**    | Zero (no training)                          | High (GPU hours to days)                    |
+| **Inference cost**   | Higher (DB lookup + LLM)                    | Lower (just LLM)                            |
+| **Traceability**     | Excellent (cites specific sources)          | Poor (model is a black box)                 |
+| **Hallucinations**   | Low (grounded in retrieved data)            | Moderate (still can hallucinate)            |
+| **Latency**          | Higher (search + generation)                | Lower (generation only)                     |
+| **Domain adaptation**| Good (if docs exist)                        | Excellent (learns style/vocabulary)         |
+| **Updating**         | Trivial (add/remove documents)              | Difficult (must retrain)                    |
+| **Use case**         | Factual Q&A, customer support, research     | Tone/style adaptation, code generation, chat |
+
+**Best strategy (Industry Standard):**
+- **RAG** for facts, latest news, private data.
+- **Fine‑tuning** for tone, format, persona, and behaviour.
+- **Both together** – fine‑tune the model to cite sources well, then use RAG for data.
+
+---
+
+## Code Example: Basic RAG with LangChain
+
+```python
+from langchain.document_loaders import TextLoader
+from langchain.text_splitter import CharacterTextSplitter
+from langchain.embeddings import OpenAIEmbeddings
+from langchain.vectorstores import FAISS
+from langchain.chains import RetrievalQA
+from langchain.llms import OpenAI
+
+# 1. Load documents
+loader = TextLoader("knowledge_base.txt")
+documents = loader.load()
+
+# 2. Chunk documents
+text_splitter = CharacterTextSplitter(chunk_size=500, chunk_overlap=50)
+texts = text_splitter.split_documents(documents)
+
+# 3. Embed and store in vector DB
+embeddings = OpenAIEmbeddings()
+db = FAISS.from_documents(texts, embeddings)
+
+# 4. Create retriever
+retriever = db.as_retriever(search_kwargs={"k": 4})
+
+# 5. Build RAG chain
+qa_chain = RetrievalQA.from_chain_type(
+    llm=OpenAI(),
+    chain_type="stuff",
+    retriever=retriever,
+    return_source_documents=True
+)
+
+# 6. Query
+result = qa_chain({"query": "What is LoRA?"})
+print(result["result"])
+print("Sources:", [doc.metadata for doc in result["source_documents"]])
+```
