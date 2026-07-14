@@ -67,3 +67,7 @@ Generate Embeddings
 ▼
 Store in Vector Database
 (e.g., Pinecone, Weaviate, FAISS)
+
+### Step 2: Retrieval (Online / Query Time)
+
+When a user asks a question:
