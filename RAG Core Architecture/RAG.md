@@ -71,3 +71,21 @@ Store in Vector Database
 ### Step 2: Retrieval (Online / Query Time)
 
 When a user asks a question:
+
+User Question: "What is LoRA?"
+│
+▼
+Generate query embedding
+│
+▼
+Search vector database for
+most similar document chunks
+(using cosine similarity)
+│
+▼
+Return Top‑k chunks (e.g., top 5)
+(most relevant context)
+
+text
+
+### Step 3: Augmentation & Generation
