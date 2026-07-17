@@ -125,3 +125,13 @@ LLM generates hypothetical answer:
    │
    ▼
 Embed the hypothetical answer → search vector DB
+
+3. Reasoning & Agentic RAG Types
+Agentic RAG
+Moves from a linear pipeline to a reasoning loop. An autonomous agent:
+
+Plans – breaks complex queries into subtasks.
+
+Uses tools – vector search, web search, SQL, APIs.
+
+Iterates – evaluates results, retries, resolves conflicts.
