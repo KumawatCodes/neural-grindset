@@ -114,3 +114,5 @@ queries = ["What is LoRA?", "Explain LoRA fine‑tuning", "LoRA adaptation metho
 results = [retriever.search(q) for q in queries]
 merged = merge_results(results)
 ```
+HyDE (Hypothetical Document Embeddings)
+LLM first generates a "hypothetical" ideal answer document; its embedding is used for search – bridges the gap between short queries and long documents.
