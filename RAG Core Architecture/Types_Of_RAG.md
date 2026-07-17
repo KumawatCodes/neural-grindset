@@ -209,3 +209,11 @@ Preserves document structure through multi‑level chunking:
     │   └── Paragraph 2.1 → Chunk 2.1
     └── ...
 ```
+# 5. Advanced Composites
+## Agentic Graph RAG
+Multi‑agent framework combining graph retrieval with agentic reasoning. Agents collaborate via structured "Common Factual Ground". Automatically infers schemas, constructs knowledge graphs, and adaptively routes between vector and graph search.
+
+When to use: Enterprise‑scale systems needing both relationship reasoning and agentic iteration.
+
+## Hierarchical Multi‑Agent RAG (SPD‑RAG)
+Decomposes problems along the document axis – each sub‑agent handles one document; centralized fusion improves scalability.
