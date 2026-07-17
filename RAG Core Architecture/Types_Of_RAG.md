@@ -193,3 +193,7 @@ Incorrect → discard context, use fallback.
 
 Graph RAG
 Organizes corpora into knowledge graphs – entities as nodes, relationships as edges. Retrieval follows relational paths rather than just semantic similarity.
+
+Graph: [Person] → [WorksAt] → [Company] → [LocatedIn] → [City]
+Query: "Who works at Google in London?"
+Retrieval path: Google → WorksAt inverse → Person
