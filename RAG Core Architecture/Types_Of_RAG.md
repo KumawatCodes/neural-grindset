@@ -217,3 +217,25 @@ When to use: Enterprise‑scale systems needing both relationship reasoning and 
 
 ## Hierarchical Multi‑Agent RAG (SPD‑RAG)
 Decomposes problems along the document axis – each sub‑agent handles one document; centralized fusion improves scalability.
+
+# Evolution Path (Visual)
+```
+Naive RAG (Simple retrieval)
+    │
+    ▼
+Advanced RAG (Pre/Post‑retrieval optimizations)
+    │
+    ├──────────────────────────────────────────────┐
+    ▼                                              ▼
+Hybrid RAG                              Modular RAG
+(combines retrievers)               (pluggable components)
+    │                                              │
+    ▼                                              ▼
+Agentic RAG                              Self‑RAG / CRAG
+(autonomous reasoning)                 (reflection / correction)
+    │
+    ▼
+Graph RAG / Agentic Graph RAG
+(knowledge graphs + agents)
+```
+
