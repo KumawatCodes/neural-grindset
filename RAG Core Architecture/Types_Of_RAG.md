@@ -146,3 +146,16 @@ Iterates – evaluates results, retries, resolves conflicts.
 │          ▲                                      │  ││
 │          └──────────────────────────────────────┘  ││
 └─────────────────────────────────────────────────────┘
+
+Multi‑hop RAG
+Chains multiple retrievals to answer questions requiring facts from different documents.
+
+Example:
+
+Query: "Who is the CEO of the company that acquired Figma?"
+  │
+  ▼
+Hop 1: "Who acquired Figma?" → Adobe
+  │
+  ▼
+Hop 2: "Who is the CEO of Adobe?" → Shantanu Narayen
