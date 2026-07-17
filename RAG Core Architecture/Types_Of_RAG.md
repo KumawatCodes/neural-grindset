@@ -100,3 +100,17 @@ Vector Search BM25 Search Fuse (RRF)
 ▼
 Top‑k Retrieved
 
+
+> **When to use:** Enterprise RAG where both synonyms AND exact terms (e.g., product codes, legal citations) matter.
+
+---
+
+### Multi‑Query RAG
+
+LLM generates multiple paraphrased versions of the original query; searches all; merges results → increases recall.
+
+```python
+queries = ["What is LoRA?", "Explain LoRA fine‑tuning", "LoRA adaptation method"]
+results = [retriever.search(q) for q in queries]
+merged = merge_results(results)
+```
