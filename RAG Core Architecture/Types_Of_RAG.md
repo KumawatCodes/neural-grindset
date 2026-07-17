@@ -72,3 +72,19 @@ Adds optimizations **before** retrieval (query rewriting, HyDE) and **after** (r
 
 Separates retrieval and generation into **pluggable modules**. Swap retrievers, test rerankers, iterate fast – represents the third evolutionary stage after Naive and Advanced RAG.
 
+┌─────────────┐ ┌─────────────┐ ┌─────────────┐
+│ Retriever │ ──→ │ Reranker │ ──→ │ Generator │
+│ (pluggable)│ │ (pluggable)│ │ (pluggable)│
+└─────────────┘ └─────────────┘ └─────────────┘
+
+text
+
+> **When to use:** Teams that iterate fast, A/B test different components, or need flexibility across multiple domains.
+
+---
+
+## 2. Retrieval‑Enhanced RAG Types
+
+### Hybrid RAG
+
+Combines **semantic (vector)** search with **lexical (BM25)** search. Vector covers meaning/synonyms; BM25 catches exact terms, IDs, and acronyms. Results are fused (e.g., Reciprocal Rank Fusion – RRF).
