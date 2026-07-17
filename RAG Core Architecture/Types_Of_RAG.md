@@ -135,3 +135,14 @@ Plans – breaks complex queries into subtasks.
 Uses tools – vector search, web search, SQL, APIs.
 
 Iterates – evaluates results, retries, resolves conflicts.
+
+┌─────────────────────────────────────────────────────┐
+│                   Agent Loop                         │
+│                                                      │
+│  ┌──────────┐   ┌──────────┐   ┌───────────────┐   │
+│  │  Plan    │ ─→│ Execute  │ ─→│ Reflect/Decide│ ──┐│
+│  │(decompose)│   │ (search) │   │  (evaluate)   │  ││
+│  └──────────┘   └──────────┘   └───────────────┘  ││
+│          ▲                                      │  ││
+│          └──────────────────────────────────────┘  ││
+└─────────────────────────────────────────────────────┘
