@@ -116,3 +116,12 @@ merged = merge_results(results)
 ```
 HyDE (Hypothetical Document Embeddings)
 LLM first generates a "hypothetical" ideal answer document; its embedding is used for search – bridges the gap between short queries and long documents.
+
+Query: "What is LoRA?"
+   │
+   ▼
+LLM generates hypothetical answer:
+"LoRA (Low‑Rank Adaptation) is a PEFT method..."
+   │
+   ▼
+Embed the hypothetical answer → search vector DB
