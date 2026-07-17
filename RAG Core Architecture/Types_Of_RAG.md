@@ -197,3 +197,6 @@ Organizes corpora into knowledge graphs – entities as nodes, relationships as 
 Graph: [Person] → [WorksAt] → [Company] → [LocatedIn] → [City]
 Query: "Who works at Google in London?"
 Retrieval path: Google → WorksAt inverse → Person
+
+# Hierarchical RAG
+Preserves document structure through multi‑level chunking:
