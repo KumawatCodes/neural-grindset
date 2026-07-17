@@ -188,3 +188,8 @@ Correct → direct generation.
 Ambiguous → supplement with web search.
 
 Incorrect → discard context, use fallback.
+
+# 4. Structure‑Aware RAG Types
+
+Graph RAG
+Organizes corpora into knowledge graphs – entities as nodes, relationships as edges. Retrieval follows relational paths rather than just semantic similarity.
