@@ -112,6 +112,7 @@ queries = ["What is LoRA?", "Explain LoRA fine‑tuning", "LoRA adaptation metho
 results = [retriever.search(q) for q in queries]
 merged = merge_results(results)
 ```
+
 HyDE (Hypothetical Document Embeddings)
 LLM first generates a "hypothetical" ideal answer document; its embedding is used for search – bridges the gap between short queries and long documents.
 
@@ -145,7 +146,7 @@ Iterates – evaluates results, retries, resolves conflicts.
 │          └──────────────────────────────────────┘  ││
 └─────────────────────────────────────────────────────┘
 ```
-Multi‑hop RAG
+# Multi‑hop RAG
 Chains multiple retrievals to answer questions requiring facts from different documents.
 
 Example:
@@ -158,3 +159,13 @@ Hop 1: "Who acquired Figma?" → Adobe
   ▼
 Hop 2: "Who is the CEO of Adobe?" → Shantanu Narayen
 ```
+
+# Self‑RAG
+
+Model emits reflection tokens ("critic tokens") to evaluate its own work:
+
+Retrieve → Evaluate relevance (CRITIC:Relevant).
+
+Generate → Evaluate support (CRITIC:Supported).
+
+If unsupported → triggers broader search.
