@@ -37,4 +37,6 @@ This guide breaks down the major RAG types – from foundational to agentic and 
 
 The simplest form: index documents → embed them → store vectors → retrieve top‑k → feed into LLM.
 
+Documents → Chunk → Embed → Vector DB → Retrieve Top‑k → LLM → Answer
+
 **Pipeline:**
