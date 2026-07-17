@@ -171,10 +171,11 @@ Generate → Evaluate support (CRITIC:Supported).
 If unsupported → triggers broader search.
 
 # Self‑RAG generation loop
+```
 while not satisfied:
     context = retrieve(query)
     answer = generate(query, context)
     score = critic.evaluate(answer, context)  # reflection token
     if score < threshold:
         query = refine_query(query, answer)   # broader search
-
+```
