@@ -40,3 +40,35 @@ The simplest form: index documents → embed them → store vectors → retrieve
 Documents → Chunk → Embed → Vector DB → Retrieve Top‑k → LLM → Answer
 
 **Pipeline:**
+
+
+| Pros ✅ | Cons ❌ |
+|---------|---------|
+| Easy to implement | Poor retrieval quality on noisy data |
+| Great for prototypes | No query rewriting → mismatched semantics |
+| Low latency | Fixed chunk size ignores structure |
+
+> **When to use:** Quick prototypes, small/clean datasets, or educational demos.
+
+---
+
+### Advanced RAG
+
+Adds optimizations **before** retrieval (query rewriting, HyDE) and **after** (reranking, contextual compression). Considered the new production baseline.
+
+**Optimizations:**
+
+| Stage | Techniques |
+|-------|------------|
+| **Pre‑retrieval** | Query rewriting, HyDE (Hypothetical Document Embeddings), query expansion |
+| **Retrieval** | Hybrid search, multi‑query retrieval |
+| **Post‑retrieval** | Reranking (cross‑encoders), contextual compression, LLM‑based filtering |
+
+> **When to use:** Production systems with moderate complexity and quality requirements.
+
+---
+
+### Modular RAG
+
+Separates retrieval and generation into **pluggable modules**. Swap retrievers, test rerankers, iterate fast – represents the third evolutionary stage after Naive and Advanced RAG.
+
