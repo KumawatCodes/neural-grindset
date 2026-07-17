@@ -69,12 +69,12 @@ Adds optimizations **before** retrieval (query rewriting, HyDE) and **after** (r
 ### Modular RAG
 
 Separates retrieval and generation into **pluggable modules**. Swap retrievers, test rerankers, iterate fast – represents the third evolutionary stage after Naive and Advanced RAG.
-
+```
 ┌─────────────┐ ┌─────────────┐ ┌─────────────┐
 │ Retriever │ ──→ │ Reranker │ ──→ │ Generator │
 │ (pluggable)│ │ (pluggable)│ │ (pluggable)│
 └─────────────┘ └─────────────┘ └─────────────┘
-
+```
 text
 
 > **When to use:** Teams that iterate fast, A/B test different components, or need flexibility across multiple domains.
