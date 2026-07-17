@@ -88,3 +88,15 @@ text
 ### Hybrid RAG
 
 Combines **semantic (vector)** search with **lexical (BM25)** search. Vector covers meaning/synonyms; BM25 catches exact terms, IDs, and acronyms. Results are fused (e.g., Reciprocal Rank Fusion – RRF).
+
+Query ──┬──────────────────┬─────────────────┐
+│ │ │
+▼ ▼ ▼
+Vector Search BM25 Search Fuse (RRF)
+(semantic) (exact match) │
+│ │ │
+└──────────────────┴─────────────────┘
+│
+▼
+Top‑k Retrieved
+
