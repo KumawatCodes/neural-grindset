@@ -179,3 +179,12 @@ while not satisfied:
     if score < threshold:
         query = refine_query(query, answer)   # broader search
 ```
+# Corrective RAG (CRAG)
+
+Adds a reliability layer between retrieval and generation:
+
+Correct → direct generation.
+
+Ambiguous → supplement with web search.
+
+Incorrect → discard context, use fallback.
