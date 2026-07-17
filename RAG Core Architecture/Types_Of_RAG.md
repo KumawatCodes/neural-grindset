@@ -133,7 +133,7 @@ Plans – breaks complex queries into subtasks.
 Uses tools – vector search, web search, SQL, APIs.
 
 Iterates – evaluates results, retries, resolves conflicts.
-
+```
 ┌─────────────────────────────────────────────────────┐
 │                   Agent Loop                         │
 │                                                      │
@@ -144,7 +144,7 @@ Iterates – evaluates results, retries, resolves conflicts.
 │          ▲                                      │  ││
 │          └──────────────────────────────────────┘  ││
 └─────────────────────────────────────────────────────┘
-
+```
 Multi‑hop RAG
 Chains multiple retrievals to answer questions requiring facts from different documents.
 
