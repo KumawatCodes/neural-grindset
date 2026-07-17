@@ -200,3 +200,12 @@ Retrieval path: Google → WorksAt inverse → Person
 
 # Hierarchical RAG
 Preserves document structure through multi‑level chunking:
+# Document
+```
+    ├── Section 1
+    │   ├── Paragraph 1.1 → Chunk 1.1
+    │   └── Paragraph 1.2 → Chunk 1.2
+    ├── Section 2
+    │   └── Paragraph 2.1 → Chunk 2.1
+    └── ...
+```
