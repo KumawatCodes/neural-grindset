@@ -1,8 +1,6 @@
 
 # neural-grindset / LLM Concepts / RAGTypes.md
 
-## Edit
-
 # Types of RAG
 
 RAG (Retrieval-Augmented Generation) has evolved far beyond the simple "retrieve‑then‑generate" pipeline. Today, there are dozens of RAG variants, each optimized for specific challenges: latency, reliability, multi‑step reasoning, structured data, and long documents.
