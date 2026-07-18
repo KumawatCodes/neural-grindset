@@ -78,3 +78,33 @@ Step 2: If paragraph too large, try "\n"
 Step 3: If still too large, try ". " (sentences)
 Step 4: If still too large, try " " (words)
 Step 5: Fallback to "" (characters)
+
+Implementation (LangChain Style)
+
+```
+from typing import Callable
+
+class RecursiveCharacterSplitter:
+    """Split text recursively using multiple separators."""
+    
+    def __init__(
+        self,
+        chunk_size: int = 1000,
+        chunk_overlap: int = 200,
+        separators: list[str] | None = None,
+        length_function: Callable[[str], int] = len
+    ):
+        self.chunk_size = chunk_size
+        self.chunk_overlap = chunk_overlap
+        self.separators = separators or ["\n\n", "\n", ". ", " ", ""]
+        self.length_function = length_function
+    
+    def split_text(self, text: str) -> list[str]:
+        """Split text into chunks."""
+        return self._split_text(text, self.separators)
+    
+    def _split_text(self, text: str, separators: list[str]) -> list[str]:
+        # Implementation recursively tries separators
+        # until chunks fit the size limit[reference:37]
+        pass
+        ```
