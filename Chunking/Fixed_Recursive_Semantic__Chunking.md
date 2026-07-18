@@ -1,8 +1,6 @@
 
 # neural-grindset / LLM Concepts / ChunkingStrategies.md
 
-## Edit
-
 # Chunking Strategies: Fixed, Recursive & Semantic
 
 Chunking is the process of breaking down large documents into smaller, manageable pieces before they are embedded and indexed in a vector database[reference:0]. The way you split documents has a **larger impact on retrieval quality than almost any other decision** in the RAG pipeline[reference:1].
@@ -71,3 +69,12 @@ The default in most RAG stacks (LangChain, LlamaIndex). It uses a hierarchy of s
 
 How It Works
 The splitter tries separators in order: paragraph break → newline → sentence boundary → space → character.
+
+Default separators: ["\n\n", "\n", ". ", " ", ""]
+
+Document: "Paragraph 1.\n\nParagraph 2. Sentence A. Sentence B."
+Step 1: Try "\n\n" → splits into paragraphs ✓ (fits size limit)
+Step 2: If paragraph too large, try "\n"
+Step 3: If still too large, try ". " (sentences)
+Step 4: If still too large, try " " (words)
+Step 5: Fallback to "" (characters)
