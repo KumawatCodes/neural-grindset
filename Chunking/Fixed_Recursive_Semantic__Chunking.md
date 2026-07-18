@@ -65,3 +65,9 @@ def fixed_size_chunk(
         start = end - overlap
     return chunks[reference:17]
 ```
+
+## 2. Recursive Character Chunking
+The default in most RAG stacks (LangChain, LlamaIndex). It uses a hierarchy of separators, trying larger structural units first and falling back to smaller ones until each chunk fits the size limit.
+
+How It Works
+The splitter tries separators in order: paragraph break → newline → sentence boundary → space → character.
