@@ -107,4 +107,16 @@ class RecursiveCharacterSplitter:
         # Implementation recursively tries separators
         # until chunks fit the size limit[reference:37]
         pass
-        ```
+
+```
+## LangChain Quick Example
+
+```python
+from langchain.text_splitter import RecursiveCharacterTextSplitter
+
+splitter = RecursiveCharacterTextSplitter(
+    chunk_size=200,
+    chunk_overlap=0
+)
+chunks = splitter.split_documents(docs)[reference:38]
+```
