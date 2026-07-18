@@ -33,3 +33,8 @@ The simplest and most common approach: split text into chunks of a fixed number 
 ### How It Works
 
 A sliding window moves through the document producing chunks of equal size. A 10-20% overlap means the last part of one chunk repeats as the first part of the next, reducing the chance of splitting a key sentence across chunk boundaries[reference:16].
+
+Document: [The quick brown fox jumps over the lazy dog. The dog slept.]
+Chunk 1 (size=20): "The quick brown fox jum"
+Chunk 2 (size=20): "umps over the lazy dog."
+↑ Splits mid-word (bad!)
