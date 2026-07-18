@@ -120,3 +120,42 @@ splitter = RecursiveCharacterTextSplitter(
 )
 chunks = splitter.split_documents(docs)[reference:38]
 ```
+
+## 3. Semantic Chunking
+The most advanced approach. It uses sentence embeddings to detect semantic shifts and splits text where the meaning changes, rather than at arbitrary character or token boundaries.
+
+How It Works
+Split the document into sentences (using NLP sentence boundary detection)
+
+Generate embeddings for each sentence
+
+Calculate similarity between consecutive sentences
+
+When similarity drops below a threshold → split at that boundary
+
+Group sentences into chunks that represent coherent topics
+
+```text
+Document: [Intro paragraph] [Topic A details] [Topic A more] [Topic B details]
+             ↓                  ↓                ↓               ↓
+Sentences:  S1   S2   S3   S4   S5   S6   S7   S8   S9   S10  S11
+             ↓     ↓     ↓     ↓     ↓     ↓     ↓     ↓     ↓     ↓
+Similarity: 0.92  0.88  0.91  0.45  0.89  0.92  0.87  0.38  0.90  0.93
+                                ↑                    ↑
+                            Split here          Split here
+                            
+Chunk 1: S1-S4  |  Chunk 2: S5-S8  |  Chunk 3: S9-S11
+(Intro + Topic A)   (Topic A cont.)     (Topic B)
+Implementation (LangChain Experimental)
+python
+from langchain_experimental.text_splitter import SemanticChunker
+from langchain_huggingface import HuggingFaceEmbeddings
+
+embeddings = HuggingFaceEmbeddings()
+splitter = SemanticChunker(
+    embeddings=embeddings,
+    breakpoint_threshold_type="percentile"
+)
+
+chunks = splitter.split_text(document)[reference:53]
+```
