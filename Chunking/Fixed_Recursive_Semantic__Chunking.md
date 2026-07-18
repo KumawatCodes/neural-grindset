@@ -38,3 +38,30 @@ Document: [The quick brown fox jumps over the lazy dog. The dog slept.]
 Chunk 1 (size=20): "The quick brown fox jum"
 Chunk 2 (size=20): "umps over the lazy dog."
 ↑ Splits mid-word (bad!)
+
+
+
+### Implementation
+
+```python
+def fixed_size_chunk(
+    text: str,
+    chunk_size: int = 500,
+    overlap: int = 50
+) -> list[str]:
+    """Simple fixed-size chunking with overlap."""
+    chunks = []
+    start = 0
+    while start < len(text):
+        end = start + chunk_size
+        chunk = text[start:end]
+        # Try to break at word boundary
+        if end < len(text):
+            last_space = chunk.rfind(' ')
+            if last_space > chunk_size * 0.8:
+                chunk = chunk[:last_space]
+                end = start + last_space
+        chunks.append(chunk.strip())
+        start = end - overlap
+    return chunks[reference:17]
+```
