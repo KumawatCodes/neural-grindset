@@ -28,3 +28,10 @@ Splits documents at **sentence boundaries** using punctuation (`.`, `?`, `!`) an
 ### How It Works
 
 Each sentence becomes its own chunk (or group of sentences if you combine them). This is ideal for tasks where each unit of meaning is complete.
+
+Document: "The quick brown fox jumps over the lazy dog. The dog slept. It was a peaceful afternoon."
+│ │ │ │
+▼ ▼ ▼ ▼
+Chunk 1: "The quick brown fox jumps over the lazy dog."
+Chunk 2: "The dog slept."
+Chunk 3: "It was a peaceful afternoon."
