@@ -50,3 +50,19 @@ chunks = sentence_chunking_spacy(text)
 print(chunks)
 # ['Hello world.', 'This is a test.', 'How are you?']
 ```
+
+Implementation (NLTK)
+```
+import nltk
+nltk.download('punkt_tab')
+from nltk.tokenize import sent_tokenize
+
+def sentence_chunking_nltk(text: str) -> list[str]:
+    return sent_tokenize(text)
+
+# You can also group sentences to avoid overly small chunks
+def sentence_chunking_grouped(text: str, sentences_per_chunk: int = 2) -> list[str]:
+    sents = sent_tokenize(text)
+    return [' '.join(sents[i:i+sentences_per_chunk]) 
+            for i in range(0, len(sents), sentences_per_chunk)]
+```
