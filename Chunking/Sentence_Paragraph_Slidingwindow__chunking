@@ -1,0 +1,30 @@
+# neural-grindset / LLM Concepts / ChunkingStrategies.md
+
+## Edit
+
+# Chunking Strategies: Sentence, Paragraph & Sliding Window
+
+Following the foundational strategies (Fixed, Recursive, Semantic), this guide covers three additional approaches that prioritize **linguistic boundaries** and **contextual continuity**. These strategies are essential when you need to preserve grammatical structure, topical integrity, or maintain a rolling awareness of surrounding text.
+
+---
+
+## Chunking Strategy Comparison (Complete Reference)
+
+| Strategy | Best For | Granularity | Context Preservation | Overlap Support | Implementation Complexity |
+|----------|----------|-------------|----------------------|-----------------|---------------------------|
+| **Fixed-Size** | Log files, prototyping | Token/Character | Low | Yes (sliding) | Very Low |
+| **Recursive** | General articles, default | Hierarchical | Medium | Yes | Low |
+| **Semantic** | Research papers, tech docs | Topic-bound | Very High | Implicit | High |
+| **Sentence** | NER, sentiment, short QA | Grammatical (per sentence) | Very Low (isolated) | No (inherent) | Low |
+| **Paragraph** | Topic-based retrieval, summarisation | Topical (paragraph) | High | No (inherent) | Very Low |
+| **Sliding Window** | Context-heavy QA, long-form reasoning | Rolling context | Very High | Yes (overlap) | Medium |
+
+---
+
+## 4. Sentence Chunking
+
+Splits documents at **sentence boundaries** using punctuation (`.`, `?`, `!`) and NLP-aware sentence segmentation (e.g., NLTK, spaCy, or Hugging Face tokenizers).
+
+### How It Works
+
+Each sentence becomes its own chunk (or group of sentences if you combine them). This is ideal for tasks where each unit of meaning is complete.
