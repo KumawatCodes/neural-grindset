@@ -35,3 +35,20 @@ Document: "The quick brown fox jumps over the lazy dog. The dog slept. It was a 
 Chunk 1: "The quick brown fox jumps over the lazy dog."
 Chunk 2: "The dog slept."
 Chunk 3: "It was a peaceful afternoon."
+
+### Implementation (spaCy)
+
+```python
+import spacy
+
+nlp = spacy.load("en_core_web_sm")
+
+def sentence_chunking_spacy(text: str) -> list[str]:
+    doc = nlp(text)
+    return [sent.text for sent in doc.sents]
+
+text = "Hello world. This is a test. How are you?"
+chunks = sentence_chunking_spacy(text)
+print(chunks)
+# ['Hello world.', 'This is a test.', 'How are you?']
+```
