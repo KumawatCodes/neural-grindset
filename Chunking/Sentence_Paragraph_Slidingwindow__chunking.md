@@ -1,7 +1,5 @@
 # neural-grindset / LLM Concepts / ChunkingStrategies.md
 
-## Edit
-
 # Chunking Strategies: Sentence, Paragraph & Sliding Window
 
 Following the foundational strategies (Fixed, Recursive, Semantic), this guide covers three additional approaches that prioritize **linguistic boundaries** and **contextual continuity**. These strategies are essential when you need to preserve grammatical structure, topical integrity, or maintain a rolling awareness of surrounding text.
