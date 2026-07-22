@@ -117,3 +117,23 @@ Chunk 1: [S1(100)] + [S2(150)] + [S3(200)] = 450t (too big!)
 Chunk 2: [S3(200)] + [S4(80)] = 280t ✅
 Chunk 3: [S5(250)] = 250t ✅ (single sentence, within limit)
 ```
+Implementation (snipsplit)
+The snipsplit library implements token-aware chunking efficiently in Rust with a Python frontend:
+
+```python
+from snipsplit import Chunker
+
+# Initialize with token budget and overlap
+chunker = Chunker(
+    max_tokens=512,           # Max tokens per chunk
+    overlap_tokens=64,        # Overlap between chunks
+    encoding="cl100k_base"    # OpenAI's tokenizer (or "o200k_base")
+)
+
+text = open("long_document.txt").read()
+
+# Split into token-aware chunks
+for chunk in chunker.split(text):
+    print(f"Tokens: {chunk.token_count}, Start: {chunk.start}, End: {chunk.end}")
+    print(chunk.text[:60])
+```
