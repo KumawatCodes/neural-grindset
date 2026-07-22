@@ -108,3 +108,12 @@ Greedy-pack sentences into a chunk while token count ≤ max_tokens
 If a single sentence exceeds max_tokens: slice it at token boundaries (BPE)
 
 Apply overlap by re-prepending the last N tokens of each chunk to the next
+```
+Sentence Sequence: [S1(100t)] [S2(150t)] [S3(200t)] [S4(80t)] [S5(250t)]
+max_tokens = 400
+
+Chunk 1: [S1(100)] + [S2(150)] + [S3(200)] = 450t (too big!)
+          → [S1(100)] + [S2(150)] = 250t ✅
+Chunk 2: [S3(200)] + [S4(80)] = 280t ✅
+Chunk 3: [S5(250)] = 250t ✅ (single sentence, within limit)
+```
