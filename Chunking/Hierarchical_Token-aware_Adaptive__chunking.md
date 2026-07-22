@@ -137,3 +137,5 @@ for chunk in chunker.split(text):
     print(f"Tokens: {chunk.token_count}, Start: {chunk.start}, End: {chunk.end}")
     print(chunk.text[:60])
 ```
+## Algorithm Steps
+
