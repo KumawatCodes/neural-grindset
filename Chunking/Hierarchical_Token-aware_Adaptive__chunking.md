@@ -53,3 +53,47 @@ Retrieval:
 Query → finds Child 2 → returns Parent Chunk (full context)
 ```
 Retrieval: Query → finds Child 2 → returns Parent chunk (full context)
+
+
+### Implementation (Conceptual)
+
+```python
+from typing import List, Tuple
+
+class HierarchicalChunker:
+    def __init__(
+        self,
+        child_size: int = 300,
+        parent_size: int = 2000,
+        overlap: int = 50
+    ):
+        self.child_size = child_size
+        self.parent_size = parent_size
+        self.overlap = overlap
+    
+    def chunk(self, text: str) -> List[Tuple[str, str]]:
+        """
+        Returns list of (child_chunk, parent_chunk) pairs.
+        Multiple children share the same parent.
+        """
+        # 1. Split into parent chunks (large, e.g., 2000 tokens)
+        parent_chunks = self._split_by_size(text, self.parent_size, self.overlap)
+        
+        result = []
+        for parent in parent_chunks:
+            # 2. Split each parent into child chunks (small, e.g., 300 tokens)
+            children = self._split_by_size(parent, self.child_size, self.overlap)
+            for child in children:
+                result.append((child, parent))
+        
+        return result
+    
+    def _split_by_size(self, text: str, size: int, overlap: int) -> List[str]:
+        # Simplified: recursive splitter logic
+        pass
+
+# Usage
+chunker = HierarchicalChunker(child_size=300, parent_size=2000)
+chunks = chunker.chunk(long_document)
+# Each chunk: (child_text, parent_context)
+```
