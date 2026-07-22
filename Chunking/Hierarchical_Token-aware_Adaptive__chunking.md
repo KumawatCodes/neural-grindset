@@ -138,4 +138,11 @@ for chunk in chunker.split(text):
     print(chunk.text[:60])
 ```
 ## Algorithm Steps
-
+```
+1. Split text into paragraphs (\n{2,})
+2. Split paragraphs into sentences ([.!?]\s+ with abbreviation handling)
+3. Greedy-pack sentences while running token count <= max_tokens
+4. If single sentence > max_tokens, slice at token boundaries (BPE)
+5. Apply overlap_tokens by re-prepending last N tokens to next chunk
+6. Drop chunks shorter than min_tokens
+```
