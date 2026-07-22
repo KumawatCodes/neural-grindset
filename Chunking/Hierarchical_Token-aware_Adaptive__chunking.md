@@ -146,3 +146,156 @@ for chunk in chunker.split(text):
 5. Apply overlap_tokens by re-prepending last N tokens to next chunk
 6. Drop chunks shorter than min_tokens
 ```
+
+Pros & Cons
+Pros ✅	Cons ❌
+Precise token budget – never exceeds model limits	Requires a tokenizer (adds dependency)
+Sentence-respecting – doesn't cut mid-sentence unnecessarily	Single long sentence still gets sliced
+Overlap-friendly – maintains context between chunks	Slightly slower than character-based splitting
+Fast – Rust implementation handles 100k docs in seconds	
+When to Use
+Any RAG pipeline where token budgets are strict
+
+Legal/medical text with very long sentences
+
+Production systems where chunk size must be guaranteed
+
+Multi-model pipelines (different models have different token limits)
+
+When to Avoid
+When you don't have access to a tokenizer
+
+Prototyping where speed > precision
+
+Very short documents where token budget isn't a concern
+
+9. Adaptive Chunking
+Adaptive chunking evaluates multiple chunking strategies against intrinsic quality metrics and automatically selects the best one for each document. No single chunking method works best for every document in a RAG pipeline.
+
+The Problem It Solves
+Different documents have different structures:
+
+News articles → paragraph boundaries are clean
+
+Legal contracts → long, dense paragraphs with cross-references
+
+Research papers → sections, subsections, tables, figures
+
+Code → functions, classes, imports
+
+A fixed strategy fails on heterogeneous corpora. Adaptive chunking solves this by choosing the strategy per document based on intrinsic metrics.
+
+How It Works
+Apply multiple chunking strategies to the same document (e.g., Recursive, Semantic, Sentence, Page-based)
+
+Evaluate each output against intrinsic quality metrics (no ground truth required)
+
+Select the strategy with the highest combined score
+
+Index the document using the selected strategy
+
+Evaluation Metrics (Five Intrinsic Metrics)
+Metric	What It Measures
+Size Compliance (SC)	Fraction of chunks within target token-count bounds
+Intrachunk Cohesion (ICC)	Semantic similarity between a chunk's sentences and its overall embedding
+Contextual Coherence (DCC)	Similarity of each chunk to its surrounding context window
+Block Integrity (BI)	Proportion of structural blocks (paragraphs, tables, lists) kept intact
+Filtered Missing Reference Error (RC)	Coreference chains (entity–pronoun pairs) not broken across chunk boundaries
+Implementation (ekimetrics/adaptive-chunking)
+The official implementation from Ekimetrics (accepted at LREC 2026) provides a modular framework:
+
+python
+from adaptive_chunking import AdaptiveChunker, metrics
+
+# Define candidate strategies
+strategies = [
+    "recursive_1100",   # 1100 token target
+    "recursive_600",    # 600 token target
+    "semantic",         # Semantic chunking
+    "sentence",         # Sentence-level
+    "page"              # Page-based
+]
+
+# Initialize adaptive chunker with metrics
+chunker = AdaptiveChunker(
+    strategies=strategies,
+    metrics=[
+        metrics.size_compliance,
+        metrics.intrachunk_cohesion,
+        metrics.contextual_coherence,
+        metrics.block_integrity,
+        metrics.reference_completeness
+    ],
+    target_size=600
+)
+
+# Chunk each document with the best strategy
+for doc in documents:
+    best_chunks = chunker.chunk(doc)  # Auto-selects best strategy
+Key Results (from the paper)
+Metric	Adaptive Chunking	LangChain Recursive	Page Splitting
+Retrieval Completeness	67.7	58.1	59.1
+Answer Correctness	78.0	70.1	73.3
+Answered Queries	65/99	49/99	49/99
+Intrinsic metrics performance (mean across domains):
+
+Method	Mean Score
+Adaptive Chunking	91.07
+LLM Regex (GPT)	89.80
+LangChain Recursive	88.62
+Semantic	76.49
+Sentence	73.26
+Pros & Cons
+Pros ✅	Cons ❌
+Optimal strategy per document – best of all worlds	Computational overhead – must evaluate multiple strategies
+No ground truth required – uses intrinsic metrics	Slower ingestion – 5-10× slower than single strategy
+Modular – plug in your own strategies and metrics	Requires tuning of metric weights
+Proven results – outperforms fixed strategies significantly	May not be suitable for real-time ingestion
+When to Use
+Heterogeneous corpora with diverse document types
+
+Production systems where quality matters more than ingestion speed
+
+Offline indexing (not real-time)
+
+Enterprise RAG with legal, medical, financial, and general documents
+
+When to Avoid
+Real-time ingestion pipelines
+
+Small, homogeneous corpora (a single strategy would suffice)
+
+Resource-constrained environments
+
+Advanced Composites
+Query-Aware Adaptive Chunking (SmartChunk)
+Instead of adapting the chunking strategy per document, SmartChunk adapts per query. A planner predicts the optimal chunk abstraction level for each query, balancing accuracy and efficiency.
+
+text
+Query → Planner predicts optimal chunk size
+   │
+   ▼
+Retrieve at predicted granularity (coarse or fine)
+   │
+   ▼
+Generate answer with optimal context
+When to use: Systems with diverse query types where some queries need fine-grained details and others need high-level summaries.
+
+Hybrid Adaptive Chunking
+Routes each document section to an appropriate chunking strategy based on structural signals detected at preprocessing.
+
+text
+Document → Structural Analysis → 
+  ├─ Introduction → Semantic Chunking
+  ├─ Code Blocks → Token-Aware Chunking
+  ├─ Tables → Page-Based Chunking
+  └─ Conclusion → Recursive Chunking
+When to use: Highly structured documents with multiple content types (e.g., technical reports with code, tables, and prose).
+
+Selection Guide
+If your corpus is...	Choose...
+Well-structured with clear sections (legal, medical)	Hierarchical Chunking
+Token-budget constrained (production)	Token-Aware Chunking
+Heterogeneous (mixed document types)	Adaptive Chunking
+Diverse queries (some broad, some specific)	Query-Aware Adaptive Chunking
+Highly structured with multiple content types	Hybrid Adaptive Chunking
