@@ -33,3 +33,16 @@ Hierarchical (Parent-Child) chunking creates a **two-level (or multi-level) stru
 2. **Child chunks are indexed** and embedded for retrieval.
 3. **Larger parent chunks** (e.g., 1500–3000 tokens) are stored with references to their children[reference:1].
 4. **At query time**: retrieve relevant child chunks, then fetch their parent chunks to provide full context for generation[reference:2].
+
+Document
+│
+▼
+┌─────────────────────────────────────────────────────┐
+│ Parent Chunk (1500-3000 tokens) │
+│ ┌─────────┐ ┌─────────┐ ┌─────────┐ ┌─────────┐ │
+│ │ Child 1 │ │ Child 2 │ │ Child 3 │ │ Child 4 │ │
+│ │(200-400)│ │(200-400)│ │(200-400)│ │(200-400)│ │
+│ └─────────┘ └─────────┘ └─────────┘ └─────────┘ │
+└─────────────────────────────────────────────────────┘
+
+Retrieval: Query → finds Child 2 → returns Parent chunk (full context)
