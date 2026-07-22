@@ -97,3 +97,14 @@ chunker = HierarchicalChunker(child_size=300, parent_size=2000)
 chunks = chunker.chunk(long_document)
 # Each chunk: (child_text, parent_context)
 ```
+
+How It Works
+Split into paragraphs on \n{2,}
+
+Split into sentences on [.!?]\s+ (with abbreviation handling)
+
+Greedy-pack sentences into a chunk while token count ≤ max_tokens
+
+If a single sentence exceeds max_tokens: slice it at token boundaries (BPE)
+
+Apply overlap by re-prepending the last N tokens of each chunk to the next
