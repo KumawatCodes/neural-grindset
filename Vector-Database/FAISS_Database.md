@@ -74,3 +74,32 @@ distances, indices = index.search(xq, k)
 print(f"Distances: {distances}")
 print(f"Indices: {indices}")
 ```
+## IVF + PQ Combined Index (Billion‑Scale)
+```
+python
+import faiss
+import numpy as np
+
+d = 128
+nb = 1000000
+np.random.seed(1234)
+xb = np.random.random((nb, d)).astype('float32')
+xq = np.random.random((1, d)).astype('float32')
+
+# 1. Build IVF + PQ index
+nlist = 4096              # Number of clusters
+m = 16                    # Number of sub‑vectors (must divide d)
+index = faiss.IndexIVFPQ(faiss.IndexFlatL2(d), d, nlist, m, 8)
+
+# 2. Train the index (IVF and PQ both require training)
+print(f"Trained before: {index.is_trained}")  # False
+index.train(xb)
+print(f"Trained after: {index.is_trained}")   # True
+
+# 3. Add vectors
+index.add(xb)
+
+# 4. Search (tune nprobe to balance speed vs. accuracy)
+index.nprobe = 10         # Number of clusters to probe during search
+distances, indices = index.search(xq, k=4)
+```
