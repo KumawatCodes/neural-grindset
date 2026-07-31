@@ -103,3 +103,29 @@ index.add(xb)
 index.nprobe = 10         # Number of clusters to probe during search
 distances, indices = index.search(xq, k=4)
 ```
+
+HNSW Index (No Training Required)
+```
+python
+import faiss
+import numpy as np
+
+d = 128
+nb = 100000
+xb = np.random.random((nb, d)).astype('float32')
+xq = np.random.random((1, d)).astype('float32')
+
+# HNSW does not require training
+index = faiss.IndexHNSWFlat(d, 32)  # 32 = M parameter
+index.add(xb)
+distances, indices = index.search(xq, k=4)
+```
+Saving and Loading an Index from Disk
+```
+python
+# Save index to disk
+faiss.write_index(index, "my_index.faiss")
+
+# Load index from disk
+index_loaded = faiss.read_index("my_index.faiss")
+```
