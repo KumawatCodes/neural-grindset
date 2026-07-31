@@ -30,3 +30,6 @@ FAISS is built around the concept of an **Index**. An index is a data structure 
 Build Index → Train (optional) → Add Vectors → Search
      ↓              ↓                ↓            ↓
   Choose type    Learn params    Fill data    Get results
+```
+# Installation
+FAISS provides pre‑built packages via Conda:
