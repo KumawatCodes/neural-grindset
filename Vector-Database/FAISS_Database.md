@@ -33,3 +33,14 @@ Build Index → Train (optional) → Add Vectors → Search
 ```
 # Installation
 FAISS provides pre‑built packages via Conda:
+```
+# CPU version
+conda install -c pytorch faiss-cpu
+
+# GPU version (CUDA support)
+conda install -c pytorch faiss-gpu
+
+# Or via pip
+pip install faiss-cpu      # CPU version
+pip install faiss-gpu      # GPU version
+```
