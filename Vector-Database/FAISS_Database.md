@@ -44,3 +44,33 @@ conda install -c pytorch faiss-gpu
 pip install faiss-cpu      # CPU version
 pip install faiss-gpu      # GPU version
 ```
+Code Examples
+
+Basic Example: Brute‑Force Search
+```
+python
+
+import faiss
+import numpy as np
+
+# 1. Generate synthetic data: 10,000 vectors of dimension 128
+d = 128                           # Vector dimension
+nb = 10000                        # Database size
+np.random.seed(1234)
+xb = np.random.random((nb, d)).astype('float32')
+xq = np.random.random((1, d)).astype('float32')  # Query vector
+
+# 2. Build index (exact L2 search)
+index = faiss.IndexFlatL2(d)      # 
+print(f"Index trained: {index.is_trained}")  # True (Flat doesn't need training)
+
+# 3. Add vectors
+index.add(xb)
+print(f"Total vectors: {index.ntotal}")
+
+# 4. Search: return the 4 nearest neighbours
+k = 4
+distances, indices = index.search(xq, k)
+print(f"Distances: {distances}")
+print(f"Indices: {indices}")
+```
